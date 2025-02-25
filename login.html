@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <title>BLOOM</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="container">
+        <div id="selectionBox">
+            <h1>Welcome to BLOOM</h1>
+            <p>some cheesy catchphrase about blooming or budding roses or smth idk</p>
+            <button onclick="showForm('login')">Login</button>
+            <button onclick="showForm('signup')">Sign Up</button>
+        </div>
+
+        <form id="loginForm" class="formBox hidden">
+            <h2>Login</h2>
+            <p id="loginError" class="errorMessage"></p>
+            <input type="email" id="loginEmail" placeholder="Email">
+            <input type="password" id="loginPass" placeholder="Password">
+            <button type="submit">Login</button>
+            <p id="forgotPass">Forgot Password?</p>
+            <button class="backBtn" onclick="showSelection()">Back</button>
+        </form>
+
+        <form id="signupForm" class="formBox hidden">
+            <h2>Sign Up</h2>
+            <p id="signupError" class="errorMessage"></p>
+            <label for="accountType">I am a: </label>
+            <select id="accountType">
+                <option value="" disabled selected>Select your profile type</option>
+                <option value="beginner">Beginner Gardener</option>
+                <option value="pro">Professional Gardener</option>
+                <option value="business">Business Owner</option>
+                <option value="ngo">NGO</option>
+            </select>
+
+            <input type="text" id="displayName" placeholder="Display Name">
+            <input type="text" id="username" placeholder="Username">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <input type="file" id="profilePic" placeholder="Profile Pic">
+
+            <div id="extraFields"></div>
+            <button type="submit">Sign Up</button>
+            <button class="backBtn" onclick="showSelection()">Back</button>
+        </form>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>

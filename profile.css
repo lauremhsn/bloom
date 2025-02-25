@@ -1,0 +1,465 @@
+body{
+    font-family: 'Quicksand', sans-serif;
+    background: #9a6555;
+    display: flex;
+    background-image: url('wood-pattern.png');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: top left;
+    height: 100vh;
+    margin: 0;
+}
+
+.sidebar{
+    background: #2e6f4d;
+    color: white;
+    width: 220px;
+    height: 100%;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarThing{
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebarThing p{
+    font-family: 'Pacifico', cursive;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.pfp img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.middle{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebarThing a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.sidebarThing a:hover{
+    background: #E2BFB3;
+}
+
+.sidebarThing.sets{
+    margin-top: auto;
+}
+
+.profile{
+    margin-left: 90px;
+    padding: 20px;
+    width: calc(100% - 240px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileHead{
+    text-align: center;
+    background: #5d3636cc;
+    border-radius: 12px;
+    padding: 20px;
+    width: 1050px;
+    margin-bottom: 10px;
+    margin-left: 290px;
+    
+}
+.profilePic img{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #2e6f4d;
+}
+.profileAtt h1{
+    font-size: 26px;
+    color: #437b4e;
+    margin: 5px 0;
+}
+
+.username{
+    font-size: 18px;
+    color: #A7C7A3
+}
+
+.editButton{
+    background: #2e6f4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.editButton:hover{
+    background: #E2BFB3;
+}
+.editBox{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.editBoxAtt{
+    text-align: center;
+}
+.editBoxAtt h2{
+    margin-bottom: 15px;
+}
+.editPfp img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #2e6f4d;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+.editPen{
+    position: absolute;
+    top: 36%;
+    left: 51%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: white;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    border-radius: 50%;
+    display: none;
+}
+.editPfp:hover img{
+    filter: brightness(0.6);
+}
+.editPfp:hover .editPen{
+    display: block;
+}
+#fileInput{
+    display: none;
+}
+.editBoxAtt input{
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #A7C7A3;
+    border-radius: 12px;
+}
+#editName{
+    width: 100%;
+    max-width: 250px;
+    padding: 8px;
+    border: 2px solid #A7C7A3;
+    border-radius: 12px;
+}
+#editExperience{
+    width: 100%;
+    max-width: 120px;
+    padding: 8px;
+    border: 2px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+.char-limit{
+    font-size: 12px;
+    color: #437b4e;
+    margin-top: 5px;
+}
+.saveButton{
+    background: #2e6f4d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+.saveButton:hover{
+    background: #E2BFB3;
+}
+.closeEB{
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #2e6f4d;
+}
+.closeEB:hover{
+    color: #E2BFB3;
+}
+
+.tabs{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 10px;
+}
+.tab{
+    font-size: 20px;
+    font-weight: bold;
+    color: #437b4e;
+    text-align: center;
+    padding: 10px;
+    background: #A7C7A3;
+    border-radius: 12px;
+    width: 48%;
+}
+.posts{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    max-width: 1100px;
+    gap: 30px;
+    margin-top: 20px;
+    margin-left: 300px;
+}
+.postSection{
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+.sectionTitle{
+    font-size: 20px;
+    font-weight: bold;
+    color: #437b4e;
+    text-align: center;
+    padding: 10px;
+    background: #A7C7A3;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+#garden, #updates{
+    flex: 1;
+    background: rgb(108, 80, 72);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+#garden{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+.shelf{
+    background: #a67c52;
+    height: 20px;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+.shelfCont{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    height: 100px;
+    background-image: url('beige-paper.png');
+}
+.plant{
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease-in-out;
+    position: relative;
+}
+.plant:hover{
+    transform: scale(1.1);
+}
+.update{
+    background: #A7C7A3;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    border: 1px solid #A7C7A3;
+}
+
+.update img, .update video{
+    width: 100%;
+    border-radius: 12px;
+}
+
+.experience {
+    font-size: 16px;
+    color: #A7C7A3;
+    margin-top: 5px;
+}
+
+/*trying the posting thing*/
+.addPostBtn {
+    background: #2e6f4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+.addPostBtn:hover {
+    background: #E2BFB3;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    justify-content: center;
+    align-items: center;
+}
+.modalContent {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #2e6f4d;
+}
+.close:hover {
+    color: #E2BFB3;
+}
+
+#postText {
+    width: 90%;
+    max-width: 300px;
+    height: 80px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #A7C7A3;
+    border-radius: 12px;
+    resize: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+#submitPost {
+    background: #2e6f4d;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+#submitPost:hover {
+    background: #E2BFB3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*this is for later; its just experimental for now. do not mess w it pls*/
+@media (max-width: 900px){
+    .profile{
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .posts{
+        flex-direction: column;
+    }
+
+    .tabs{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .tab{
+        width: 100%;
+    }
+
+    #garden, #updates{
+        width: 100%;
+    }
+
+    .grid-layout{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px){
+    .sidebar{
+        width: 180px;
+    }
+
+    .profile{
+        margin-left: 180px;
+        width: calc(100% - 180px);
+    }
+
+    .grid-layout{
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
