@@ -5,13 +5,11 @@ document.addEventListener('DOMContentLoaded', () =>{
     const closeEB = document.getElementById('closeEB');
     const nameFr = document.querySelector('.name');
     const username = document.querySelector('.username');
-    const experience = document.querySelector('.experience');
     const sidebarPfp = document.getElementById('sidebarPfp');
     const pfpMain = document.querySelector('#mainPfp');
     const profilePicInput = document.getElementById('profilePicInput');
     const fileInput = document.getElementById('fileInput');
     const editNameInput = document.getElementById('editName');
-    const editExperienceInput = document.getElementById('editExperience');
     const nameLimit = document.getElementById('nameLimit');
     const addPostBtn = document.getElementById('addPostBtn');
     const postModal = document.getElementById('postModal');
@@ -36,13 +34,9 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     saveBtn.addEventListener('click', () =>{
         const newName = editNameInput.value.trim();
-        const newExperience = editExperienceInput.value.trim();
 
         if (newName){
             nameFr.textContent = newName;
-        }
-        if (newExperience) {
-            experience.textContent = `🌿 ${newExperience}+ years of experience`;
         }
         if (newPfp){
             pfpMain.src = newPfp;
