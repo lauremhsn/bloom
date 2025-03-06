@@ -3,109 +3,92 @@ function showForm(type) {
     document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
     document.getElementById('signupForm').style.display = type === 'signup' ? 'block' : 'none';
 }
+
 function showSelection() {
     document.getElementById('selectionBox').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('signupForm').style.display = 'none';
-
-    resetForms(); //this isnt wokring I legit tried for like half an hour
+    resetForms(); 
 }
 
 function resetForms() {
     let allInputs = document.querySelectorAll("#signupForm input, #signupForm select, #signupForm textarea, #loginForm input");
     allInputs.forEach(input => {
-        input.value = ""; 
+        input.value = "";
         input.style.border = "2px solid var(--secondary-color)";
     });
-    let errorMessages = document.querySelectorAll(".errorMessage");
-    errorMessages.forEach(error => {
+
+    document.querySelectorAll(".errorMessage").forEach(error => {
         error.innerHTML = "";
         error.style.display = "none";
     });
+
     document.getElementById("extraFields").innerHTML = "";
-    let fileInput = document.getElementById("profilePic");
-    if (fileInput) {
-        fileInput.value = "";
-    }
 }
-document.getElementById('signupForm').addEventListener('submit', function(event) {
+
+document.getElementById('signupForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     let errorMessage = document.getElementById('signupError');
-    let inputs = document.querySelectorAll('#signupForm input, #signupForm select, #signupForm textarea');
-    let missingFields = [];
-    let isValid = true;
+    let formData = new FormData(this); // Collects all input fields, including file uploads
 
-    inputs.forEach(input => {
-        if (input.type === 'file') {
-            if (input.files.length === 0) {
-                input.style.border = '2px solid red';
-                missingFields.push("Profile Picture");
-                isValid = false;
-            } else {
-                input.style.border = '2px solid var(--secondary-color)';
-            }
-        } else {
-            if (!input.value.trim()) {
-                input.style.border = '2px solid red';
-                missingFields.push(input.placeholder || "A required field");
-                isValid = false;
-            } else {
-                input.style.border = '2px solid var(--secondary-color)';
-            }
+    try {
+        let response = await fetch('http://localhost:5000/signup', {
+            method: 'POST',
+            body: formData
+        });
+
+        let data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Signup failed");
         }
-    });
 
-    if (!isValid) {
-        errorMessage.innerHTML = `⚠️ <strong>Nah-uh!</strong> Please fill out: <br> ${missingFields.join(', ')}`;
+        showSuccessMessage("Signup successful! Redirecting...", () => {
+            let profileType = document.getElementById('accountType').value;
+            window.location.href = `${profileType}Profile.html`; // Redirects to the correct profile page
+        });
+
+    } catch (error) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
         errorMessage.style.display = 'block';
-    } else {
-        errorMessage.style.display = 'none';
-        let profileType = document.getElementById('accountType').value;
-        if (profileType === "beginner") {
-            window.location.href =  "beginnerProfile.html";
-        } else if (profileType === "pro") {
-            window.location.href =  "professionalProfile.html";
-        } else if (profileType === "business") {
-            window.location.href =  "businessProfile.html";
-        } else if (profileType === "ngo") {
-            window.location.href =  "ngoProfile.html";
-        }
     }
 });
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     let errorMessage = document.getElementById('loginError');
-    let email = document.getElementById('loginEmail');
-    let password = document.getElementById('loginPass');
-    let missingFields = [];
-    let isValid = true;
+    let email = document.getElementById('loginEmail').value.trim();
+    let password = document.getElementById('loginPass').value.trim();
 
-    if (!email.value.trim()) {
-        email.style.border = '2px solid red';
-        missingFields.push("Email");
-        isValid = false;
-    } else {
-        email.style.border = '2px solid var(--secondary-color)';
-    }
-
-    if (!password.value.trim()) {
-        password.style.border = '2px solid red';
-        missingFields.push("Password");
-        isValid = false;
-    } else {
-        password.style.border = '2px solid var(--secondary-color)';
-    }
-
-    if (!isValid) {
-        errorMessage.innerHTML = `⚠️ <strong>Nah-uh!</strong> Please fill out: <br> ${missingFields.join(', ')}`;
+    if (!email || !password) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> Please enter both email and password.`;
         errorMessage.style.display = 'block';
-    } else {
-        errorMessage.style.display = 'none';
-        let profileType = document.getElementById('accountType').value;
-        window.location.href =  "beginnerProfile.html";
+        return;
+    }
+
+    try {
+        let response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        let data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Login failed");
+        }
+
+        localStorage.setItem('token', data.token); // Save token for authentication
+        showSuccessMessage("Login successful! Redirecting...", () => {
+            window.location.href = "feed.html"; // Redirect to the social feed page
+        });
+
+    } catch (error) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
+        errorMessage.style.display = 'block';
     }
 });
 
@@ -120,16 +103,16 @@ function showSuccessMessage(message, callback) {
         if (callback) callback();
     }, 2000);
 }
+
 document.getElementById('accountType').addEventListener('change', function() {
     let selectedType = this.value;
     let extraFields = document.getElementById('extraFields');
-
-    extraFields.innerHTML = "";
+    extraFields.innerHTML = ""; // Clear previous fields
 
     if (selectedType === "pro") {
-        extraFields.innerHTML += `<input type="number" id="years-experience" placeholder="Years of Experience" required>`;
+        extraFields.innerHTML = `<input type="number" id="years-experience" placeholder="Years of Experience" required>`;
     } else if (selectedType === "business") {
-        extraFields.innerHTML += `
+        extraFields.innerHTML = `
             <select id="product-category">
                 <option value="" disabled selected>Product Category</option>
                 <option value="indoor">Indoor Plants</option>
@@ -140,6 +123,6 @@ document.getElementById('accountType').addEventListener('change', function() {
             </select>
         `;
     } else if (selectedType === "ngo") {
-        extraFields.innerHTML += `<textarea id="ngo-description" placeholder="Brief Description" required></textarea>`;
+        extraFields.innerHTML = `<textarea id="ngo-description" placeholder="Brief Description" required></textarea>`;
     }
 });
