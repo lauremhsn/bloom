@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () =>{
     const postMedia = document.getElementById('postMedia');
     const postList = document.getElementById('postList');
 
+    
+
     let newPfp = null;
 
     editBtn.addEventListener('click', () =>{
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         }
     });
 
-    submitPost.addEventListener('click', () => {
+    submitPost.addEventListener('click', async () => {
         const text = postText.value.trim();
         const file = postMedia.files[0];
 
@@ -115,9 +117,44 @@ document.addEventListener('DOMContentLoaded', () =>{
             reader.readAsDataURL(file);
         }
 
+        const tk = localStorage.getItem('token');
+        console.log(tk)
+        if (tk) {
+            try {
+                const formData = new FormData();
+                formData.append('token', tk);
+                formData.append('text', text);
+                if (file) {
+                    formData.append('file', file);
+                }
+        
+                try {
+                    let response = await fetch('http://localhost:8000/addpost', {
+                        method: 'POST',
+                        body: formData
+                    });
+        
+                    //if (!response.ok) {
+                    //const data = await response.json();
+                    //    throw new Error(data.error);
+                    //}
+
+                } catch (error) {
+                    console.error("Error uploading post:", error);
+                }
+            } catch (error) {
+                console.error("Invalid token format:", error);
+            }
+        } else {
+            console.error("Token not found in localStorage");
+        }
+
+
         postList.prepend(post);
+    
         postText.value = "";
         postMedia.value = "";
         postModal.style.display = 'none';
+
     });
 });

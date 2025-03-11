@@ -31,12 +31,14 @@ document.getElementById('signupForm').addEventListener('submit', async function(
 
     let errorMessage = document.getElementById('signupError');
     let formData = new FormData(this); // Collects all input fields, including file uploads
+    console.log(formData);
 
     try {
-        let response = await fetch('http://localhost:5000/signup', {
+        let response = await fetch('http://localhost:8000/signup', {
             method: 'POST',
             body: formData
         });
+        
 
         let data = await response.json();
 
@@ -69,7 +71,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     try {
-        let response = await fetch('http://localhost:5000/login', {
+        let response = await fetch('http://localhost:8000/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -83,7 +85,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
 
         localStorage.setItem('token', data.token); // Save token for authentication
         showSuccessMessage("Login successful! Redirecting...", () => {
-            window.location.href = "feed.html"; // Redirect to the social feed page
+            window.location.href = "beginnerProfile.html"; // Redirect to the social feed page
         });
 
     } catch (error) {
