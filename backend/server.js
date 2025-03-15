@@ -46,7 +46,7 @@ app.post('/signup', upload.single('profilePic'), async (req, res) => {
         const { displayName, username, email, password, accountType } = req.body;
         const profilePic = req.file ? req.file.filename : ''
 
-        console.log(req.body);
+       
 
         const hashedPassword = await bcrypt.hash(password, 10);
         
@@ -57,7 +57,8 @@ app.post('/signup', upload.single('profilePic'), async (req, res) => {
         await newUser.save();
         */
 
-        db.all(`INSERT INTO users (email, username, password, profilePic, displayName, accountType) VALUES ('${email}', '${username}', '${hashedPassword}', '${profilePic}', '${displayName}', '${accountType}');`, [], (error, result) => {
+        db.query(`INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
+            VALUES ($1, $2, $3, $4, $5, $6);`, [email, username, hashedPassword, profilePic, displayName, accountType], (error, result) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
@@ -74,31 +75,24 @@ app.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        db.all(`SELECT * FROM users WHERE email = "${email}";`, [],  async (error, results) => {
+        db.query(
+            `SELECT * FROM "Users" WHERE email = $1;`,[email],  async (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
             }
             
-            if (results.length > 0) {
-                if (await bcrypt.compare(password, results[0].password)) {
-                    const token = jwt.sign({ id: results[0].id }, 'secretKey', { expiresIn: '1h' });
+            
+            if (results.rows.length > 0) {
+               
+                if (await bcrypt.compare(password, results.rows[0].password)) {
+                    const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
+                    
                     res.json({ message: 'Login successful', token });
                 };
             }
         });
 
-/*
-        const user = await User.findOne({ email });
-        if (!user) return res.status(400).json({ error: 'User not found' });
-
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: 'Invalid credentials' });
-
-                const token = jwt.sign({ id: user._id }, 'secretKey', { expiresIn: '1h' });
-                res.json({ message: 'Login successful', token });
-            }
-*/
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
@@ -112,7 +106,7 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
         const parsedToken = jwtDecode.jwtDecode(token);
         const userid = parsedToken.id;
 
-        db.all(`INSERT INTO Posts (user_id, text, media) VALUES (${userid}, '${text}', '${file}')`, [], (error, result) => {
+        db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3);`,[userid, text, file], (error, result) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
@@ -132,17 +126,18 @@ app.get('/getposts', async (req, res) => {
         const token = req.body;
         const parsedToken = jwtDecode.jwtDecode(token);
         const userid = parsedToken.id;
-        console.log(userid);
+       
 
-        db.all(`SELECT * FROM Posts WHERE user_id = ${userid}`, [],  async (error, results) => {
+        db.query((
+            `SELECT * FROM "Posts" WHERE user_id = $1;`,[userid],  async (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
             }
             
-            if (results.length > 0) {
-                console.log(results)
-                res.status(201).json(results);
+            if (results.rows > 0) {
+                
+                res.status(201).json(results.rows);
             }
         });
 
