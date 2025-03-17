@@ -195,7 +195,9 @@ body {
     border-radius: 12px;
 }
 
-#editExperience {
+#editExperience,
+#editMission,
+#editNumber {
     width: 100%;
     max-width: 120px;
     padding: 8px;
@@ -355,7 +357,9 @@ body {
     border-radius: 12px;
 }
 
-.experience {
+.experience,
+.mission,
+.number {
     font-size: 16px;
     color: #A7C7A3;
     margin-top: 5px;
