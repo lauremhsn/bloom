@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <title>NGO Explore</title>
+  <link rel="stylesheet" href="Explore.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebarThing">
+        <p>BLOOM</p>
+      </div>
+      <div class="sidebarThing">
+        <a href="#">
+          <div class="pfp">
+            <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
+          </div>
+        </a>
+      </div>
+      <div class="sidebarThing middle">
+        <a href="ngoExplore.html">🌍 NGOs</a>
+        <a href="businessExplore.html">🛍 Shops</a>
+        <a href="profExplore.html">👩‍🌾 Professionals</a>
+        <a href="friends.html">👥 Friends</a>
+      </div>
+      <div class="sidebarThing sets">
+        <a href="settings.html">Settings</a>
+      </div>
+    </div>
+    <div class="posts">
+      <div id="updates" class="posts-section">
+        <h2 class="sectionTitle">Ongoing Projects: </h2>
+        <div id="postList"></div>
+        <div class="update">
+          <img src="NGOposter.jpg" alt="Plant post">
+          <p>By planting trees, you will be helping the ecosystem and helping the planet. Join us February 20th in
+            park to help the environment.</p>
+        </div>
+      </div>
+      <div id="postModal" class="modal">
+        <div class="modalContent">
+          <span id="closePostModal" class="close">&times;</span>
+          <h2>Add a new project</h2>
+          <textarea id="postText" placeholder="Explain your new ongoing project..."></textarea>
+          <input type="file" id="postMedia" accept="image/*, video/*">
+          <button id="submitPost" class="saveButton">Post</button>
+        </div>
+      </div>
+      <script src="script.js"></script>
+      <script src="NGOProfile.js"></script>
+</body>
+
+</html>
