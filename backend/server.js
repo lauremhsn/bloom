@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const db = require('./db');
-
+const fs = require("fs");
 const jwtDecode = require('jwt-decode');
 
 const app = express();
@@ -17,22 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//database connection -- later on
-/* mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB Connected'))
-    .catch(err => console.log(err));
- 
-const UserSchema = new mongoose.Schema({
-    displayName: String,
-    username: String,
-    email: String,
-    password: String,
-    accountType: String,
-    profilePic: String
-});
-
-const User = mongoose.model('User', UserSchema);
-*/
 
 // storage for profile pic uploads
 const storage = multer.diskStorage({
@@ -49,13 +33,6 @@ app.post('/signup', upload.single('profilePic'), async (req, res) => {
        
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        
-        /*const newUser = new User({
-            displayName, username, email, password: hashedPassword, accountType,
-            profilePic: req.file ? req.file.filename : null
-        });
-        await newUser.save();
-        */
 
         db.query(`INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
             VALUES ($1, $2, $3, $4, $5, $6);`, [email, username, hashedPassword, profilePic, displayName, accountType], (error, result) => {
@@ -87,8 +64,9 @@ app.post('/login', async (req, res) => {
                
                 if (await bcrypt.compare(password, results.rows[0].password)) {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
-                    
-                    res.json({ message: 'Login successful', token });
+                    console.log(results.rows[0]);
+                    res.json({ message: 'Login successful', token, user: results.rows[0] });
+                   
                 };
             }
         });
@@ -129,7 +107,7 @@ app.get('/getposts', async (req, res) => {
        
 
         db.query((
-            `SELECT * FROM "Posts" WHERE user_id = $1;`,[userid],  async (error, results) => {
+            `SELECT * FROM "Posts" WHERE user_id = $1;`, [userid],  async (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
@@ -139,12 +117,65 @@ app.get('/getposts', async (req, res) => {
                 
                 res.status(201).json(results.rows);
             }
-        });
+        }));
 
     } catch (error) {
         console.error('Error in /addpost:', error);
         res.status(500).json({ error: 'Post Failed' });
     }
+});
+
+app.get(":/accountTypeProfile.html", async (req, res) => {
+    try {
+        let accountTypeProfile = req.params.accountTypeProfile; // Extract from URL
+        console.log("🔍 Received accountTypeProfile:", accountTypeProfile);
+
+        // 🚨 Remove "Profile.html" to get only the account type
+        const accountType = accountTypeProfile.replace("Profile.html", "");
+        console.log("✅ Extracted accountType:", accountType);
+
+        // 🚨 Validate extracted accountType
+        if (!accountType) {
+            console.error("❌ Invalid accountType:", accountType);
+            return res.status(400).json({ error: "Invalid account type" });
+        }
+
+        // 🔍 Query database to find user by accountType (ensure column name is correct)
+        const result = await db.query(
+            `SELECT username, displayname, profilepic
+             FROM "Users" WHERE accounttype = $1 LIMIT 1`, // Ensure correct column name
+            [accountType]
+        );
+
+        console.log("🔍 Database query result:", result.rows); // Debugging log
+
+        // 🚨 Check if user exists
+        if (result.rows.length === 0) {
+            console.error("❌ User with this account type not found");
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const user = result.rows[0];
+
+        // ✅ Send user data as JSON
+        res.json(user);
+
+    } catch (err) {
+        console.error("❌ Database error:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
+app.get("/getProfilePic/:filename", (req, res) => {
+    let filename = req.params.filename;  // Get filename from URL
+    let imagePath = path.join(__dirname, "uploads", filename);
+
+    // Check if file exists
+    if (!fs.existsSync(imagePath)) {
+        return res.status(404).json({ error: "Image not found" });
+    }
+
+    res.sendFile(imagePath); // Serve the file
 });
 
 //start server

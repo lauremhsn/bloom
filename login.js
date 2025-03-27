@@ -45,10 +45,13 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         if (!response.ok) {
             throw new Error(data.error || "Signup failed");
         }
-
+        localStorage.setItem("accountType", data.user.accounttype);
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("displayname", data.user.displayname);
+        localStorage.setItem("profilepic", data.user.profilepic);
         showSuccessMessage("Signup successful! Redirecting...", () => {
-            let profileType = document.getElementById('accountType').value;
-            window.location.href = `${profileType}Profile.html`; // Redirects to the correct profile page
+            accountType= localStorage.getItem("accountType");
+            window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
         });
 
     } catch (error) {
@@ -78,14 +81,28 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         });
 
         let data = await response.json();
-
+        
         if (!response.ok) {
             throw new Error(data.error || "Login failed");
         }
+       
+        
 
         localStorage.setItem('token', data.token); // Save token for authentication
+        localStorage.setItem("accountType", data.user.accounttype);
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("displayname", data.user.displayname);
+        localStorage.setItem("profilepic", data.user.profilepic);
+        
+
+        
+        console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
+
+        
         showSuccessMessage("Login successful! Redirecting...", () => {
-            window.location.href = "beginnerProfile.html"; // Redirect to the social feed page
+            accountType= localStorage.getItem("accountType");
+            window.location.href = `${accountType}Profile.html`;
+             // Redirect to the social feed page
         });
 
     } catch (error) {

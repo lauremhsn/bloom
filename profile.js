@@ -1,12 +1,12 @@
-document.addEventListener('DOMContentLoaded', () =>{
+document.addEventListener('DOMContentLoaded', async() =>{
     const editBtn = document.getElementById('editBtn');
     const saveBtn = document.getElementById('saveBtn');
     const editBox = document.getElementById('editBox');
     const closeEB = document.getElementById('closeEB');
-    const nameFr = document.querySelector('.name');
-    const username = document.querySelector('.username');
+    const displayname = document.getElementById('displayname');
+    const username = document.getElementById('username');
     const sidebarPfp = document.getElementById('sidebarPfp');
-    const pfpMain = document.querySelector('#mainPfp');
+    const pfpMain = document.getElementById('mainPfp');
     const profilePicInput = document.getElementById('profilePicInput');
     const fileInput = document.getElementById('fileInput');
     const editNameInput = document.getElementById('editName');
@@ -22,6 +22,21 @@ document.addEventListener('DOMContentLoaded', () =>{
     
 
     let newPfp = null;
+
+   
+    let accountType = localStorage.getItem("accountType"); // Update this dynamically if needed
+    let un = localStorage.getItem("username"); // Update this dynamically if needed
+    let dn = localStorage.getItem("displayname"); // Update this dynamically if needed
+    let pp = localStorage.getItem("profilepic"); // Update this dynamically if needed
+    
+    console.log(un);
+    console.log(dn);
+    console.log(pp);
+    
+    username.innerText = un;
+    displayname.innerText = dn;
+    pfpMain.src = `http://localhost:8000/getProfilePic/${pp}`;
+    sidebarPfp.src = `http://localhost:8000/getProfilePic/${pp}`;
 
     editBtn.addEventListener('click', () =>{
         editNameInput.value = nameFr.textContent;
@@ -157,4 +172,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         postModal.style.display = 'none';
 
     });
+
+    
+    
 });
