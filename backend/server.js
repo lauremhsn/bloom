@@ -1,15 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-//const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const db = require('./db');
-const fs = require("fs");
-const jwtDecode = require('jwt-decode');
 
+const jwtDecode = require('jwt-decode');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -25,6 +23,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+  
 app.post('/signup', upload.single('profilePic'), async (req, res) => {
     try {
         const { displayName, username, email, password, accountType } = req.body;
@@ -107,7 +106,7 @@ app.get('/getposts', async (req, res) => {
        
 
         db.query((
-            `SELECT * FROM "Posts" WHERE user_id = $1;`, [userid],  async (error, results) => {
+            `SELECT * FROM "Posts" WHERE user_id = $1;`,[userid],  async (error, results) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
@@ -178,5 +177,150 @@ app.get("/getProfilePic/:filename", (req, res) => {
     res.sendFile(imagePath); // Serve the file
 });
 
-//start server
+app.post('/save-plant-progress', async (req, res) => {
+    try {
+        const { token, plantStage } = req.body;
+        const parsedToken = jwtDecode(token);
+        const userId = parsedToken.id;
+
+        const result = await db.query(`SELECT last_interaction, streak FROM "PlantProgress" WHERE user_id = $1`, [userId]);
+
+        let newStreak = 1;
+        const today = new Date();
+        
+        if (result.rows.length > 0) {
+            const lastDate = new Date(result.rows[0].last_interaction);
+            const timeDiff = (today - lastDate) / (1000 * 60 * 60 * 24); 
+            
+            if (timeDiff < 1) {
+                newStreak = result.rows[0].streak;  
+            } else if (timeDiff < 2) {
+                newStreak = result.rows[0].streak + 1; 
+            }
+        }
+
+        await db.query(`
+            INSERT INTO "PlantProgress" (user_id, last_interaction, plant_stage, streak) 
+            VALUES ($1, NOW(), $2, $3)
+            ON CONFLICT (user_id) 
+            DO UPDATE SET plant_stage = $2, last_interaction = NOW(), streak = $3;
+        `, [userId, plantStage, newStreak]);
+
+        res.json({ message: "Plant progress saved!", streak: newStreak });
+
+    } catch (error) {
+        console.error('Error saving plant progress:', error);
+        res.status(500).json({ error: 'Failed to save progress' });
+    }
+});
+
+app.get('/get-plant-progress', async (req, res) => {
+    try {
+        const token = req.headers.authorization.split(" ")[1];
+        const parsedToken = jwtDecode(token);
+        const userId = parsedToken.id;
+
+        const result = await db.query(`SELECT plant_stage, streak FROM "PlantProgress" WHERE user_id = $1`, [userId]);
+
+        if (result.rows.length > 0) {
+            res.json({ plantStage: result.rows[0].plant_stage, streak: result.rows[0].streak });
+        } else {
+            res.json({ plantStage: 0, streak: 0 });
+        }
+
+    } catch (error) {
+        console.error('Error fetching plant progress:', error);
+        res.status(500).json({ error: 'Failed to fetch progress' });
+    }
+});
+
+app.post('/updatePlantProgress', async (req, res) => {
+    const { user_id, trimmed, streak, progress, trimmed_at, last_watered } = req.body;
+
+    const query = `
+        INSERT INTO "PlantProgress" (user_id, trimmed, streak, last_interaction, progress, trimmed_at, last_watered)
+        VALUES ($1, $2, $3, CURRENT_TIMESTAMP, $4, $5, $6)
+        ON CONFLICT (user_id) 
+        DO UPDATE SET trimmed = $2, streak = $3, progress = $4, last_interaction = CURRENT_TIMESTAMP, trimmed_at = $5, last_watered = $6
+        RETURNING *;
+    `;
+
+    try {
+        const result = await db.query(query, [user_id, trimmed, streak, progress, trimmed_at, last_watered]);
+        res.status(200).json({ message: 'Plant progress updated successfully', data: result.rows[0] });
+    } catch (error) {
+        console.error('Error saving plant progress:', error);
+        res.status(500).json({ error: 'Error saving plant progress' });
+    }
+});
+
+app.get('/getPlantProgress/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+
+    try {
+        const result = await db.query('SELECT * FROM "PlantProgress" WHERE user_id = $1;', [user_id]);
+        if (result.rows.length > 0) {
+            res.status(200).json(result.rows[0]);
+        } else {
+            res.status(404).json({ error: 'Plant progress not found' });
+        }
+    } catch (error) {
+        console.error('Error retrieving plant progress:', error);
+        res.status(500).json({ error: 'Error retrieving plant progress' });
+    }
+});
+
+app.use(express.json());
+app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
+
+function authenticateUser(req, res, next) {
+    if (!req.session.userId) {
+        return res.status(401).json({ error: "Unauthorized. Please log in." });
+    }
+    next();
+}
+
+app.get("/api/streaks", authenticateUser, async (req, res) => {
+    try {
+        const userId = req.session.userId; 
+        const result = await pool.query(
+            'SELECT plant_id, streak_count FROM "Streaks" WHERE user_id = $1',
+            [userId]
+        );
+
+        const streaks = { plant1: 0, plant2: 0, plant3: 0 };
+        result.rows.forEach(row => {
+            streaks[row.plant_id] = row.streak_count;
+        });
+
+        res.json(streaks);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to fetch streak data" });
+    }
+});
+
+app.post("/api/streaks", authenticateUser, async (req, res) => {
+    try {
+        const { plantId } = req.body;
+        const userId = req.session.userId;
+
+        const result = await pool.query(
+            `INSERT INTO "Streaks" (user_id, plant_id, streak_count) 
+             VALUES ($1, $2, 1) 
+             ON CONFLICT (user_id, plant_id) 
+             DO UPDATE SET streak_count = "Streaks".streak_count + 1 
+             RETURNING streak_count`,
+            [userId, plantId]
+        );
+
+        res.json({ streak: result.rows[0].streak_count });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to update streak" });
+    }
+});
+
+
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+
