@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <title>Professional Explore</title>
+  <link rel="stylesheet" href="profExplore.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="sidebarThing">
+        <p>BLOOM</p>
+      </div>
+      <div class="sidebarThing">
+        <a href="professionalProfile.html">
+          <div class="pfp">
+            <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
+          </div>
+        </a>
+      </div>
+      <div class="sidebarThing middle">
+        <a href="ngoExplore.html">🌍 NGOs</a>
+        <a href="businessExplore.html">🛍 Shops</a>
+        <a href="profExplore.html">👩‍🌾 Professionals</a>
+        <a href="friends.html">👥 Friends</a>
+      </div>
+      <div class="sidebarThing sets">
+        <a href="settings.html">Settings</a>
+      </div>
+    </div>
+
+    <div class="feedCont">
+      
+      <div class="post">
+        <div class="header">
+          <img src="pfp1.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">Some Guy</span>
+            <span class="handle">@someguy • 2h</span> <!--I need to work on the time thing frs-->
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">this is a psost. I'm posting rn</p>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="header">
+          <img src="pfp1.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">A Person</span>
+            <span class="handle">@aperson • 3h</span>
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">Hey lol this is a video</p>
+          <div class="media">
+            <video class="postVideo" controls>
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="header">
+          <img src="alex.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">Alex Turner</span>
+            <span class="handle">@alexturner • 5h</span>
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">Going back to #505 tonight</p>
+          <div class="media">
+            <img src="505.jpg" alt="Post Image" class="postImage">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="imageModal" class="modal">
+      <span class="closeBtn" onclick="closeModal()">&times;</span>
+      <img class="modalContent" id="modalImg">
+    </div>
+
+  </div>
+  <script src="profExplore.js"></script>
+</body>
+
+</html>
