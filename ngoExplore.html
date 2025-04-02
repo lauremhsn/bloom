@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
     rel="stylesheet">
   <title>NGO Explore</title>
-  <link rel="stylesheet" href="Explore.css">
+  <link rel="stylesheet" href="ngoExplore.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <p>BLOOM</p>
       </div>
       <div class="sidebarThing">
-        <a href="#">
+        <a href="NGOProfile.html">
           <div class="pfp">
             <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
           </div>
@@ -33,27 +33,65 @@
         <a href="settings.html">Settings</a>
       </div>
     </div>
-    <div class="posts">
-      <div id="updates" class="posts-section">
-        <h2 class="sectionTitle">Ongoing Projects: </h2>
-        <div id="postList"></div>
-        <div class="update">
-          <img src="NGOposter.jpg" alt="Plant post">
-          <p>By planting trees, you will be helping the ecosystem and helping the planet. Join us February 20th in
-            park to help the environment.</p>
+
+    <div class="feedCont">
+      
+      <div class="post">
+        <div class="header">
+          <img src="pfp1.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">Some Guy</span>
+            <span class="handle">@someguy • 2h</span> <!--I need to work on the time thing frs-->
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">this is a psost. I'm posting rn</p>
         </div>
       </div>
-      <div id="postModal" class="modal">
-        <div class="modalContent">
-          <span id="closePostModal" class="close">&times;</span>
-          <h2>Add a new project</h2>
-          <textarea id="postText" placeholder="Explain your new ongoing project..."></textarea>
-          <input type="file" id="postMedia" accept="image/*, video/*">
-          <button id="submitPost" class="saveButton">Post</button>
+
+      <div class="post">
+        <div class="header">
+          <img src="pfp1.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">A Person</span>
+            <span class="handle">@aperson • 3h</span>
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">Hey lol this is a video</p>
+          <div class="media">
+            <video class="postVideo" controls>
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+          </div>
         </div>
       </div>
-      <script src="script.js"></script>
-      <script src="NGOProfile.js"></script>
+
+      <div class="post">
+        <div class="header">
+          <img src="alex.jpg" alt="Profile Picture" class="postPfp">
+          <div class="headerInfo">
+            <span class="username">Alex Turner</span>
+            <span class="handle">@alexturner • 5h</span>
+          </div>
+        </div>
+        <div class="content">
+          <p class="postText">Going back to #505 tonight</p>
+          <div class="media">
+            <img src="505.jpg" alt="Post Image" class="postImage">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="imageModal" class="modal">
+      <span class="closeBtn" onclick="closeModal()">&times;</span>
+      <img class="modalContent" id="modalImg">
+    </div>
+
+  </div>
+  <script src="ngoExplore.js"></script>
 </body>
 
 </html>

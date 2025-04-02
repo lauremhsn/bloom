@@ -1,0 +1,275 @@
+body{
+    font-family: 'Quicksand', sans-serif;
+    background: #9a6555;
+    display: flex;
+    background-image: url('wood-pattern.png');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: top left;
+    height: 100vh;
+    margin: 0;
+}
+
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.sidebar{
+    background: #2e6f4d;
+    color: white;
+    width: 220px;
+    height: 100%;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarThing{
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebarThing p{
+    font-family: 'Pacifico', cursive;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
+
+.pfp img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.middle{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebarThing a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.sidebarThing a:hover{
+    background: #E2BFB3;
+}
+
+.sidebarThing.sets{
+    margin-top: auto;
+}
+
+.feedCont{
+  margin-left: 400px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.businessProfile{
+    background-color: rgb(108, 80, 72);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header{
+    display: flex;
+    gap: 15px;
+}
+.headerInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.businessPfp{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.username{
+    font-weight: bold;
+    font-size: 16px;
+    color: #A7C7A3;
+}
+.handle{
+    font-size: 14px;
+    color: #9ac398;
+}
+.products h3{
+    color: white;
+    margin-bottom: 15px;
+}
+.productGrid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.productCard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #A7C7A3;
+    border-radius: 8px;
+    padding: 10px;
+    transition: transform 0.3s;
+}
+.productCard:hover {
+    transform: scale(1.05);
+}
+.productImage {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: contain;
+}
+.productImage{
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    cursor: pointer;
+    object-fit: contain;
+}
+.productName{
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.productPrice{
+    font-size: 16px;
+    color: #333;
+    margin-top: 5px;
+}
+
+.suggBus{
+    background-color: rgb(108, 80, 72);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+
+}
+.suggBusScroll{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.suggBusScroll a{
+    text-decoration: none;
+    color: #333;
+    align-items: center;
+}
+.suggBusCard{
+    background: #A7C7A3;
+    border-radius: 10px;
+    padding: 10px;
+    margin-right: 15px;
+    width: 25%;
+    color:#333;
+}
+.suggBusPfp{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+.suggBusName{
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    transition: color 0.3s ease;
+    padding-top: 10px;
+}
+.suggBusName:hover {
+    color: #b68676;
+}
+
+.modal{
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.modalContent{
+    max-width: 800px;
+    width: 100%;
+    background-color: #A7C7A3;
+    padding: 20px;
+    border-radius: 10px;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+.modalImageContainer{
+    width: 100%;
+    text-align: center;
+}
+.modalImage{
+    width: 80%;
+    height: auto;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 8px;
+}
+.modalInfo{
+    margin-top: 20px;
+    text-align: center;
+}
+#modalProductName{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+#modalProductDescription{
+    font-size: 16px;
+    color: #666;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+#modalProductPrice{
+    font-size: 20px;
+    color: #254821;
+    font-weight: bold;
+    margin-top: 15px;
+}
+.closeBtn{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.closeBtn:hover{
+    color: #f1f1f1;
+}

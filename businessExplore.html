@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+    rel="stylesheet">
+  <title>Business Explore</title>
+  <link rel="stylesheet" href="businessExplore.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebarThing">
+            <p>BLOOM</p>
+            </div>
+            <div class="sidebarThing">
+                <a href="NGOProfile.html">
+                    <div class="pfp">
+                        <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
+                    </div>
+                </a>
+            </div>
+            <div class="sidebarThing middle">
+                <a href="ngoExplore.html">🌍 NGOs</a>
+                <a href="businessExplore.html">🛍 Shops</a>
+                <a href="profExplore.html">👩‍🌾 Professionals</a>
+                <a href="friends.html">👥 Friends</a>
+            </div>
+            <div class="sidebarThing sets">
+                <a href="settings.html">Settings</a>
+            </div>
+        </div>
+
+        <div class="feedCont">
+            <div class="businessProfile">
+                <div class="header">
+                    <a href="#">
+                        <img src="pfp1.jpg" alt="Business Logo" class="businessPfp">
+                    </a>
+                    <div class="headerInfo">
+                        <span class="username">Business One</span>
+                        <span class="handle">@businessone</span>
+                    </div>
+                </div>
+                <div class="products">
+                    <h3>Recent Products</h3>
+                    <div class="productGrid">
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 1"
+                                data-product-description="super cool item totally buy."
+                                data-product-price="$10.00" onclick="openModal(this)">
+                            <span class="productName">Product 1</span>
+                            <span class="productPrice">$10.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 2"
+                                data-product-description="This is a detailed description of Product 2."
+                                data-product-price="$10.00" onclick="openModal(this)">
+                            <span class="productName">Product 2</span>
+                            <span class="productPrice">$10.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 3"
+                                data-product-description="im soo describing"
+                                data-product-price="$15.00" onclick="openModal(this)">
+                            <span class="productName">Product 3</span>
+                            <span class="productPrice">$15.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 4"
+                                data-product-description="totally 100%"
+                                data-product-price="$20.00" onclick="openModal(this)">
+                            <span class="productName">Product 4</span>
+                            <span class="productPrice">$20.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="suggBus">
+                <h3>Suggested Businesses</h3>
+                <div class="suggBusScroll">
+                    <div class="suggBusCard" id="suggBusCard1">
+                        <a href="#">
+                            <img src="pfp1.jpg" alt="Business Logo" class="suggBusPfp">
+                            <span class="suggBusName">Some business</span>
+                        </a>
+                    </div>
+                    <div class="suggBusCard" id="suggBusCard2">
+                        <a href="#">
+                            <img src="pfp1.jpg" alt="Business Logo" class="suggBusPfp">
+                            <span class="suggBusName">a business ong</span>
+                        </a>
+                    </div>
+                    <div class="suggBusCard" id="suggBusCard3">
+                        <a href="#">
+                            <img src="pfp1.jpg" alt="Business Logo" class="suggBusPfp">
+                            <span class="suggBusName">me when Im a business</span>
+                        </a>
+                    </div>
+                    <div class="suggBusCard" id="suggBusCard4">
+                        <a href="#">
+                            <img src="pfp1.jpg" alt="Business Logo" class="suggBusPfp">
+                            <span class="suggBusName">business af</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="businessProfile">
+                <div class="header">
+                    <a href="#">
+                        <img src="pfp1.jpg" alt="Business Logo" class="businessPfp">
+                    </a>
+                    <div class="headerInfo">
+                        <span class="username">Business One</span>
+                        <span class="handle">@businessone</span>
+                    </div>
+                </div>
+                <div class="products">
+                    <h3>Recent Products</h3>
+                    <div class="productGrid">
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 1"
+                                data-product-description="super cool item totally buy."
+                                data-product-price="$30.00" onclick="openModal(this)">
+                            <span class="productName">Product 2</span>
+                            <span class="productPrice">$10.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 1"
+                                data-product-description="This is a detailed description of Product 2."
+                                data-product-price="$30.00" onclick="openModal(this)">
+                            <span class="productName">Product 2</span>
+                            <span class="productPrice">$10.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 1"
+                                data-product-description="This is a detailed description of Product 1."
+                                data-product-price="$30.00" onclick="openModal(this)">
+                            <span class="productName">Product 3</span>
+                            <span class="productPrice">$15.00</span>
+                        </div>
+                        <div class="productCard">
+                            <img src="pfp1.jpg" alt="Product Image" class="productImage"
+                                data-product-name="Product 1"
+                                data-product-description="This is a detailed description of Product 1."
+                                data-product-price="$30.00" onclick="openModal(this)">
+                            <span class="productName">Product 4</span>
+                            <span class="productPrice">$20.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="modal" id="imageModal">
+            <div class="modalContent">
+                <div class="modalImageContainer">
+                    <img id="modalImg" class="modalImage" src="" alt="Modal Image">
+                </div>
+                <div class="modalInfo">
+                    <h3 id="modalProductName">Product Name</h3>
+                    <p id="modalProductDescription">This is the description of the product. It explains what the product is about and its features.</p>
+                    <span id="modalProductPrice">$0.00</span>
+                </div>
+                <button class="closeBtn" onclick="closeModal()">&times;</button>
+            </div>
+        </div>
+    </div>
+    <script src="businessExplore.js"></script>
+</body>
+
+</html>
