@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () =>{
     saveBtn.addEventListener('click', () =>{
         const newName = editNameInput.value.trim();
         const newExperience = editExperienceInput.value.trim();
-        alert("1");
 
         if (newName){
             nameFr.textContent = newName;
@@ -49,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () =>{
             pfpMain.src = newPfp;
             sidebarPfp.src = newPfp;
         }
-        alert("2");
 
         editBox.style.display = 'none';
     });

@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
       pfpMain.src = newPfp;
       sidebarPfp.src = newPfp;
     }
-    alert("2");
 
     editBox.style.display = 'none';
   });
