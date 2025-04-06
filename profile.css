@@ -107,7 +107,7 @@ body {
     color: #A7C7A3
 }
 
-.editButton, .friendButton{
+.editButton, .friendButton, .followButton{
     background: #2e6f4d;
     color: white;
     border: none;
