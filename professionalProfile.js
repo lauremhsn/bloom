@@ -20,9 +20,20 @@ document.addEventListener('DOMContentLoaded', () =>{
     const postText = document.getElementById('postText');
     const postMedia = document.getElementById('postMedia');
     const postList = document.getElementById('postList');
+    const frndBtn = document.getElementById('frndBtn');
 
     let newPfp = null;
 
+    frndBtn.addEventListener('click', () => {
+        if (frndBtn.innerText === "Request Friendship?"){
+            //Backend stuff so that the request is sent
+            frndBtn.innerText = "Requested!";
+            frndBtn.style.backgroundColor = "#E2BFB3";
+            frndBtn.style.cursor = "default";
+            frndBtn.disabled = true;
+        }
+    });
+    
     editBtn.addEventListener('click', () =>{
         editNameInput.value = nameFr.textContent;
         profilePicInput.src = pfpMain.src;
