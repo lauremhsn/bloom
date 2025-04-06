@@ -8,7 +8,8 @@ streakDisplay.id = "streakDisplay";
 document.body.appendChild(streakDisplay);
 
 
-let streakData = JSON.parse(localStorage.getItem("plantStreak")) || { streak: 0, lastDate: null };
+let streakData = JSON.parse(localStorage.getItem("plantStreak")) || { 
+    streak: 0, lastDate: null , dailyGrowth: 0, dead: false};
 let isDragging = false;
 let offsetX = 0, offsetY = 0;
 let lastUpdate = 0;
@@ -21,24 +22,26 @@ let trimmed = false;
 function updateStreak() {
     const today = new Date().toDateString();
 
-    if (streakData.lastDate === today) {
-        return; 
-    }
+    if (streakData.lastDate === today) return;
 
     const lastInteractionDate = new Date(streakData.lastDate);
     const difference = (new Date(today) - lastInteractionDate) / (1000 * 60 * 60 * 24);
 
     if (difference === 1) {
-        streakData.streak++; 
-    } else {
-        streakData.streak = 1; 
+        streakData.streak++;
+    } else if (difference > 1 && difference < 3) {
+        streakData.streak = 1;
+    } else if (true) {
+        handlePlantDeath();
+        return;
     }
 
     streakData.lastDate = today;
+    streakData.dailyGrowth = 0;
     localStorage.setItem("plantStreak", JSON.stringify(streakData));
-
     displayStreak();
 }
+
 
 function displayStreak() {
     streakDisplay.textContent = `Streak: ${streakData.streak} days`;
@@ -46,6 +49,39 @@ function displayStreak() {
 
 function userInteraction() {
     updateStreak();
+}
+
+function handlePlantDeath() {
+    streakData.dead = true;
+    localStorage.setItem("plantStreak", JSON.stringify(streakData));
+    plantVideo.src = "dead-plant.mov";
+    plantVideo.currentTime = 0;
+    plantVideo.play();
+
+    alert("Your plant has died!");
+
+    showRestartButton();
+}
+
+function showRestartButton() {
+    const restartBtn = document.getElementById("restartButton");
+    restartBtn.style.display = "block";
+
+    restartBtn.onclick = () => {
+        streakData.dead = false;
+        streakData.streak = 1;
+        streakData.lastDate = new Date().toDateString();
+        streakData.dailyGrowth = 0;
+        localStorage.setItem("plantStreak", JSON.stringify(streakData));
+    
+        plantVideo.src = "plant-growth.mov";
+        plantVideo.currentTime = 0;
+        plantVideo.play();
+    
+        displayStreak();
+        restartBtn.style.display = "none";
+    };
+    
 }
 
 wateringCan.addEventListener("mousedown", (event) => {
@@ -60,26 +96,35 @@ wateringCan.addEventListener("mousedown", (event) => {
 });
 
 document.addEventListener("mousemove", (event) => {
-    if (isDragging) {
+    if (isDragging && !streakData.dead) {  // <- only allow growing if alive
         const containerRect = plantContainer.getBoundingClientRect();
-    // position the watering can wrt to container
         wateringCan.style.left = event.clientX - containerRect.left - offsetX + "px";
         wateringCan.style.top = event.clientY - containerRect.top - offsetY + "px";
 
         const canRect = wateringCan.getBoundingClientRect();
         const videoRect = plantVideo.getBoundingClientRect();
-
         const now = Date.now();
-        if (canRect.left < videoRect.right &&
+        const maxDailyGrowth = 3.0; // limit: 3 seconds per day
+
+        if (
+            canRect.left < videoRect.right &&
             canRect.right > videoRect.left &&
             canRect.top < videoRect.bottom &&
             canRect.bottom > videoRect.top &&
-            now - lastUpdate > 200) {
-            plantVideo.currentTime += 0.5; //we move forward the frames of the video
-            lastUpdate = now; //we save our old video time
+            now - lastUpdate > 200
+        ) {
+            if (streakData.dailyGrowth < maxDailyGrowth) {
+                const growAmount = Math.min(0.5, maxDailyGrowth - streakData.dailyGrowth);
+                plantVideo.currentTime += growAmount;
+                streakData.dailyGrowth += growAmount;
+                lastUpdate = now;
+
+                localStorage.setItem("plantStreak", JSON.stringify(streakData));
+            }
         }
     }
 });
+
 
 window.addEventListener("mouseup", () => {
     isDragging = false;
@@ -136,5 +181,12 @@ async function getPlantProgress() {
 
 window.onload = () => {
     getPlantProgress();
-    displayStreak(); 
+    updateStreak();
+    displayStreak();
+
+    if (streakData.dead) {
+        handlePlantDeath();
+    }
 };
+
+

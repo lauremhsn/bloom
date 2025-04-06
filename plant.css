@@ -66,20 +66,28 @@ button {
 button:hover {
     background-color: darkgreen;
 }
-
 .plant-container {
     position: relative;
     width: 100%;  
     max-width: 500px;  
-    padding-top: 56.25%;
+    aspect-ratio: 1; 
     background-color: white;
-    overflow: hidden;
     border: 3px solid green;
     border-radius: 10px;
     box-shadow: 2px 2px 10px rgba(0, 128, 0, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: visible;  
+}
+
+#wateringCan {
+    width: 80px;
+    position: absolute;
+    cursor: grab;
+    top: 50px;
+    left: 10px;
+    z-index: 100;  
 }
 
 video {
@@ -91,14 +99,7 @@ video {
     object-fit: contain; 
 }
 
-#wateringCan {
-    width: 80px;
-    position: absolute;
-    cursor: grab;
-    top: 50px;
-    left: 10px;
-    z-index: 10;
-}
+
 
 #streakDisplay {
     position: absolute;
@@ -119,4 +120,19 @@ video {
 
 #streakDisplay p {
     margin: 0;
+}
+
+#restartButton {
+    padding: 10px 20px;
+    background-color: #d9534f;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+#restartButton:hover {
+    background-color: #c9302c;
 }
