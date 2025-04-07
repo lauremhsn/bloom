@@ -4,6 +4,7 @@ const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
 
 
+
 //search bar stuff
 searchInput.addEventListener('focus', () => {
     searchResults.style.display = "block";

@@ -209,5 +209,3 @@ window.onload = () => {
         handlePlantDeath();
     }
 };
-
-

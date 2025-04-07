@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () =>{
+document.addEventListener('DOMContentLoaded', () => {
     const editBtn = document.getElementById('editBtn');
     const saveBtn = document.getElementById('saveBtn');
     const editBox = document.getElementById('editBox');
@@ -23,18 +23,30 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     let newPfp = null;
     
-    editBtn.addEventListener('click', () =>{
+    function getUsernameFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('username');
+    }
+  
+    window.onload = function() {
+        const usernameParam = getUsernameFromURL();
+        if (usernameParam) {
+            document.querySelector('.username').textContent = `@${usernameParam}`;
+
+            
+        } else {
+            console.log("No username provided in URL.");
+        }
+    };
+
+    editBtn.addEventListener('click', () => {
         editNameInput.value = nameFr.textContent;
         profilePicInput.src = pfpMain.src;
         nameLimit.textContent = `${editNameInput.value.length}/50`;
         editBox.style.display = 'flex';
     });
 
-    editNameInput.addEventListener('input', () =>{
-        nameLimit.textContent = `${editNameInput.value.length}/50`;
-    });
-
-    saveBtn.addEventListener('click', () =>{
+    saveBtn.addEventListener('click', () => {
         const newName = editNameInput.value.trim();
         const newExperience = editExperienceInput.value.trim();
 
@@ -52,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () =>{
         editBox.style.display = 'none';
     });
 
+    // Other event listeners for file input, posts, etc.
     closeEB.addEventListener('click', () =>{
         editBox.style.display = 'none';
     });

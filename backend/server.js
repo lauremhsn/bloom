@@ -234,41 +234,109 @@ app.get('/get-plant-progress', async (req, res) => {
     }
 });
 
+app.get('/getPlantProgress/:user_id', async (req, res) => {
+    const userId = req.params.user_id;
+    const plant = await db.query(`
+        SELECT * FROM plants 
+        WHERE user1_id = $1 OR user2_id = $1
+    `, [userId]);
+
+    res.json(plant.rows[0]);
+});
 app.post('/updatePlantProgress', async (req, res) => {
-    const { user_id, trimmed, streak, progress, trimmed_at, last_watered } = req.body;
+    const { user_id, trimmed, streak, progress, trimmed_at, last_watered, columnPrefix } = req.body;
 
     const query = `
-        INSERT INTO "PlantProgress" (user_id, trimmed, streak, last_interaction, progress, trimmed_at, last_watered)
-        VALUES ($1, $2, $3, CURRENT_TIMESTAMP, $4, $5, $6)
-        ON CONFLICT (user_id) 
-        DO UPDATE SET trimmed = $2, streak = $3, progress = $4, last_interaction = CURRENT_TIMESTAMP, trimmed_at = $5, last_watered = $6
+        UPDATE "Plants" 
+        SET 
+            ${columnPrefix}_progress = $1, 
+            ${columnPrefix}_streak = $2, 
+            ${columnPrefix}_trimmed = $3, 
+            ${columnPrefix}_last_watered = $4,
+            ${columnPrefix}_last_interaction = CURRENT_TIMESTAMP
+        WHERE ${columnPrefix}_id = $5
         RETURNING *;
     `;
 
     try {
-        const result = await db.query(query, [user_id, trimmed, streak, progress, trimmed_at, last_watered]);
-        res.status(200).json({ message: 'Plant progress updated successfully', data: result.rows[0] });
+        const result = await db.query(query, [progress, streak, trimmed, last_watered, user_id]);
+
+        const plant = result.rows[0];
+        if (plant.streak_user1 === 0 && plant.streak_user2 === 0) {
+            await db.query(`
+                UPDATE "Plants"
+                SET dead = true
+                WHERE id = $1
+            `, [plant.id]);
+
+            res.status(200).json({ message: "The plant has died due to inactivity." });
+        } else {
+            res.status(200).json({ message: "Plant progress updated successfully", data: result.rows[0] });
+        }
     } catch (error) {
         console.error('Error saving plant progress:', error);
         res.status(500).json({ error: 'Error saving plant progress' });
     }
 });
 
-app.get('/getPlantProgress/:user_id', async (req, res) => {
+
+app.get('/checkFollowStatus', async (req, res) => {
+    const { follower_id, followed_id } = req.query;
+
+    try {
+        const result = await db.query(
+            `SELECT 1 FROM "Followers" WHERE follower_id = $1 AND followed_id = $2;`, 
+            [follower_id, followed_id]
+        );
+
+        res.status(200).json({ isFollowing: result.rows.length > 0 });
+    } catch (error) {
+        console.error('Error checking follow status:', error);
+        res.status(500).json({ error: 'Error checking follow status' });
+    }
+});
+
+app.get('/profile/:user_id', async (req, res) => {
     const { user_id } = req.params;
 
     try {
-        const result = await db.query('SELECT * FROM "PlantProgress" WHERE user_id = $1;', [user_id]);
+        const result = await db.query(
+            `SELECT username, displayname, profilepic, accountType 
+             FROM "Users" WHERE id = $1;`, [user_id]
+        );
+
         if (result.rows.length > 0) {
             res.status(200).json(result.rows[0]);
         } else {
-            res.status(404).json({ error: 'Plant progress not found' });
+            res.status(404).json({ error: 'User not found' });
         }
     } catch (error) {
-        console.error('Error retrieving plant progress:', error);
-        res.status(500).json({ error: 'Error retrieving plant progress' });
+        console.error('Error fetching user profile:', error);
+        res.status(500).json({ error: 'Error retrieving user profile' });
     }
 });
+
+app.get('/getPlantProgress/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+
+    const query = `
+        SELECT * FROM "Collaborations"
+        WHERE ("user1_id" = $1 OR "user2_id" = $1)
+    `;
+    const result = await db.query(query, [user_id]);
+
+    if (result.rows.length === 0) {
+        return res.status(404).json({ error: "No plant found for the user" });
+    }
+
+    const plant = result.rows[0];
+    res.json({
+        progress: plant.user1_progress || plant.user2_progress,
+        streak: plant.user1_streak || plant.user2_streak,
+        trimmed: plant.user1_trimmed || plant.user2_trimmed,
+    });
+});
+
 
 app.use(express.json());
 app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
@@ -319,6 +387,31 @@ app.post("/api/streaks", authenticateUser, async (req, res) => {
         console.error(err);
         res.status(500).json({ error: "Failed to update streak" });
     }
+});
+
+
+app.post('/api/friends/accept', (req, res) => {
+    const { userId1, userId2 } = req.body;
+
+    const friendQuery = `
+        INSERT INTO "Friends" ("friend1_id", "friend2_id") 
+        VALUES ($1, $2), ($2, $1);
+    `;
+    db.query(friendQuery, [userId1, userId2]);
+
+    res.send('Friendship accepted');
+});
+
+app.post('/api/collab/accept', (req, res) => {
+    const { userId1, userId2, plantId } = req.body;
+
+    const collabQuery = `
+        INSERT INTO "Collaborations" ("user1_id", "user2_id", "plant_id", "progress_data") 
+        VALUES ($1, $2, $3, '{}'::jsonb);
+    `;
+    db.query(collabQuery, [userId1, userId2, plantId]);
+
+    res.send('Collaboration accepted');
 });
 
 

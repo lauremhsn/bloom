@@ -36,6 +36,13 @@ video {
 .streak-display {
     font-size: 18px;
     margin-top: 10px;
+    
+        margin-top: 10px;
+        font-size: 1rem;
+        color: #333;
+        display: block;
+        text-align: center;
+      
 }
 
 .lock-message {

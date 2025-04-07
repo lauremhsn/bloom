@@ -1,6 +1,14 @@
 document.addEventListener("DOMContentLoaded", async function () {
     let streakData = { plant1: 0, plant2: 0, plant3: 0 };
 
+    window.addEventListener("pageshow", (event) => {
+        if (event.persisted) {
+            window.location.reload();
+        } else {
+            fetchStreaks();
+        }
+    });
+
     async function fetchStreaks() {
         try {
             const response = await fetch("/api/streaks", {
@@ -15,10 +23,9 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (!response.ok) throw new Error("Failed to fetch streak data");
             streakData = await response.json();
 
-            Object.keys(streakData).forEach(plantId => {
-                document.getElementById(`streak${capitalizeFirstLetter(plantId)}`).textContent = 
-                    `Streak: ${streakData[plantId]} days`;
-            });
+            document.getElementById("streakPlant1").textContent = `Streak: ${streakData.plant1} days`;
+            document.getElementById("streakPlant2").textContent = `Streak: ${streakData.plant2} days`;
+            document.getElementById("streakPlant3").textContent = `Streak: ${streakData.plant3} days`;
 
             updateUnlockState();
         } catch (error) {

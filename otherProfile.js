@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () =>{
             frndBtn.style.cursor = "default";
             frndBtn.disabled = true;
         }
+
+        
     });
     
 });

@@ -116,7 +116,6 @@ video {
     justify-content: center;
     align-items: center;
     border: 2px solid #2c6e2f ;
-
 }
 
 #streakDisplay p {
@@ -137,4 +136,3 @@ video {
 #restartButton:hover {
     background-color: #c9302c;
 }
-
