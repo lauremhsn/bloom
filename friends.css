@@ -1,0 +1,437 @@
+body{
+    font-family: 'Quicksand', sans-serif;
+    background: #9a6555;
+    display: flex;
+    background-image: url('wood-pattern.png');
+    background-repeat: repeat;
+    background-size: auto;
+    background-position: top left;
+    height: 100vh;
+    margin: 0;
+}
+
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.sidebar{
+    background: #2e6f4d;
+    color: white;
+    width: 220px;
+    height: 100%;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebarThing{
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebarThing a{
+  text-decoration: none;
+  font-size: 1rem;
+  display: block;
+  color: white;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.sidebarThing a:hover{
+  background: #E2BFB3;
+}
+
+.sidebarThing p{
+  font-family: 'Pacifico', cursive;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.pfp{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 50%;
+  border: 3px solid white;
+}
+
+.pfp img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.middle{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebarThing.sets{
+    margin-top: auto;
+}
+
+/*change stuff men hon*/
+.Content{
+    margin-left: 220px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.reqCont{ /*come back to this when you wanna reveal it fr*/
+    width: 390px;
+    padding: 20px;
+    background-color: #2a2a38;
+    border-radius: 20px;
+    color: #dcdcdc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    overflow-y: auto;
+}
+
+.searchCont{
+    width: 390px;
+    padding: 20px;
+    background-color: rgb(108, 80, 72);
+    border-radius: 20px;
+    color: #dcdcdc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    position: relative;
+    overflow-y: auto;
+}
+
+.searchBar{
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 30px;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    transition: all 0.1s ease;
+    box-sizing: border-box;
+}
+
+.searchBar:focus{
+    background-color: #444;
+    outline: none;
+    border: 2px solid #3ee341;
+}
+
+.searchBar::placeholder {
+    color: #aaa;
+}
+
+.searchBtn {
+    background-color: #A7C7A3;
+    color: #437b4e;
+    border: none;
+    padding: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+.searchBtn:hover {
+    color: #A7C7A3;
+    background-color: #437b4e;
+}
+
+.searchResults {
+    display: none; /*comment when you wanna check it out*/
+    position: absolute;
+    width: 350px;
+    height: 700px;
+    background-color: #333;
+    padding: 8px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 350px;
+    overflow-y: auto;
+    color: #fff;
+    z-index: 10;
+}
+
+.searchResultItem {
+    display: flex;
+    align-items: center;
+    background-color: #2e6f4d;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.searchResultItem:hover {
+    background-color: #4a6674;
+}
+.searchResultItem .thePfp img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.searchResultItem .userInfo h1 {
+    font-size: 16px;
+    color: lightgray;
+    margin: 0;
+}
+
+.searchResultItem .userInfo p {
+    font-size: 14px;
+    color: #aaa;
+    margin: 0;
+}
+
+.suggProf{
+    display:flex;
+    background-color: #2e6f4d;
+    border-radius: 20px;
+    color: rgb(153, 151, 151);
+    margin-bottom: 10px;
+    height: 75px;
+}
+
+.thePfp{
+    width: 55px;
+    height: 55px;
+    margin-right: 20px;
+    padding-top: 9px;
+    padding-left: 10px;
+}
+
+.thePfp img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow-clip-margin: unset;
+}
+
+.suggAtt h1{
+    font-size: 15px;
+    padding-top: -5px;
+    color: lightgray;
+}
+
+.username{
+    color: #A7C7A3;
+}
+
+.topCont h1{
+    margin-top: 5px;;
+    font-size: 29px;
+    text-align: center;
+}
+
+.topCont h2{
+    margin-top: 5px;;
+    font-size: 15px;
+    padding-top: -5px;
+    color: lightgray;
+}
+
+.ngoRec{
+    width: 390px;
+    height: 325px;
+    padding: 20px;
+    background-color: rgb(108, 80, 72);
+    border-radius: 20px;
+    color: #dcdcdc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    overflow: hidden;
+}
+
+.contributorProf{
+    display:flex;
+    background-color: #2e6f4d;
+    border-radius: 20px;
+    color: rgb(153, 151, 151);
+    margin-bottom: 10px;
+    height: 70px;
+}
+
+.contributorAtt{
+    display: flex;
+}
+
+.contributorAtt h1{
+    font-size: 15px;
+    padding-top: -5px;
+    color: lightgray;
+}
+
+.stuff{
+    width: 220px;
+}
+
+.busRec{
+    width: 390px;
+    height: 325px;
+    padding: 20px;
+    background-color: rgb(108, 80, 72);;
+    border-radius: 20px;
+    color: #dcdcdc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    overflow: hidden;
+}
+
+.actFriend{
+    display:block;
+    background-color: rgb(50, 50, 97);
+    border-radius: 20px;
+    color: rgb(153, 151, 151);
+    margin-bottom: 10px;
+    height: 150px;
+}
+
+.attFriend{
+    margin-top: 5px;
+}
+
+.attFriend h1{
+    font-size: 15px;
+    padding-top: -5px;
+    color: lightgray;
+    margin-bottom: 20px;
+    
+}
+
+.thePfpFriend img{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow-clip-margin: unset;
+}
+
+.reqCont h1{
+    margin-top: 5px;;
+    font-size: 29px;
+    text-align: center;
+}
+
+.reqCont{
+    width: 390px;
+    padding: 20px;
+    background-color: rgb(108, 80, 72);
+    border-radius: 20px;
+    color: #dcdcdc;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    margin-left: 30px;
+    overflow: hidden;
+}
+
+.friendReqSection, .collabReqSection {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
+.friendReqSection h2, .collabReqSection h2{
+    font-size: 24px;
+    text-align: left;
+    margin-bottom: 15px;
+    color: #fff;
+    border-bottom: 2px solid #A7C7A3;
+    padding-bottom: 5px;
+}
+
+.friendReqSection::-webkit-scrollbar, .collabReqSection::-webkit-scrollbar {
+    width: 8px;
+}
+.friendReqSection::-webkit-scrollbar-thumb, .collabReqSection::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+}
+.friendReqSection::-webkit-scrollbar-track, .collabReqSection::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.friendReq, .collabReq{
+    display:flex;
+    background-color: #2e6f4d;
+    border-radius: 20px;
+    color: rgb(153, 151, 151);
+    margin-bottom: 10px;
+    height: 65px;
+}
+
+.reqAtt{
+    display: flex;
+}
+
+.reqAtt h1{
+    font-size: 15px;
+    color: lightgray;
+    text-align: left;
+}
+
+.reqStuff{
+    width: 200px;
+}
+
+.thePfpfrnd{
+    width: 55px;
+    height: 55px;
+    margin-right: 20px;
+    padding-top: 9px;
+    padding-left: 10px;
+}
+
+.thePfpfrnd img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    overflow-clip-margin: unset;
+}
+
+.afterfrndStuff{
+    width: 20px;
+    margin-top: 10px;
+}
+
+.butt{
+    color: #437b4e;
+    background-color: #A7C7A3;
+    width: 60px;
+    color: #2a2a38;
+    border: none;
+    cursor: pointer;
+    border-radius: 20px;
+    padding: 4px 10px;
+    margin-bottom: 5px;
+    margin-left: -22px;
+    transition: background 0.3s;
+}
+
+.butt:hover {
+    background-color: #437b4e;
+    color: #A7C7A3;
+}
