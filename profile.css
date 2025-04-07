@@ -321,6 +321,10 @@ body {
     align-items: center;
 }
 
+#garden a{
+    text-decoration: none;
+}
+
 .shelf {
     background: #a67c52;
     height: 20px;
