@@ -34,7 +34,7 @@ document.getElementById('signupForm').addEventListener('submit', async function(
     console.log(formData);
 
     try {
-        let response = await fetch('http://localhost:8000/signup', {
+        let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
             method: 'POST',
             body: formData
         });
@@ -74,7 +74,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     try {
-        let response = await fetch('http://localhost:8000/login', {
+        let response = await fetch('https://bloom-zkk8.onrender.com/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
