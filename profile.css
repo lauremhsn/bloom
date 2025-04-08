@@ -119,6 +119,13 @@ body {
     color: #A7C7A3
 }
 
+.buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+}
+
 .editButton, .friendButton, .followButton{
     background: #2e6f4d;
     color: white;
