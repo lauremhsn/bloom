@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async() =>{
     let accountType = localStorage.getItem("accountType"); // Update this dynamically if needed
     let un = localStorage.getItem("username"); // Update this dynamically if needed
     let dn = localStorage.getItem("displayname"); // Update this dynamically if needed
-    let pp = localStorage.getItem("profilepic"); // Update this dynamically if needed
+    let pp = localStorage.getItem("profilePic"); // Update this dynamically if needed
     
     console.log(un);
     console.log(dn);
