@@ -54,7 +54,7 @@ function userInteraction() {
 function handlePlantDeath() {
     streakData.dead = true;
     localStorage.setItem("plantStreak", JSON.stringify(streakData));
-    plantVideo.src = "dead-plant.mov";
+    plantVideo.src = "plant1.mp4";
     plantVideo.currentTime = 0;
     plantVideo.play();
 
@@ -104,7 +104,7 @@ document.addEventListener("mousemove", (event) => {
         const canRect = wateringCan.getBoundingClientRect();
         const videoRect = plantVideo.getBoundingClientRect();
         const now = Date.now();
-        const maxDailyGrowth = 3.0; // limit: 3 seconds per day
+        const maxDailyGrowth = 200.0; // limit: 3 seconds per day
 
         if (
             canRect.left < videoRect.right &&
