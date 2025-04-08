@@ -339,7 +339,7 @@ app.get('/getPlantProgress/:user_id', async (req, res) => {
 
 
 app.use(express.json());
-app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
+//app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
 
 function authenticateUser(req, res, next) {
     if (!req.session.userId) {
