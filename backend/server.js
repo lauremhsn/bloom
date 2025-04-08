@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const db = require('./db');
-
+const fs = require("fs");
 const jwtDecode = require('jwt-decode');
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -24,28 +24,80 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
   
-app.post('/signup', upload.single('profilePic'), async (req, res) => {
-    try {
-        const { displayName, username, email, password, accountType } = req.body;
-        const profilePic = req.file ? req.file.filename : ''
+// app.post('/signup', upload.single('profilePic'), async (req, res) => {
+//     try {
+//         const { displayName, username, email, password, accountType } = req.body;
+//         const profilePic = req.file ? req.file.filename : ''
 
        
 
+//         const hashedPassword = await bcrypt.hash(password, 10);
+
+//         db.query(`INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
+//             VALUES ($1, $2, $3, $4, $5, $6);`, [email, username, hashedPassword, profilePic, displayName, accountType], (error, results) => {
+//             if (error) {
+//                 console.error('Error executing query:', error);
+//                 return;
+//             }
+//             const user = results.rows[0];  // Assuming result.rows contains the newly created user
+//             res.json({ message: 'User registered successfully', user: user });
+//         });
+        
+        
+       
+        
+//     } catch (error) {
+//         res.status(500).json({ error: 'Signup failed' });
+//     }
+// });
+
+
+app.post('/signup', upload.single('profilePic'), async (req, res) => {
+    try {
+        const { displayName, username, email, password, accountType } = req.body;
+        const profilePic = req.file ? req.file.filename : '';
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        db.query(`INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
-            VALUES ($1, $2, $3, $4, $5, $6);`, [email, username, hashedPassword, profilePic, displayName, accountType], (error, result) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return;
-            }
-        });
+        // Using async/await for the database query
+        const query = `
+            INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+        `;
+        const values = [email, username, hashedPassword, profilePic, displayName, accountType];
 
-        res.status(201).json({ message: 'User registered successfully!' });
+        // Wait for the query result
+        const { rows } = await db.query(query, values);  // Assuming db.query returns a Promise
+
+        // Log the results to see the inserted row(s)
+        console.log('Query Results:', rows);
+
+        if (rows.length > 0) {
+            const user = rows[0];  // Get the inserted user data
+            console.log('Inserted User:', user);  // Log the inserted user object
+            
+            // Respond with success and the user data
+            return res.json({
+                message: 'User registered successfully',
+                user: {
+                    accounttype: user.accounttype,
+                    username: user.username,
+                    displayname: user.displayname,
+                    profilepic: user.profilepic,
+                }
+            });
+        } else {
+            return res.status(400).json({ error: 'User registration failed' });
+        }
+
     } catch (error) {
-        res.status(500).json({ error: 'Signup failed' });
+        console.error('Error during signup:', error);
+        return res.status(500).json({ error: 'Signup failed: ' + error.message });
     }
 });
+
+
+
 
 app.post('/login', async (req, res) => {
     try {
@@ -339,7 +391,7 @@ app.get('/getPlantProgress/:user_id', async (req, res) => {
 
 
 app.use(express.json());
-app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
+//app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
 
 function authenticateUser(req, res, next) {
     if (!req.session.userId) {
