@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', () =>{
 
     let newPfp = null;
 
+    if (frndBtn && frndBtn.innerText === "Friends"){
+        collabBtn.style.display = "block";
+        collabBtn.addEventListener("click", () => {
+            collabBtn.innerText = "Collab Requested!";
+            collabBtn.disabled = true;
+            collabBtn.style.backgroundColor = "#E2BFB3";
+        });
+    }
+
     frndBtn.addEventListener('click', () => {
         if (frndBtn.innerText === "Request Friendship?"){
             //Backend stuff so that the request is sent
