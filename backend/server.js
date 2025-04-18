@@ -450,7 +450,6 @@ app.post('/api/collab/accept', (req, res) => {
 });
 
 
-// const stripe = require('stripe')('sk_test_51RBMvvRrBw2cTi1AsfU8xG0paBxt1zuqq3yblSJR1YDDI3a7yWCWVC4S8O5FKjrdWOSxoWR4VkCWtuOOaIksaCUj00ATZfTB3t');
 // const router = express.Router();
 // app.use('/', require('./routes'));
 // app.use(express.static('public')); 
