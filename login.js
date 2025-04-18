@@ -31,17 +31,20 @@ document.getElementById('signupForm').addEventListener('submit', async function(
 
     let errorMessage = document.getElementById('signupError');
     let formData = new FormData(this); // Collects all input fields, including file uploads
-    console.log(formData);
+    
+    
+console.log([...formData]); // Logs the form data (key-value pairs)
+
 
     try {
-        let response = await fetch('http://localhost:8000/signup', {
+        let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
             method: 'POST',
             body: formData
         });
         
-
+        console.log('API Response:', response);  
         let data = await response.json();
-
+        console.log('Response Data:', data);
         if (!response.ok) {
             throw new Error(data.error || "Signup failed");
         }
@@ -49,6 +52,7 @@ document.getElementById('signupForm').addEventListener('submit', async function(
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
+        console.log(data.user.accounttype);
         showSuccessMessage("Signup successful! Redirecting...", () => {
             accountType= localStorage.getItem("accountType");
             window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
@@ -74,7 +78,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 
     try {
-        let response = await fetch('http://localhost:8000/login', {
+        let response = await fetch('https://bloom-zkk8.onrender.com/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
@@ -101,6 +105,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         
         showSuccessMessage("Login successful! Redirecting...", () => {
             accountType= localStorage.getItem("accountType");
+            console.log(data.user.accounttype);
             window.location.href = `${accountType}Profile.html`;
              // Redirect to the social feed page
         });
