@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const path = require('path');
 const db = require('./db');
+const session = require('express-session');
+
 
 const jwtDecode = require('jwt-decode');
 const app = express();
@@ -339,7 +341,7 @@ app.get('/getPlantProgress/:user_id', async (req, res) => {
 
 
 app.use(express.json());
-app.use(session({ secret: "your-secret-key", resave: false, saveUninitialized: true }));
+
 
 function authenticateUser(req, res, next) {
     if (!req.session.userId) {
@@ -348,25 +350,6 @@ function authenticateUser(req, res, next) {
     next();
 }
 
-app.get("/api/streaks", authenticateUser, async (req, res) => {
-    try {
-        const userId = req.session.userId; 
-        const result = await pool.query(
-            'SELECT plant_id, streak_count FROM "Streaks" WHERE user_id = $1',
-            [userId]
-        );
-
-        const streaks = { plant1: 0, plant2: 0, plant3: 0 };
-        result.rows.forEach(row => {
-            streaks[row.plant_id] = row.streak_count;
-        });
-
-        res.json(streaks);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to fetch streak data" });
-    }
-});
 
 app.post("/api/streaks", authenticateUser, async (req, res) => {
     try {
@@ -414,6 +397,43 @@ app.post('/api/collab/accept', (req, res) => {
     res.send('Collaboration accepted');
 });
 
+
+// const stripe = require('stripe')('sk_test_51RBMvvRrBw2cTi1AsfU8xG0paBxt1zuqq3yblSJR1YDDI3a7yWCWVC4S8O5FKjrdWOSxoWR4VkCWtuOOaIksaCUj00ATZfTB3t');
+// const router = express.Router();
+// app.use('/', require('./routes'));
+// app.use(express.static('public')); 
+// app.use(bodyParser.json());
+
+
+// app.post('/create-checkout-session', async (req, res) => {
+//     const { productName, productPrice } = req.body;
+//     console.log('Received request:', productName, productPrice); 
+
+//     try {
+//         const session = await stripe.checkout.sessions.create({
+//             payment_method_types: ['card'],
+//             line_items: [{
+//                 price_data: {
+//                     currency: 'usd',
+//                     product_data: {
+//                         name: productName,
+//                     },
+//                     unit_amount: productPrice * 100, 
+//                 },
+//                 quantity: 1,
+//             }],
+//             mode: 'payment',
+//             success_url: `http://localhost:${PORT}/success.html`,
+//             cancel_url: `http://localhost:${PORT}/cancel.html`,
+//         });
+
+//         console.log('Session created successfully:', session); 
+//         res.json({ sessionId: session.id });
+//     } catch (error) {
+//         console.error('Error creating session:', error);
+//         res.status(500).send('Internal Server Error');
+//     }
+// });
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 

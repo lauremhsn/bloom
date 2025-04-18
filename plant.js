@@ -74,7 +74,7 @@ function showRestartButton() {
         streakData.dailyGrowth = 0;
         localStorage.setItem("plantStreak", JSON.stringify(streakData));
     
-        plantVideo.src = "plant-growth.mov";
+        plantVideo.src = "plant1.mp4";
         plantVideo.currentTime = 0;
         plantVideo.play();
     

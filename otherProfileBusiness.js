@@ -133,3 +133,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 });
+
+
+// <a id="pfpLink" href="#">
+//     <img id="profile-pic" src="blahbalh" />
+// </a>
+
+//  document.getElementById('profile-pic').src = `/getProfilePic/${data.profilepic}`
+
+//  document.getElementById('pfpLink').href = `/profile/${data.username}`;
+
+//  toggleFollowButton(userId);
+//  toggleFriendButton(userId);
