@@ -23,7 +23,7 @@ export function eventList() {
     const postMedia = document.getElementById('postMedia');
     const postList = document.getElementById('postList');
     editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit);
-    saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox);
+    saveButton(saveBtn, editNameInput, number, nameFr, pfpMain, sidebarPfp, editBox, editNumberInput);
     exitButton(closeEB, editBox);
     changes(fileInput, profilePicInput);
     postRelated(addPostBtn, postModal, closePostModal);
@@ -43,7 +43,7 @@ export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nam
   });
 }
 
-export function saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox) {
+export function saveButton(saveBtn, editNameInput, number, nameFr, pfpMain, sidebarPfp, editBox, editNumberInput) {
   saveBtn.addEventListener('click', () => {
     const newName = editNameInput.value.trim();
     const newNumber = editNumberInput.value.trim();
