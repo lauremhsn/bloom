@@ -1,6 +1,6 @@
 let newPfp = null;
 export function eventList() {
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
         const editBtn = document.getElementById('editBtn');
         const saveBtn = document.getElementById('saveBtn');
         const editBox = document.getElementById('editBox');
@@ -35,8 +35,8 @@ export function eventList() {
         displayname.innerText = dn;
         pfpMain.src = `http://localhost:8000/getProfilePic/${pp}`;
         sidebarPfp.src = `http://localhost:8000/getProfilePic/${pp}`;
-        editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit);
-        saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox);
+        editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit);
+        saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
         changes(fileInput, profilePicInput);
         postRelated(addPostBtn, postModal, closePostModal);
@@ -44,9 +44,9 @@ export function eventList() {
     })
 }
 
-export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit) {
+export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit) {
     editBtn.addEventListener('click', () => {
-        editNameInput.value = nameFr.textContent;
+        editNameInput.value = displayname.textContent;
         profilePicInput.src = pfpMain.src;
         nameLimit.textContent = `${editNameInput.value.length}/50`;
         editBox.style.display = 'flex';
@@ -57,12 +57,12 @@ export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nam
     });
 }
 
-export function saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox) {
+export function saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox) {
     saveBtn.addEventListener('click', () => {
         const newName = editNameInput.value.trim();
 
         if (newName) {
-            nameFr.textContent = newName;
+            displayname.textContent = newName;
         }
         if (newPfp) {
             pfpMain.src = newPfp;
