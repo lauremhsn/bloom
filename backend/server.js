@@ -8,7 +8,6 @@ const path = require('path');
 const db = require('./db');
 const fs = require("fs");
 
-const session = require('express-session');
 const jwtDecode = require('jwt-decode');
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -122,12 +121,19 @@ app.post('/login', async (req, res) => {
                    
                 };
             }
+
+            if (results.rows.length === 0 || !(await bcrypt.compare(password, results.rows[0].password))) {
+                return res.status(401).json({ error: 'Invalid email or password' });
+            }
         });
 
     } catch (error) {
         res.status(500).json({ error: 'Login failed' });
     }
 });
+
+
+
 
 app.post('/addpost', upload.single('file'), async (req, res) => {
     try {
@@ -178,57 +184,54 @@ app.get('/getposts', async (req, res) => {
     }
 });
 
-app.get(":/accountTypeProfile.html", async (req, res) => {
+app.get("/getProfileByType/:accountType", async (req, res) => {
+    const accountType = req.params.accountType;
+
     try {
-        let accountTypeProfile = req.params.accountTypeProfile; // Extract from URL
+        let accountTypeProfile = req.params.accountTypeProfile; 
         console.log("🔍 Received accountTypeProfile:", accountTypeProfile);
 
-        // 🚨 Remove "Profile.html" to get only the account type
         const accountType = accountTypeProfile.replace("Profile.html", "");
         console.log("✅ Extracted accountType:", accountType);
 
-        // 🚨 Validate extracted accountType
+
         if (!accountType) {
-            console.error("❌ Invalid accountType:", accountType);
+            console.error(" Invalid accountType:", accountType);
             return res.status(400).json({ error: "Invalid account type" });
         }
 
-        // 🔍 Query database to find user by accountType (ensure column name is correct)
         const result = await db.query(
             `SELECT username, displayname, profilepic
-             FROM "Users" WHERE accounttype = $1 LIMIT 1`, // Ensure correct column name
+             FROM "Users" WHERE accounttype = $1 LIMIT 1`,
             [accountType]
         );
 
-        console.log("🔍 Database query result:", result.rows); // Debugging log
+        console.log("Database query result:", result.rows); 
 
-        // 🚨 Check if user exists
         if (result.rows.length === 0) {
-            console.error("❌ User with this account type not found");
+            console.error("User with this account type not found");
             return res.status(404).json({ error: "User not found" });
         }
 
         const user = result.rows[0];
 
-        // ✅ Send user data as JSON
         res.json(user);
 
     } catch (err) {
-        console.error("❌ Database error:", err);
+        console.error(" Database error:", err);
         res.status(500).json({ error: "Server error" });
     }
 });
 
 app.get("/getProfilePic/:filename", (req, res) => {
-    let filename = req.params.filename;  // Get filename from URL
+    let filename = req.params.filename;  
     let imagePath = path.join(__dirname, "uploads", filename);
 
-    // Check if file exists
     if (!fs.existsSync(imagePath)) {
         return res.status(404).json({ error: "Image not found" });
     }
 
-    res.sendFile(imagePath); // Serve the file
+    res.sendFile(imagePath);
 });
 
 app.post('/save-plant-progress', async (req, res) => {
@@ -356,19 +359,21 @@ app.get('/profile/:user_id', async (req, res) => {
     try {
         const result = await db.query(
             `SELECT username, displayname, profilepic, accountType 
-             FROM "Users" WHERE id = $1;`, [user_id]
+             FROM "Users" WHERE id = $1;`, 
+            [user_id]
         );
 
-        if (result.rows.length > 0) {
-            res.status(200).json(result.rows[0]);
-        } else {
-            res.status(404).json({ error: 'User not found' });
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: "User not found" });
         }
+
+        res.json(result.rows[0]);
     } catch (error) {
-        console.error('Error fetching user profile:', error);
-        res.status(500).json({ error: 'Error retrieving user profile' });
+        console.error('Error fetching profile:', error);
+        res.status(500).json({ error: 'Failed to fetch profile' });
     }
 });
+
 
 app.get('/getPlantProgress/:user_id', async (req, res) => {
     const { user_id } = req.params;
@@ -425,7 +430,7 @@ app.post("/api/streaks", authenticateUser, async (req, res) => {
 });
 
 
-app.post('/api/friends/accept', (req, res) => {
+app.post('/acceptFriendRequest', (req, res) => {
     const { userId1, userId2 } = req.body;
 
     const friendQuery = `
@@ -437,20 +442,17 @@ app.post('/api/friends/accept', (req, res) => {
     res.send('Friendship accepted');
 });
 
-app.post('/api/collab/accept', (req, res) => {
-    const { userId1, userId2, plantId } = req.body;
 
-    const collabQuery = `
-        INSERT INTO "Collaborations" ("user1_id", "user2_id", "plant_id", "progress_data") 
-        VALUES ($1, $2, $3, '{}'::jsonb);
-    `;
-    db.query(collabQuery, [userId1, userId2, plantId]);
+app.post('/rejectFriendRequest', async (req,res) => {
+    const {user1_id , user2_id, plant_id } = req.body;
 
-    res.send('Collaboration accepted');
+    try {
+        res.status(200).json({message: 'Friend request rejected (no action taken).'});
+    }catch(error) {
+        res.status(500).json({error: 'Error.'});
+    }
 });
 
-
-// const router = express.Router();
 // app.use('/', require('./routes'));
 // app.use(express.static('public')); 
 // app.use(bodyParser.json());
@@ -486,5 +488,114 @@ app.post('/api/collab/accept', (req, res) => {
 //     }
 // });
 
-app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
 
+app.post('/acceptCollabRequest', async(req,res) => {
+    const { user1_id , user2_id, plant_id} = req.body;
+
+    try{
+        await db.query(
+            `INSERT INTO "Collaborations" (user1_id, user2_id, plant_id)
+            VALUES ($1, $2, $3)`
+            , [user1_id, user2_id, plant_id]);
+
+        res.status(200).json({message: 'Collaboration accepted.'});
+    } catch(error) {
+        console.error('Error accepting collaboration request: ', error);
+        res.status(500).json({error: 'Could not accept collaboration request.'});
+    }
+});
+
+
+
+app.post('/rejectCollabRequest', async (req,res) => {
+    const {user1_id , user2_id, plant_id } = req.body;
+
+    try {
+        res.status(200).json({message: 'Collaboration rejected (no action taken).'});
+    }catch(error) {
+        res.status(500).json({error: 'Could not reject collaboration request.'});
+    }
+});
+
+
+//for friends page: suggested users
+app.get('/suggestedUsers/:userId', async (req, res) => {
+    const userId = parseInt(req.params.userId);
+
+    try {
+        const query = `
+            WITH user_friends AS (
+                SELECT CASE
+                    WHEN friend1_id = $1 THEN friend2_id
+                    ELSE friend1_id
+                END AS friend_id
+                FROM "Friends"
+                WHERE friend1_id = $1 OR friend2_id = $1
+            ),
+            potential_suggestions AS (
+                SELECT CASE
+                    WHEN friend1_id != $1 THEN friend1_id
+                    ELSE friend2_id
+                END AS suggested_id
+                FROM "Friends"
+                WHERE friend1_id != $1 AND friend2_id != $1
+            ),
+            mutuals AS (
+                SELECT ps.suggested_id, COUNT(*) AS mutual_count
+                FROM potential_suggestions ps
+                JOIN "Friends" f ON (
+                    (f.friend1_id = ps.suggested_id AND f.friend2_id IN (SELECT friend_id FROM user_friends)) OR
+                    (f.friend2_id = ps.suggested_id AND f.friend1_id IN (SELECT friend_id FROM user_friends))
+                )
+                GROUP BY ps.suggested_id
+            )
+            SELECT u.id, u.username, u.name, u.profile_photo, m.mutual_count
+            FROM mutuals m
+            JOIN "Users" u ON u.id = m.suggested_id
+            WHERE u.id != $1 AND u.id NOT IN (SELECT friend_id FROM user_friends)
+            ORDER BY m.mutual_count DESC
+            LIMIT 4;
+        `;
+
+        const { rows } = await db.query(query, [userId]);
+
+        if (rows.length === 0) {
+            res.status(200).json({ message: 'No suggestions available' });
+        } else {
+            res.status(200).json(rows);
+        }
+    } catch (error) {
+        console.error('Error fetching suggested users:', error);
+        res.status(500).json({ error: 'Failed to get suggested users' });
+    }
+});
+
+app.post('/add-friend', async (req, res) => {
+    const { token, friendId } = req.body;
+
+    try {
+        const parsedToken = jwtDecode(token);
+        const userId = parsedToken.id;
+
+        if (userId === parseInt(friendId)) {
+            return res.status(400).json({ error: "You cannot friend yourself!" });
+        }
+
+        const [id1, id2] = userId < friendId ? [userId, friendId] : [friendId, userId];
+
+        await db.query(`
+            INSERT INTO "Friends" (friend1_id, friend2_id)
+            VALUES ($1, $2)
+            ON CONFLICT DO NOTHING
+
+            INSERT INTO "
+        `, [id1, id2]);
+
+        res.status(201).json({ message: "Friend added successfully" });
+    } catch (error) {
+        console.error('Error adding friend:', error);
+        res.status(500).json({ error: "Could not add friend" });
+    }
+});
+
+app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
