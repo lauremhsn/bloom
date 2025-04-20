@@ -1,4 +1,10 @@
 let newPfp = null;
+export function setNewPfp(value) {
+    newPfp = value;
+}
+export function getNewPfp() {
+    return newPfp;
+}
 export function eventList() {
     document.addEventListener('DOMContentLoaded', () => {
         const editBtn = document.getElementById('editBtn');
@@ -54,6 +60,9 @@ export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nam
         nameLimit.textContent = `${editNameInput.value.length}/50`;
         editBox.style.display = 'flex';
     });
+    editNameInput.addEventListener('input', () => {
+        nameLimit.textContent = `${editNameInput.value.length}/50`;
+    });
 }
 
 export function saveButton(saveBtn, editNameInput, editExperienceInput, nameFr, experience, pfpMain, sidebarPfp, editBox) {
@@ -92,7 +101,7 @@ export function changes(fileInput, profilePicInput) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 profilePicInput.src = e.target.result;
-                newPfp = e.target.result;
+                setNewPfp(e.target.result);
             };
             reader.readAsDataURL(file);
         }
