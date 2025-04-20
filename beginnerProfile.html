@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+        rel="stylesheet">
     <title>Beginner Profile</title>
     <link rel="stylesheet" href="profile.css">
 </head>
+
 <body>
     <div class="container">
         <div class="sidebar">
@@ -39,7 +42,7 @@
                 <div class="profileAtt">
                     <h1 id="displayname">Some Name</h1> <!--Here are name, username, etc etc-->
                     <p id="username">@username</p>
-                    
+
 
                     <button id="editBtn" class="editButton">Edit</button>
                 </div>
@@ -50,14 +53,15 @@
                     <span id="closeEB" class="closeEB">&times;</span>
                     <h2>Edit Profile</h2>
                     <div class="editPfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput" onclick="document.getElementById('fileInput').click();">
+                        <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput"
+                            onclick="document.getElementById('fileInput').click();">
                         <span class="editPen">✏️</span>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
                     <label for="editName">Some Name</label>
                     <input id="editName" type="text" placeholder="Edit Name" maxlength="50">
                     <p id="nameLimit" class="charLimit">0/50</p>
-                
+
                     <button id="saveBtn" class="saveButton">Save</button>
                 </div>
             </div>
@@ -79,7 +83,7 @@
                         </a>
                     </div>
                     <div class="shelf"></div>
-                
+
                     <div class="shelfCont">
                         <a href="plants-grid.html">
                             <div class="plant">🌿</div>
@@ -108,6 +112,10 @@
         </div>
     </div>
 
-    <script src="profile.js"></script>
+    <script type="module">
+        import { eventList } from "./profile.js";
+        eventList();
+    </script>
 </body>
+
 </html>

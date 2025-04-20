@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+        rel="stylesheet">
     <title>Professional Profile</title>
     <link rel="stylesheet" href="profile.css">
 </head>
+
 <body>
     <div class="container">
         <div class="sidebar">
@@ -50,7 +53,8 @@
                     <span id="closeEB" class="closeEB">&times;</span>
                     <h2>Edit Profile</h2>
                     <div class="editPfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput" onclick="document.getElementById('fileInput').click();">
+                        <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput"
+                            onclick="document.getElementById('fileInput').click();">
                         <span class="editPen">✏️</span>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
@@ -59,7 +63,7 @@
                     <p id="nameLimit" class="charLimit">0/50</p>
                     <label for="editExperience">Years of Experience</label>
                     <input id="editExperience" type="number" placeholder="Enter experience" min="1">
-                
+
                     <button id="saveBtn" class="saveButton">Save</button>
                 </div>
             </div>
@@ -73,7 +77,7 @@
                         <div class="plant">🌵</div>
                     </div>
                     <div class="shelf"></div>
-                
+
                     <div class="shelfCont">
                         <div class="plant">🌿</div>
                         <div class="plant">🌷</div>
@@ -108,6 +112,12 @@
         </div>
     </div>
 
-    <script src="professionalProfile.js"></script>
+    <script type="module">
+        import { eventList, insertUsernameFromURL, getUsernameDOM } from "./professionalProfile.js";
+        eventList();
+        getUsernameFromURL();
+        insertUsernameDOM();
+    </script>
 </body>
+
 </html>

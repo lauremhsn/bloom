@@ -1,39 +1,49 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const editBtn = document.getElementById('editBtn');
-  const saveBtn = document.getElementById('saveBtn');
-  const editBox = document.getElementById('editBox');
-  const closeEB = document.getElementById('closeEB');
-  const nameFr = document.querySelector('.name');
-  const username = document.querySelector('.username');
-  const mission = document.querySelector('.mission');
-  const sidebarPfp = document.getElementById('sidebarPfp');
-  const pfpMain = document.querySelector('#mainPfp');
-  const profilePicInput = document.getElementById('profilePicInput');
-  const fileInput = document.getElementById('fileInput');
-  const editNameInput = document.getElementById('editName');
-  const editMissionInput = document.getElementById('editMission');
-  const nameLimit = document.getElementById('nameLimit');
-  const addPostBtn = document.getElementById('addPostBtn');
-  const postModal = document.getElementById('postModal');
-  const closePostModal = document.getElementById('closePostModal');
-  const submitPost = document.getElementById('submitPost');
-  const postText = document.getElementById('postText');
-  const postMedia = document.getElementById('postMedia');
-  const postList = document.getElementById('postList');
+let newPfp = null;
+export function eventList() {
+  document.addEventListener('DOMContentLoaded', () => {
+    const editBox = document.getElementById('editBox');
+    const nameLimit = document.getElementById('nameLimit');
+    const profilePicInput = document.getElementById('profilePicInput');
+    const editNameInput = document.getElementById('editName');
+    const editBtn = document.getElementById('editBtn');
+    const editMissionInput = document.getElementById('editMission');
+    const sidebarPfp = document.getElementById('sidebarPfp');
+    const saveBtn = document.getElementById('saveBtn');
+    const mission = document.querySelector('.mission');
+    const nameFr = document.querySelector('.name');
+    const pfpMain = document.querySelector('#mainPfp');
+    const closeEB = document.getElementById('closeEB');
+    const username = document.querySelector('.username');
+    const fileInput = document.getElementById('fileInput');
+    const addPostBtn = document.getElementById('addPostBtn');
+    const postModal = document.getElementById('postModal');
+    const closePostModal = document.getElementById('closePostModal');
+    const submitPost = document.getElementById('submitPost');
+    const postText = document.getElementById('postText');
+    const postMedia = document.getElementById('postMedia');
+    const postList = document.getElementById('postList');
+    editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit);
+    saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox);
+    exitButton(closeEB, editBox);
+    changes(fileInput, profilePicInput);
+    postRelated(addPostBtn, postModal, closePostModal);
+    postSubmission(submitPost, postMedia, postText, postList, postModal);
+  })
+}
 
-  let newPfp = null;
-
+export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit) {
   editBtn.addEventListener('click', () => {
     editNameInput.value = nameFr.textContent;
     profilePicInput.src = pfpMain.src;
     nameLimit.textContent = `${editNameInput.value.length}/50`;
     editBox.style.display = 'flex';
   });
-
   editNameInput.addEventListener('input', () => {
     nameLimit.textContent = `${editNameInput.value.length}/50`;
   });
+}
 
+export function saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox) {
   saveBtn.addEventListener('click', () => {
     const newName = editNameInput.value.trim();
     const newMission = editMissionInput.value.trim();
@@ -51,15 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     editBox.style.display = 'none';
   });
+}
 
+export function exitButton(closeEB, editBox) {
   closeEB.addEventListener('click', () => {
     editBox.style.display = 'none';
   });
   window.addEventListener('click', (event) => {
     if (event.target === editBox) {
       editBox.style.display = 'none';
-    } /*I need to add a wrapper fof the entire editBox thingy to do this so Im leaving it for later. Its not that important */
+    }
   });
+}
+
+export function changes(fileInput, profilePicInput) {
 
   fileInput.addEventListener('change', (event) => {
     let file = event.target.files[0];
@@ -72,7 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
       reader.readAsDataURL(file);
     }
   });
+}
 
+export function postRelated(addPostBtn, postModal, closePostModal) {
   addPostBtn.addEventListener('click', () => {
     postModal.style.display = 'flex';
   });
@@ -86,7 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
       postModal.style.display = 'none';
     }
   });
+}
 
+export function postSubmission(submitPost, postMedia, postText, postList, postModal) {
   submitPost.addEventListener('click', () => {
     const text = postText.value.trim();
     const file = postMedia.files[0];
@@ -126,4 +145,4 @@ document.addEventListener('DOMContentLoaded', () => {
     postMedia.value = "";
     postModal.style.display = 'none';
   });
-});
+}

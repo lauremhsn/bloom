@@ -1,87 +1,103 @@
-document.addEventListener('DOMContentLoaded', async() =>{
-    const editBtn = document.getElementById('editBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const editBox = document.getElementById('editBox');
-    const closeEB = document.getElementById('closeEB');
-    const displayname = document.getElementById('displayname');
-    const username = document.getElementById('username');
-    const sidebarPfp = document.getElementById('sidebarPfp');
-    const pfpMain = document.getElementById('mainPfp');
-    const profilePicInput = document.getElementById('profilePicInput');
-    const fileInput = document.getElementById('fileInput');
-    const editNameInput = document.getElementById('editName');
-    const nameLimit = document.getElementById('nameLimit');
-    const addPostBtn = document.getElementById('addPostBtn');
-    const postModal = document.getElementById('postModal');
-    const closePostModal = document.getElementById('closePostModal');
-    const submitPost = document.getElementById('submitPost');
-    const postText = document.getElementById('postText');
-    const postMedia = document.getElementById('postMedia');
-    const postList = document.getElementById('postList');
+let newPfp = null;
+export function eventList() {
+    document.addEventListener('DOMContentLoaded', async () => {
+        const editBtn = document.getElementById('editBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const editBox = document.getElementById('editBox');
+        const closeEB = document.getElementById('closeEB');
+        const displayname = document.getElementById('displayname');
+        const username = document.getElementById('username');
+        const sidebarPfp = document.getElementById('sidebarPfp');
+        const pfpMain = document.getElementById('mainPfp');
+        const profilePicInput = document.getElementById('profilePicInput');
+        const fileInput = document.getElementById('fileInput');
+        const editNameInput = document.getElementById('editName');
+        const nameLimit = document.getElementById('nameLimit');
+        const addPostBtn = document.getElementById('addPostBtn');
+        const postModal = document.getElementById('postModal');
+        const closePostModal = document.getElementById('closePostModal');
+        const submitPost = document.getElementById('submitPost');
+        const postText = document.getElementById('postText');
+        const postMedia = document.getElementById('postMedia');
+        const postList = document.getElementById('postList');
 
-    let newPfp = null;
 
-   
-    let accountType = localStorage.getItem("accountType"); // Update this dynamically if needed
-    let un = localStorage.getItem("username"); // Update this dynamically if needed
-    let dn = localStorage.getItem("displayname"); // Update this dynamically if needed
-    let pp = localStorage.getItem("profilePic"); // Update this dynamically if needed
-    
-    console.log(un);
-    console.log(dn);
-    console.log(pp);
-    
-    username.innerText = un;
-    displayname.innerText = dn;
-    pfpMain.src = `http://localhost:8000/getProfilePic/${pp}`;
-    sidebarPfp.src = `http://localhost:8000/getProfilePic/${pp}`;
+        let accountType = localStorage.getItem("accountType"); // Update this dynamically if needed
+        let un = localStorage.getItem("username"); // Update this dynamically if needed
+        let dn = localStorage.getItem("displayname"); // Update this dynamically if needed
+        let pp = localStorage.getItem("profilePic"); // Update this dynamically if needed
 
-    editBtn.addEventListener('click', () =>{
+        console.log(un);
+        console.log(dn);
+        console.log(pp);
+
+        username.innerText = un;
+        displayname.innerText = dn;
+        pfpMain.src = `http://localhost:8000/getProfilePic/${pp}`;
+        sidebarPfp.src = `http://localhost:8000/getProfilePic/${pp}`;
+        editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit);
+        saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox);
+        exitButton(closeEB, editBox);
+        changes(fileInput, profilePicInput);
+        postRelated(addPostBtn, postModal, closePostModal);
+        postSubmission(submitPost, postMedia, postText, postList, postModal);
+    })
+}
+
+export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, nameFr, editBox, nameLimit) {
+    editBtn.addEventListener('click', () => {
         editNameInput.value = nameFr.textContent;
         profilePicInput.src = pfpMain.src;
         nameLimit.textContent = `${editNameInput.value.length}/50`;
         editBox.style.display = 'flex';
     });
 
-    editNameInput.addEventListener('input', () =>{
+    editNameInput.addEventListener('input', () => {
         nameLimit.textContent = `${editNameInput.value.length}/50`;
     });
+}
 
-    saveBtn.addEventListener('click', () =>{
+export function saveButton(saveBtn, editNameInput, editMissionInput, nameFr, mission, pfpMain, sidebarPfp, editBox) {
+    saveBtn.addEventListener('click', () => {
         const newName = editNameInput.value.trim();
 
-        if (newName){
+        if (newName) {
             nameFr.textContent = newName;
         }
-        if (newPfp){
+        if (newPfp) {
             pfpMain.src = newPfp;
             sidebarPfp.src = newPfp;
         }
 
         editBox.style.display = 'none';
     });
+}
 
-    closeEB.addEventListener('click', () =>{
+export function exitButton(closeEB, editBox) {
+    closeEB.addEventListener('click', () => {
         editBox.style.display = 'none';
     });
-    window.addEventListener('click', (event) =>{
-        if (event.target === editBox){
+    window.addEventListener('click', (event) => {
+        if (event.target === editBox) {
             editBox.style.display = 'none';
-        } /*I need to add a wrapper fof the entire editBox thingy to do this so Im leaving it for later. Its not that important */
+        }
     });
+}
 
-    fileInput.addEventListener('change', (event) =>{
+export function changes(fileInput, profilePicInput) {
+    fileInput.addEventListener('change', (event) => {
         let file = event.target.files[0];
-        if (file){
+        if (file) {
             let reader = new FileReader();
-            reader.onload = function (e){
+            reader.onload = function (e) {
                 profilePicInput.src = e.target.result;
                 newPfp = e.target.result;
             };
             reader.readAsDataURL(file);
         }
     });
-
+}
+export function postRelated(addPostBtn, postModal, closePostModal) {
     addPostBtn.addEventListener('click', () => {
         postModal.style.display = 'flex';
     });
@@ -95,7 +111,9 @@ document.addEventListener('DOMContentLoaded', async() =>{
             postModal.style.display = 'none';
         }
     });
+}
 
+export function postSubmission(submitPost, postMedia, postText, postList, postModal) {
     submitPost.addEventListener('click', async () => {
         const text = postText.value.trim();
         const file = postMedia.files[0];
@@ -140,13 +158,13 @@ document.addEventListener('DOMContentLoaded', async() =>{
                 if (file) {
                     formData.append('file', file);
                 }
-        
+
                 try {
                     let response = await fetch('http://localhost:8000/addpost', {
                         method: 'POST',
                         body: formData
                     });
-        
+
                     //if (!response.ok) {
                     //const data = await response.json();
                     //    throw new Error(data.error);
@@ -164,13 +182,10 @@ document.addEventListener('DOMContentLoaded', async() =>{
 
 
         postList.prepend(post);
-    
+
         postText.value = "";
         postMedia.value = "";
         postModal.style.display = 'none';
 
     });
-
-    
-    
-});
+}
