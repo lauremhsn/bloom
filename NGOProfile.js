@@ -1,4 +1,10 @@
 let newPfp = null;
+export function setNewPfp(value) {
+  newPfp = value;
+}
+export function getNewPfp() {
+  return newPfp;
+}
 export function eventList() {
   document.addEventListener('DOMContentLoaded', () => {
     const editBox = document.getElementById('editBox');
@@ -82,7 +88,7 @@ export function changes(fileInput, profilePicInput) {
       let reader = new FileReader();
       reader.onload = function (e) {
         profilePicInput.src = e.target.result;
-        newPfp = e.target.result;
+        setNewPfp(e.target.result);
       };
       reader.readAsDataURL(file);
     }
