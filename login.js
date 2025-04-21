@@ -26,98 +26,100 @@ function resetForms() {
     document.getElementById("extraFields").innerHTML = "";
 }
 
-function signUp() {
-    document.getElementById('signupForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
+document.getElementById('signupForm').addEventListener('submit', async function (event) {        
+    event.preventDefault();
+    signUp(); 
+});
 
-        let errorMessage = document.getElementById('signupError');
-        let formData = new FormData(this); // Collects all input fields, including file uploads
+async function signUp() {
+    let errorMessage = document.getElementById('signupError');
+    let formData = new FormData(this); // Collects all input fields, including file uploads
 
 
-        console.log([...formData]); // Logs the form data (key-value pairs)
+    console.log([...formData]); // Logs the form data (key-value pairs)
 
 
-        try {
-            let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
-                method: 'POST',
-                body: formData
-            });
+    try {
+        let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
+            method: 'POST',
+            body: formData
+        });
 
-            console.log('API Response:', response);
-            let data = await response.json();
-            console.log('Response Data:', data);
-            if (!response.ok) {
-                throw new Error(data.error || "Signup failed");
-            }
-            localStorage.setItem("accountType", data.user.accounttype);
-            localStorage.setItem("username", data.user.username);
-            localStorage.setItem("displayname", data.user.displayname);
-            localStorage.setItem("profilepic", data.user.profilepic);
-            console.log(data.user.accounttype);
-            showSuccessMessage("Signup successful! Redirecting...", () => {
-                accountType = localStorage.getItem("accountType");
-                window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
-            });
-
-        } catch (error) {
-            errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
-            errorMessage.style.display = 'block';
+        console.log('API Response:', response);
+        let data = await response.json();
+        console.log('Response Data:', data);
+        if (!response.ok) {
+            throw new Error(data.error || "Signup failed");
         }
-    });
+        localStorage.setItem("accountType", data.user.accounttype);
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("displayname", data.user.displayname);
+        localStorage.setItem("profilepic", data.user.profilepic);
+        console.log(data.user.accounttype);
+        showSuccessMessage("Signup successful! Redirecting...", () => {
+            accountType = localStorage.getItem("accountType");
+            window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
+        });
+
+    } catch (error) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
+        errorMessage.style.display = 'block';
+    }
 }
+
 document.getElementById('loginForm').addEventListener('submit', async function (event) {        
     event.preventDefault();
     submission(); 
 });
 
 async function submission() {
-        let errorMessage = document.getElementById('loginError');
-        let email = document.getElementById('loginEmail').value.trim();
-        let password = document.getElementById('loginPass').value.trim();
+    let errorMessage = document.getElementById('loginError');
+    let email = document.getElementById('loginEmail').value.trim();
+    let password = document.getElementById('loginPass').value.trim();
 
-        if (!email || !password) {
-            errorMessage.innerHTML = `⚠️ <strong>Error:</strong> Please enter both email and password.`;
-            errorMessage.style.display = 'block';
-            return;
+    if (!email || !password) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> Please enter both email and password.`;
+        errorMessage.style.display = 'block';
+        return;
+    }
+
+    try {
+        let response = await fetch('https://bloom-zkk8.onrender.com/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+
+        let data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || "Login failed");
         }
 
-        try {
-            let response = await fetch('https://bloom-zkk8.onrender.com/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
 
-            let data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "Login failed");
-            }
+        localStorage.setItem('token', data.token); // Save token for authentication
+        localStorage.setItem("accountType", data.user.accounttype);
+        localStorage.setItem("username", data.user.username);
+        localStorage.setItem("displayname", data.user.displayname);
+        localStorage.setItem("profilepic", data.user.profilepic);
 
 
 
-            localStorage.setItem('token', data.token); // Save token for authentication
-            localStorage.setItem("accountType", data.user.accounttype);
-            localStorage.setItem("username", data.user.username);
-            localStorage.setItem("displayname", data.user.displayname);
-            localStorage.setItem("profilepic", data.user.profilepic);
+        console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
 
 
+        showSuccessMessage("Login successful! Redirecting...", () => {
+            accountType = localStorage.getItem("accountType");
+            console.log(data.user.accounttype);
+            window.location.href = `${accountType}Profile.html`;
+            // Redirect to the social feed page
+        });
 
-            console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
-
-
-            showSuccessMessage("Login successful! Redirecting...", () => {
-                accountType = localStorage.getItem("accountType");
-                console.log(data.user.accounttype);
-                window.location.href = `${accountType}Profile.html`;
-                // Redirect to the social feed page
-            });
-
-        } catch (error) {
-            errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
-            errorMessage.style.display = 'block';
-        }
+    } catch (error) {
+        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
+        errorMessage.style.display = 'block';
+    }
 }
 
 function showSuccessMessage(message, callback) {
