@@ -607,7 +607,7 @@ app.post('/add-friend', async (req, res) => {
     try {
       const searchQuery = `
         SELECT displayname, username, profilepic 
-        FROM users 
+        FROM "Users" 
         WHERE displayname ILIKE $1 OR username ILIKE $1
       `;
       const values = [`%${searchTerm}%`];
