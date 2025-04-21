@@ -81,36 +81,15 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         <div class="userInfo">
             <h1 class="name">${user.displayname}</h1>
             <p class="username">@${user.username}</p>
-            <button class="request-friend" data-user-id="${user.id}">Request Friend</button>
         </div>
       `;
       resultsContainer.appendChild(item);
-
-      document.querySelectorAll(".request-friend").forEach(button => {
-        button.addEventListener("click", async () => {
-          const user2_id = button.dataset.userId;
-          try {
-            const res = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
-            });
-            const result = await res.json();
-            alert(result.message || "Request sent!");
-          } catch (err) {
-            console.error("Request failed:", err);
-            alert("Something went wrong.");
-          }
-        });
-      });
-
     });
   } catch (err) {
     console.error('Search error:', err);
     resultsContainer.innerHTML = '<p>Error fetching results.</p>';
   }
 });
-  
   
 //accept/reject stuff
 const friendReqs = document.querySelectorAll('.friendReq');
