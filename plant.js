@@ -118,7 +118,7 @@ document.addEventListener("mousemove", (event) => {
         const canRect = wateringCan.getBoundingClientRect();
         const videoRect = plantVideo.getBoundingClientRect();
         const now = Date.now();
-        const maxDailyGrowth = 30.0; // limit: 3 seconds per day
+        const maxDailyGrowth = 300.0; // limit: 3 seconds per day
 
         if (
             canRect.left < videoRect.right &&
