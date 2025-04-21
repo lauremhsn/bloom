@@ -65,11 +65,12 @@ function signUp() {
         }
     });
 }
+document.getElementById('loginForm').addEventListener('submit', async function (event) {        
+    event.preventDefault();
+    submission(); 
+});
 
-function submission() {
-    document.getElementById('loginForm').addEventListener('submit', async function (event) {
-        event.preventDefault();
-
+async function submission() {
         let errorMessage = document.getElementById('loginError');
         let email = document.getElementById('loginEmail').value.trim();
         let password = document.getElementById('loginPass').value.trim();
@@ -117,7 +118,6 @@ function submission() {
             errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
             errorMessage.style.display = 'block';
         }
-    });
 }
 
 function showSuccessMessage(message, callback) {
