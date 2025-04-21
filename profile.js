@@ -103,7 +103,7 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             editBox.style.display = 'none';
     
             displayname.innerText = newName;
-            localStorage.setItem("displayname", imageUrl);
+            localStorage.setItem("displayname", newName);
             
             if (selectedFile) {
                 const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${data.newPfp}`;

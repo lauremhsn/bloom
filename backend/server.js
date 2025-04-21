@@ -250,7 +250,7 @@ app.post("/updateProfile/:username", upload.single('profilePic'), async(req,res)
         const newName = req.body.displayname;
         const newPfp = req.file ? req.file.filename : '';
 
-        console.log(newName, ' ' , newPfp)
+        console.log(newName, ' ' , newPfp);
 
         if (newName) {
             await db.query(`
@@ -258,7 +258,7 @@ app.post("/updateProfile/:username", upload.single('profilePic'), async(req,res)
                 SET displayname = $2
                 WHERE username = $1;
             `, [username, newName]);
-        }
+        };
 
         if (newPfp) {
             await db.query(`
@@ -266,7 +266,7 @@ app.post("/updateProfile/:username", upload.single('profilePic'), async(req,res)
                 SET profilepic = $2
                 WHERE username = $1;
             `, [username, newPfp]);
-        }
+        };
 
         res.status(200).json({ 
             message: "Profile updated succesfully",
