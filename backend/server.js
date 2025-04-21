@@ -601,12 +601,9 @@ app.post('/add-friend', async (req, res) => {
 
 
   app.get('/api/search-users', async (req, res) => {
-    const searchTerm = req.query.q || '';
+    const searchTerm = decodeURIComponent(req.query.q) || '';
     console.log('Received search query:', searchTerm);
-
-    searchTerm = decodeURIComponent(searchTerm);
-    console.log('Received decoded search query:', searchTerm);
-    
+   
     try {
       const searchQuery = `
         SELECT displayname, username, profilepic 
