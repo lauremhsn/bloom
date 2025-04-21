@@ -11,18 +11,29 @@
 
 // module.exports = db;
 
-const { Pool } = require("pg");
+// const { Pool } = require("pg");
+
+// const pool = new Pool({
+//     connectionString: "postgresql://bloomdb_owner:npg_mFru2Bs6CKSL@ep-rapid-feather-a24645qk-pooler.eu-central-1.aws.neon.tech/bloomdb?sslmode=require",
+//     ssl: {
+//         rejectUnauthorized: false, // Required for Neon cloud databases
+//     },
+// });
+
+// pool.connect()
+//     .then(() => console.log("Connected to Neon SQL!"))
+//     .catch((err) => console.error("Connection error:", err));
+
+// module.exports = pool;
+
+const { Pool } = require('@neondatabase/serverless');
+const { neonConfig } = require('@neondatabase/serverless');
+const { fetch } = require('undici');
+
+neonConfig.fetch = fetch;
 
 const pool = new Pool({
-    connectionString: "postgresql://bloomdb_owner:npg_mFru2Bs6CKSL@ep-rapid-feather-a24645qk-pooler.eu-central-1.aws.neon.tech/bloomdb?sslmode=require",
-    ssl: {
-        rejectUnauthorized: false, // Required for Neon cloud databases
-    },
+  connectionString: process.env.DATABASE_URL || "postgresql://bloomdb_owner:npg_mFru2Bs6CKSL@ep-rapid-feather-a24645qk-pooler.eu-central-1.aws.neon.tech/bloomdb?sslmode=require"
 });
 
-pool.connect()
-    .then(() => console.log("Connected to Neon SQL!"))
-    .catch((err) => console.error("Connection error:", err));
-
 module.exports = pool;
-
