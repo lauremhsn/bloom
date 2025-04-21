@@ -50,7 +50,7 @@ const searchBtn = document.getElementById('searchBtn');
     resultsContainer.innerHTML = '';
     resultsContainer.style.display = 'block';
   
-    const apiUrl = `https://bloomm-olel.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
+    const apiUrl = `https://bloom-zkk8.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
     console.log("Calling API:", apiUrl); // Debug log
   
     try {
