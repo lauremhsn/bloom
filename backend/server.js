@@ -606,9 +606,9 @@ app.post('/add-friend', async (req, res) => {
   
     try {
       const searchQuery = `
-        SELECT name, username, profile_pic 
+        SELECT displayname, username, profilepic 
         FROM users 
-        WHERE name ILIKE $1 OR username ILIKE $1
+        WHERE displayname ILIKE $1 OR username ILIKE $1
       `;
       const values = [`%${query}%`];
       const result = await db.query(searchQuery, values);
