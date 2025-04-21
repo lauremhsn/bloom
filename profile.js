@@ -69,6 +69,11 @@ export function saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebar
             const newName = editNameInput.value.trim();
 
             let username = localStorage.getItem("username");
+
+            console.log(username);
+            console.log(newName);
+            console.log(newPfp);
+
         
             let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${un}`, {
                 method: 'POST',

@@ -237,6 +237,8 @@ app.get("/getProfilePic/:filename", (req, res) => {
 app.post("/updateProfile/:username", async(req,res) => {
     try {
         const { username, newName, newPfp } = req.params;
+        console.log(req.params);
+        
         await db.query(`
             UPDATE "Users"
             SET displayname = $2, profilepic = $3
