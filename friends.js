@@ -4,7 +4,7 @@ const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
 
 
-
+const CURRENTuserID = localStorage.getItem("userID");
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
 //     searchResults.style.display = "block";
@@ -93,7 +93,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             const res = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user1_id: currentUserId, user2_id })
+              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
             });
             const result = await res.json();
             alert(result.message || "Request sent!");

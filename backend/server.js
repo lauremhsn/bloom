@@ -53,6 +53,15 @@ const upload = multer({ storage });
 // });
 
 
+app.get("/api/getCurrentUserId", (req, res) => {
+    if (!req.session || !req.session.user) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
+  
+    res.json({ id: req.session.user.id });
+  });
+
+
 app.post('/signup', upload.single('profilePic'), async (req, res) => {
     try {
         const { displayName, username, email, password, accountType } = req.body;
@@ -118,6 +127,7 @@ app.post('/login', async (req, res) => {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                     console.log(results.rows[0]);
                     res.json({ message: 'Login successful', token, user: results.rows[0] });
+                    
                    
                 };
             }
