@@ -75,7 +75,7 @@ export function saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebar
             console.log(newPfp);
 
         
-            let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${un}`, {
+            let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, newName, newPfp })
