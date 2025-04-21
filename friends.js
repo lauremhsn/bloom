@@ -71,11 +71,12 @@ const searchBtn = document.getElementById('searchBtn');
       }
   
       users.forEach(user => {
+        console.log(user);
         const item = document.createElement('div');
         item.className = 'searchResultItem';
         item.innerHTML = `
           <div class="thePfp">
-              <img src="${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+              <img src="https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
           </div>
           <div class="userInfo">
               <h1 class="name">${user.displayname}</h1>

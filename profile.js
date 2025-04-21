@@ -39,8 +39,8 @@ export function eventList() {
 
         username.innerText = un;
         displayname.innerText = dn;
-        pfpMain.src = `http://localhost:8000/getProfilePic/${pp}`;
-        sidebarPfp.src = `http://localhost:8000/getProfilePic/${pp}`;
+        pfpMain.src = `https://bloom-zkk8.onrender.com/api/getProfilePic/${pp}`;
+        sidebarPfp.src = `https://bloom-zkk8.onrender.com/api/getProfilePic/${pp}`;
         editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit);
         saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
