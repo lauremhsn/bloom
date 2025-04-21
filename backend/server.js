@@ -234,25 +234,22 @@ app.get("/getProfilePic/:filename", (req, res) => {
     res.sendFile(imagePath);
 });
 
-app.post("/updateProfile/:username", upload.single('pp'), async(req,res) => {
+app.post("/updateProfile/:username", upload.single('profilePic'), async(req,res) => {
     try {
         const  username = req.params.username;
-        const newName = req.body.nn;
+        const newName = req.body.displayname;
         const newPfp = req.file ? req.file.filename : '';
 
-        console.log("username: ", username);
-        console.log("newName: ", newName);
-        console.log("newPfp: ", newPfp);
 
         await db.query(`
             UPDATE "Users"
             SET displayname = $2, profilepic = $3
             WHERE username = $1;
-        `, [username, newName, newPfp]);
+        `, [username, displayname, profilePic]);
 
         res.status(200).json({ 
             message: "Profile updated succesfully",
-            newPfp
+            profilePic
         });
     }
     catch {

@@ -50,7 +50,7 @@ const searchBtn = document.getElementById('searchBtn');
     resultsContainer.innerHTML = '';
     resultsContainer.style.display = 'block';
   
-    const apiUrl = `https://bloom-zkk8.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
+    const apiUrl = `/api/search-users?q=${encodeURIComponent(query)}`;
     console.log("Calling API:", apiUrl); // Debug log
   
     try {
@@ -76,7 +76,7 @@ const searchBtn = document.getElementById('searchBtn');
         item.className = 'searchResultItem';
         item.innerHTML = `
           <div class="thePfp">
-              <img src="https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+              <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
           </div>
           <div class="userInfo">
               <h1 class="name">${user.displayname}</h1>

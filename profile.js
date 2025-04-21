@@ -52,8 +52,8 @@ export function eventList() {
 
         username.innerText = un;
         displayname.innerText = dn;
-        pfpMain.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
-        sidebarPfp.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
+        pfpMain.src = `/getProfilePic/${pp}`;
+        sidebarPfp.src = `/getProfilePic/${pp}`;
         editButton(editBtn, editName, profilePicInput, pfpMain, displayname, editBox, nameLimit);
         saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
@@ -83,13 +83,13 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             const username = localStorage.getItem("username");
     
             const formData = new FormData();
-            formData.append("nn", newName);
+            formData.append("displayname", newName);
     
             if (selectedFile) {
-                formData.append("pp", selectedFile); // the actual file object
+                formData.append("profilePic", selectedFile); // the actual file object
             }
     
-            const response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
+            const response = await fetch(`/updateProfile/${username}`, {
                 method: 'POST',
                 body: formData
             });
@@ -102,13 +102,16 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
     
             editBox.style.display = 'none';
     
+            displayname.innerText = newName;
+            localStorage.setItem("displayname", imageUrl);
+            
             if (selectedFile) {
                 const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${data.newPfp}`;
                 pfpMain.src = imageUrl;
                 sidebarPfp.src = imageUrl;
                 localStorage.setItem("profilepic", imageUrl);
             }
-    
+            
         } catch (err) {
             console.error('update profile error:', err);
         }
@@ -205,7 +208,7 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
                 }
 
                 try {
-                    let response = await fetch('http://localhost:8000/addpost', {
+                    let response = await fetch('/addpost', {
                         method: 'POST',
                         body: formData
                     });
