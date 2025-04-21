@@ -126,8 +126,6 @@ export function changes(fileInput, profilePicInput) {
             reader.onload = function (e) {
                 profilePicInput.src = e.target.result;
                 setNewPfp(e.target.result);
-                console.log("getNewPfp: ",getNewPfp());
-                console.log("newPfp: ",newPfp);
             };
             reader.readAsDataURL(file);
         }
