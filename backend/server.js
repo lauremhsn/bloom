@@ -598,25 +598,27 @@ app.post('/add-friend', async (req, res) => {
     }
 });
 
-app.get('/api/search-users', async (req, res) => {
+
+
+  app.get('/api/search-users', async (req, res) => {
     const query = req.query.q || '';
-    console.log(`Received search query: ${query}`);
+    console.log('Received search query:', query);
+  
     try {
       const searchQuery = `
-        SELECT displayname, username, profilepic 
+        SELECT name, username, profile_pic 
         FROM users 
         WHERE name ILIKE $1 OR username ILIKE $1
       `;
       const values = [`%${query}%`];
       const result = await db.query(searchQuery, values);
       res.json(result.rows);
-      console.log('Search result:', result.rows); 
     } catch (err) {
-      console.error('Error during search:', err);
-     
+      console.error('Search API error:', err);
       res.status(500).json({ error: 'Database query failed' });
     }
   });
+  
 
   
 
