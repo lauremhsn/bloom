@@ -255,7 +255,7 @@ app.post("/updateProfile/:username", upload.single('profilePic'), async(req,res)
             UPDATE "Users"
             SET displayname = $2, profilepic = $3
             WHERE username = $1;
-        `, [username, displayname, profilePic]);
+        `, [username, newName, newPfp]);
 
         res.status(200).json({ 
             message: "Profile updated succesfully",
@@ -673,4 +673,4 @@ app.post('/add-friend', async (req, res) => {
   
   
 
-app.listen(PORT, () => console.log(`Server running on https://bloom-zkk8.onrender.com`));
+app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
