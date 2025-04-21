@@ -1,17 +1,17 @@
-function showForm(ftype) {
+export function showForm(ftype) {
     document.getElementById('selectionBox').style.display = 'none';
     document.getElementById('loginForm').style.display = ftype === 'login' ? 'block' : 'none';
     document.getElementById('signupForm').style.display = ftype === 'signup' ? 'block' : 'none';
 }
 
-function showSelection() {
+export function showSelection() {
     document.getElementById('selectionBox').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('signupForm').style.display = 'none';
     resetForms();
 }
 
-function resetForms() {
+export function resetForms() {
     let allInputs = document.querySelectorAll("#signupForm input, #signupForm select, #signupForm textarea, #loginForm input");
     allInputs.forEach(input => {
         input.value = "";
@@ -26,7 +26,7 @@ function resetForms() {
     document.getElementById("extraFields").innerHTML = "";
 }
 
-function signUp() {
+export function signUp() {
     document.getElementById('signupForm').addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -66,7 +66,7 @@ function signUp() {
     });
 }
 
-function submission() {
+export function submission() {
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -120,7 +120,7 @@ function submission() {
     });
 }
 
-function showSuccessMessage(message, callback) {
+export function showSuccessMessage(message, callback) {
     let successBox = document.createElement('div');
     successBox.className = 'success-box';
     successBox.innerHTML = message;
@@ -132,7 +132,7 @@ function showSuccessMessage(message, callback) {
     }, 2000);
 }
 
-function changeAccountType() {
+export function changeAccountType() {
 
     document.getElementById('accountType').addEventListener('change', function () {
         let selectedType = this.value;
@@ -157,11 +157,3 @@ function changeAccountType() {
         }
     });
 }
-
-window.showForm = showForm;
-window.showSelection = showSelection;
-window.resetForms = resetForms;
-window.signUp = signUp;
-window.submission = submission;
-window.showSuccessMessage = showSuccessMessage;
-window.changeAccountType = changeAccountType;
