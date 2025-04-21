@@ -1,7 +1,7 @@
-export function showForm(type) {
+export function showForm(ftype) {
     document.getElementById('selectionBox').style.display = 'none';
-    document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
-    document.getElementById('signupForm').style.display = type === 'signup' ? 'block' : 'none';
+    document.getElementById('loginForm').style.display = ftype === 'login' ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = ftype === 'signup' ? 'block' : 'none';
 }
 
 export function showSelection() {
