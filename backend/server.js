@@ -601,16 +601,19 @@ app.post('/add-friend', async (req, res) => {
 
 
   app.get('/api/search-users', async (req, res) => {
-    const query = req.query.q || '';
-    console.log('Received search query:', query);
-  
+    const searchTerm = req.query.q || '';
+    console.log('Received search query:', searchTerm);
+
+    searchTerm = decodeURIComponent(searchTerm);
+    console.log('Received decoded search query:', searchTerm);
+    
     try {
       const searchQuery = `
         SELECT displayname, username, profilepic 
         FROM users 
         WHERE displayname ILIKE $1 OR username ILIKE $1
       `;
-      const values = [`%${query}%`];
+      const values = [`%${searchTerm}%`];
       const result = await db.query(searchQuery, values);
       res.json(result.rows);
     } catch (err) {
