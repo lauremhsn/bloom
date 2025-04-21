@@ -50,7 +50,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
   resultsContainer.innerHTML = '';
   resultsContainer.style.display = 'block';
 
-  const apiUrl = `/api/search-users?q=${encodeURIComponent(query)}`;
+  const apiUrl = `https://bloom-zkk8.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
   console.log("Calling API:", apiUrl); // Debug log
 
   try {
@@ -76,7 +76,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       item.className = 'searchResultItem';
       item.innerHTML = `
         <div class="thePfp">
-            <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+            <img src="https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
         </div>
         <div class="userInfo">
             <h1 class="name">${user.displayname}</h1>
@@ -90,6 +90,53 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     resultsContainer.innerHTML = '<p>Error fetching results.</p>';
   }
 });
+
+//  document.getElementById('searchBtn').addEventListener('click', async () => {
+//     const query = document.querySelector('.searchBar').value.trim();
+//     const resultsContainer = document.getElementById('searchResults');
+//     resultsContainer.innerHTML = '';
+//     resultsContainer.style.display = 'block';
+  
+//     const apiUrl = `/api/search-users?q=${encodeURIComponent(query)}`;
+//     console.log("Calling API:", apiUrl); // Debug log
+  
+//     try {
+//       const response = await fetch(apiUrl);
+  
+//       // Check if the endpoint exists
+//       if (!response.ok) {
+//         console.error(`API returned ${response.status}: ${response.statusText}`);
+//         resultsContainer.innerHTML = `<p>Error: ${response.statusText}</p>`;
+//         return;
+//       }
+  
+//       const users = await response.json();
+  
+//       if (!users.length) {
+//         resultsContainer.innerHTML = '<p>No users found.</p>';
+//         return;
+//       }
+  
+//       users.forEach(user => {
+//         console.log(user);
+//         const item = document.createElement('div');
+//         item.className = 'searchResultItem';
+//         item.innerHTML = `
+//           <div class="thePfp">
+//               <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+//           </div>
+//           <div class="userInfo">
+//               <h1 class="name">${user.displayname}</h1>
+//               <p class="username">@${user.username}</p>
+//           </div>
+//         `;
+//         resultsContainer.appendChild(item);
+//       });
+//     } catch (err) {
+//       console.error('Search error:', err);
+//       resultsContainer.innerHTML = '<p>Error fetching results.</p>';
+//     }
+//   });
   
 //accept/reject stuff
 const friendReqs = document.querySelectorAll('.friendReq');

@@ -652,6 +652,7 @@ app.post('/add-friend', async (req, res) => {
     }
   });
   
+  
 
   app.post('/sendFriendRequest', async (req, res) => {
     const { user1_id, user2_id } = req.body;
@@ -672,4 +673,4 @@ app.post('/add-friend', async (req, res) => {
   
   
 
-app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
+app.listen(PORT, () => console.log(`Server running on https://bloom-zkk8.onrender.com`));

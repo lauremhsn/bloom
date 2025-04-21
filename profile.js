@@ -52,8 +52,8 @@ export function eventList() {
 
         username.innerText = un;
         displayname.innerText = dn;
-        pfpMain.src = `/getProfilePic/${pp}`;
-        sidebarPfp.src = `/getProfilePic/${pp}`;
+        pfpMain.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
+        sidebarPfp.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
         editButton(editBtn, editName, profilePicInput, pfpMain, displayname, editBox, nameLimit);
         saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
@@ -89,7 +89,7 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
                 formData.append("profilePic", selectedFile); // the actual file object
             }
     
-            const response = await fetch(`/updateProfile/${username}`, {
+            const response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
                 method: 'POST',
                 body: formData
             });
@@ -208,7 +208,7 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
                 }
 
                 try {
-                    let response = await fetch('/addpost', {
+                    let response = await fetch('https://bloom-zkk8.onrender.com/addpost', {
                         method: 'POST',
                         body: formData
                     });
