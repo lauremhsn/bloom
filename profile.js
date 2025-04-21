@@ -74,8 +74,8 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             console.log("newName: ", newName);
             console.log("newPfp: ", newPfp);
 
-            nn = '';
-            pp = '';
+            let nn = '';
+            let pp = '';
 
             if (newName) {
                 displayname.textContent = newName;
