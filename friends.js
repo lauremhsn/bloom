@@ -75,10 +75,10 @@ const searchBtn = document.getElementById('searchBtn');
         item.className = 'searchResultItem';
         item.innerHTML = `
           <div class="thePfp">
-              <img src="${user.profile_pic || 'profile.jpg'}" alt="Profile Picture">
+              <img src="${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
           </div>
           <div class="userInfo">
-              <h1 class="name">${user.name}</h1>
+              <h1 class="name">${user.displayname}</h1>
               <p class="username">@${user.username}</p>
           </div>
         `;
