@@ -6,14 +6,14 @@ const searchBtn = document.getElementById('searchBtn');
 
 
 //search bar stuff
-searchInput.addEventListener('focus', () => {
-    searchResults.style.display = "block";
-});
-document.addEventListener('click', (event) => {
-    if (!searchInput.contains(event.target) && !searchResults.contains(event.target)){
-        searchResults.style.display = "none";
-    }
-});
+// searchInput.addEventListener('focus', () => {
+//     searchResults.style.display = "block";
+// });
+// document.addEventListener('click', (event) => {
+//     if (!searchInput.contains(event.target) && !searchResults.contains(event.target)){
+//         searchResults.style.display = "none";
+//     }
+// });
 /*searchInput.addEventListener('input', () => {
     const searchTerm = searchInput.value.toLowerCase();
     searchResultItems.forEach(item => {
@@ -29,21 +29,55 @@ document.addEventListener('click', (event) => {
 });*/ 
 //That was in case I wanna remove the search button fr
 
-searchBtn.addEventListener('click', () => {
-    event.stopPropagation();
-    const searchTerm = searchInput.value.toLowerCase();
-    searchResultItems.forEach(item => {
-        const name = item.querySelector('.name').textContent.toLowerCase();
-        const username = item.querySelector('.username').textContent.toLowerCase();
-        if (name.includes(searchTerm) || username.includes(searchTerm)){
-            item.style.display = "flex";
-        }
-        else{
-            item.style.display = "none";
-        }
-    });
-});
-
+// searchBtn.addEventListener('click', () => {
+//     event.stopPropagation();
+//     const searchTerm = searchInput.value.toLowerCase();
+//     searchResultItems.forEach(item => {
+//         const name = item.querySelector('.name').textContent.toLowerCase();
+//         const username = item.querySelector('.username').textContent.toLowerCase();
+//         if (name.includes(searchTerm) || username.includes(searchTerm)){
+//             item.style.display = "flex";
+//         }
+//         else{
+//             item.style.display = "none";
+//         }
+//     });
+// });
+document.getElementById('searchBtn').addEventListener('click', async () => {
+    const query = document.querySelector('.searchBar').value.trim();
+    const resultsContainer = document.getElementById('searchResults');
+    resultsContainer.innerHTML = '';
+    resultsContainer.style.display = 'block';
+  
+    try {
+        const response = await fetch(`https://bloomm-olel.onrender.com/api/search-users?q=${encodeURIComponent(query)}`);
+      const users = await response.json();
+  
+      if (users.length === 0) {
+        resultsContainer.innerHTML = '<p>No users found.</p>';
+        return;
+      }
+  
+      users.forEach(user => {
+        const item = document.createElement('div');
+        item.className = 'searchResultItem';
+        item.innerHTML = `
+          <div class="thePfp">
+              <img src="${user.profile_pic || 'profile.jpg'}" alt="Profile Picture">
+          </div>
+          <div class="userInfo">
+              <h1 class="name">${user.name}</h1>
+              <p class="username">@${user.username}</p>
+          </div>
+        `;
+        resultsContainer.appendChild(item);
+      });
+    } catch (err) {
+      console.error('Search error:', err);
+      resultsContainer.innerHTML = '<p>Error fetching results.</p>';
+    }
+  });
+  
 //accept/reject stuff
 const friendReqs = document.querySelectorAll('.friendReq');
 friendReqs.forEach(friendReq => {
