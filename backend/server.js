@@ -250,7 +250,10 @@ app.post("/updateProfile/:username", upload.single('pp'), async(req,res) => {
             WHERE username = $1;
         `, [username, newName, newPfp]);
 
-        res.status(200).json({ message: "Profile updated succesfully" });
+        res.status(200).json({ 
+            message: "Profile updated succesfully",
+            newPfp
+        });
     }
     catch {
         res.status(500).json({ error: 'Failed to update profile' });

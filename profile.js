@@ -1,4 +1,17 @@
 let newPfp = null;
+let selectedFile = null;
+
+fileInput.addEventListener('change', (event) => {
+    selectedFile = event.target.files[0];
+    if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            profilePicInput.src = e.target.result;
+        };
+        reader.readAsDataURL(selectedFile);
+    }
+});
+
 export function setNewPfp(value) {
     newPfp = value;
 }
@@ -67,54 +80,37 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
     saveBtn.addEventListener('click', async () => {
         try {
             const newName = editName.value.trim();
-
-            let username = localStorage.getItem("username");
-
-            console.log(username);
-            console.log("newName: ", newName);
-            console.log("newPfp: ", newPfp);
-
-            let nn = '';
-            let pp = '';
-
-            if (newName) {
-                displayname.textContent = newName;
-                nn = newName;
+            const username = localStorage.getItem("username");
+    
+            const formData = new FormData();
+            formData.append("nn", newName);
+    
+            if (selectedFile) {
+                formData.append("pp", selectedFile); // the actual file object
             }
-            if (newPfp) {
-                pfpMain.src = newPfp;
-                sidebarPfp.src = newPfp;
-                pp = newPfp
-                console.log("pp: ", pp);
-            }
-
-            let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
+    
+            const response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, nn, pp })
+                body: formData
             });
     
-            let data = await response.json();
-            
+            const data = await response.json();
+    
             if (!response.ok) {
-                throw new Error(data.error || "Update profile failed successfully");
+                throw new Error(data.error || "Update profile failed");
             }
-
-            editBox.style.display = 'none';    
-        }
-        catch(err) {
-            console.error('update profile error:', err);
-        }
-    });
-}
-
-export function exitButton(closeEB, editBox) {
-    closeEB.addEventListener('click', () => {
-        editBox.style.display = 'none';
-    });
-    window.addEventListener('click', (event) => {
-        if (event.target === editBox) {
+    
             editBox.style.display = 'none';
+    
+            if (selectedFile) {
+                const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${data.newPfp}`;
+                pfpMain.src = imageUrl;
+                sidebarPfp.src = imageUrl;
+                localStorage.setItem("profilepic", imageUrl);
+            }
+    
+        } catch (err) {
+            console.error('update profile error:', err);
         }
     });
 }
@@ -134,6 +130,18 @@ export function changes(fileInput, profilePicInput) {
         }
     });
 }
+
+export function exitButton(closeEB, editBox) {
+    closeEB.addEventListener('click', () => {
+        editBox.style.display = 'none';
+    });
+    window.addEventListener('click', (event) => {
+        if (event.target === editBox) {
+            editBox.style.display = 'none';
+        }
+    });
+}
+
 export function postRelated(addPostBtn, postModal, closePostModal) {
     addPostBtn.addEventListener('click', () => {
         postModal.style.display = 'flex';
