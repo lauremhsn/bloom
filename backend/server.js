@@ -53,6 +53,15 @@ const upload = multer({ storage });
 // });
 
 
+app.get("/api/getCurrentUserId", (req, res) => {
+    if (!req.session || !req.session.user) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
+  
+    res.json({ id: req.session.user.id });
+  });
+
+
 app.post('/signup', upload.single('profilePic'), async (req, res) => {
     try {
         const { displayName, username, email, password, accountType } = req.body;
@@ -118,6 +127,7 @@ app.post('/login', async (req, res) => {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                     console.log(results.rows[0]);
                     res.json({ message: 'Login successful', token, user: results.rows[0] });
+                    
                    
                 };
             }
@@ -643,6 +653,23 @@ app.post('/add-friend', async (req, res) => {
   });
   
 
+  app.post('/sendFriendRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query(
+        `INSERT INTO "FriendsREQUESTS" (user1_id, user2_id)
+         VALUES ($1, $2)
+         ON CONFLICT DO NOTHING`,  
+        [user1_id, user2_id]
+      );
+      res.status(200).json({ message: 'Friend request sent!' });
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+      res.status(500).json({ error: 'Could not send friend request.' });
+    }
+  });
+  
   
 
 app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));

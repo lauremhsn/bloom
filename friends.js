@@ -4,7 +4,7 @@ const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
 
 
-
+const CURRENTuserID = localStorage.getItem("userID");
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
 //     searchResults.style.display = "block";
@@ -44,52 +44,72 @@ const searchBtn = document.getElementById('searchBtn');
 //     });
 // });
 
-  document.getElementById('searchBtn').addEventListener('click', async () => {
-    const query = document.querySelector('.searchBar').value.trim();
-    const resultsContainer = document.getElementById('searchResults');
-    resultsContainer.innerHTML = '';
-    resultsContainer.style.display = 'block';
-  
-    const apiUrl = `/api/search-users?q=${encodeURIComponent(query)}`;
-    console.log("Calling API:", apiUrl); // Debug log
-  
-    try {
-      const response = await fetch(apiUrl);
-  
-      // Check if the endpoint exists
-      if (!response.ok) {
-        console.error(`API returned ${response.status}: ${response.statusText}`);
-        resultsContainer.innerHTML = `<p>Error: ${response.statusText}</p>`;
-        return;
-      }
-  
-      const users = await response.json();
-  
-      if (!users.length) {
-        resultsContainer.innerHTML = '<p>No users found.</p>';
-        return;
-      }
-  
-      users.forEach(user => {
-        console.log(user);
-        const item = document.createElement('div');
-        item.className = 'searchResultItem';
-        item.innerHTML = `
-          <div class="thePfp">
-              <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
-          </div>
-          <div class="userInfo">
-              <h1 class="name">${user.displayname}</h1>
-              <p class="username">@${user.username}</p>
-          </div>
-        `;
-        resultsContainer.appendChild(item);
-      });
-    } catch (err) {
-      console.error('Search error:', err);
-      resultsContainer.innerHTML = '<p>Error fetching results.</p>';
+document.getElementById('searchBtn').addEventListener('click', async () => {
+  const query = document.querySelector('.searchBar').value.trim();
+  const resultsContainer = document.getElementById('searchResults');
+  resultsContainer.innerHTML = '';
+  resultsContainer.style.display = 'block';
+
+  const apiUrl = `/api/search-users?q=${encodeURIComponent(query)}`;
+  console.log("Calling API:", apiUrl); // Debug log
+
+  try {
+    const response = await fetch(apiUrl);
+
+    // Check if the endpoint exists
+    if (!response.ok) {
+      console.error(`API returned ${response.status}: ${response.statusText}`);
+      resultsContainer.innerHTML = `<p>Error: ${response.statusText}</p>`;
+      return;
     }
-  });
+
+    const users = await response.json();
+
+    if (!users.length) {
+      resultsContainer.innerHTML = '<p>No users found.</p>';
+      return;
+    }
+
+    users.forEach(user => {
+      console.log(user);
+      const item = document.createElement('div');
+      item.className = 'searchResultItem';
+      item.innerHTML = `
+        <div class="thePfp">
+            <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+        </div>
+        <div class="userInfo">
+            <h1 class="name">${user.displayname}</h1>
+            <p class="username">@${user.username}</p>
+            <button class="request-friend" data-user-id="${user.id}">Request Friend</button>
+        </div>
+      `;
+      resultsContainer.appendChild(item);
+
+      document.querySelectorAll(".request-friend").forEach(button => {
+        button.addEventListener("click", async () => {
+          const user2_id = button.dataset.userId;
+          try {
+            const res = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+            });
+            const result = await res.json();
+            alert(result.message || "Request sent!");
+          } catch (err) {
+            console.error("Request failed:", err);
+            alert("Something went wrong.");
+          }
+        });
+      });
+
+    });
+  } catch (err) {
+    console.error('Search error:', err);
+    resultsContainer.innerHTML = '<p>Error fetching results.</p>';
+  }
+});
   
   
 //accept/reject stuff
