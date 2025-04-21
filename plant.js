@@ -9,7 +9,7 @@ document.body.appendChild(streakDisplay);
 
 
 let streakData = JSON.parse(localStorage.getItem("plantStreak")) || { 
-    streak: 0, lastDate: null , dailyGrowth: 0, dead: false};
+    streak: 0, lastDate: null , dailyGrowth: 0, dead: false, missedDays:0 };
 let isDragging = false;
 let offsetX = 0, offsetY = 0;
 let lastUpdate = 0;
@@ -22,6 +22,12 @@ let trimmed = false;
 function updateStreak() {
     const today = new Date().toDateString();
 
+    if (!streakData.lastDate) {
+        streakData.lastDate = today;
+        localStorage.setItem("plantStreak", JSON.stringify(streakData));
+        return;
+    }
+
     if (streakData.lastDate === today) return;
 
     const lastInteractionDate = new Date(streakData.lastDate);
@@ -29,15 +35,22 @@ function updateStreak() {
 
     if (difference === 1) {
         streakData.streak++;
+        streakData.missedDays = 0;
     } else if (difference > 1 && difference < 3) {
         streakData.streak = 1;
-    } else if (true) {
+        streakData.missedDays += 1;
+    } else if (difference >= 3) {
+        streakData.streak = 1;
+        streakData.missedDays += Math.floor(difference);
+    }
+
+    if (streakData.missedDays >= 3) {
         handlePlantDeath();
         return;
     }
 
-    streakData.lastDate = today;
     streakData.dailyGrowth = 0;
+    streakData.lastDate = today;
     localStorage.setItem("plantStreak", JSON.stringify(streakData));
     displayStreak();
 }
@@ -72,6 +85,7 @@ function showRestartButton() {
         streakData.streak = 1;
         streakData.lastDate = new Date().toDateString();
         streakData.dailyGrowth = 0;
+        streakData.missedDays =0;
         localStorage.setItem("plantStreak", JSON.stringify(streakData));
     
         plantVideo.src = "plant1.mp4";
@@ -119,6 +133,7 @@ document.addEventListener("mousemove", (event) => {
                 streakData.dailyGrowth += growAmount;
                 lastUpdate = now;
 
+                progress = plantVideo.currentTime;
                 localStorage.setItem("plantStreak", JSON.stringify(streakData));
             }
         }

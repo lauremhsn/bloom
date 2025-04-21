@@ -116,6 +116,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
               body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
             });
             const result = await res.json();
+            console.log(result);
             alert(result.message || "Request sent!");
             button.innerHTML=`Requested!`
           } catch (err) {
