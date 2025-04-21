@@ -17,7 +17,7 @@ export function eventList() {
         const pfpMain = document.getElementById('mainPfp');
         const profilePicInput = document.getElementById('profilePicInput');
         const fileInput = document.getElementById('fileInput');
-        const editNameInput = document.getElementById('editName');
+        const editName = document.getElementById('editName');
         const nameLimit = document.getElementById('nameLimit');
         const addPostBtn = document.getElementById('addPostBtn');
         const postModal = document.getElementById('postModal');
@@ -41,8 +41,8 @@ export function eventList() {
         displayname.innerText = dn;
         pfpMain.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
         sidebarPfp.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
-        editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit);
-        saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox);
+        editButton(editBtn, editName, profilePicInput, pfpMain, displayname, editBox, nameLimit);
+        saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
         changes(fileInput, profilePicInput);
         postRelated(addPostBtn, postModal, closePostModal);
@@ -50,29 +50,29 @@ export function eventList() {
     })
 }
 
-export function editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit) {
+export function editButton(editBtn, editName, profilePicInput, pfpMain, displayname, editBox, nameLimit) {
     editBtn.addEventListener('click', () => {
-        editNameInput.value = displayname.textContent;
+        editName.value = displayname.textContent;
         profilePicInput.src = pfpMain.src;
-        nameLimit.textContent = `${editNameInput.value.length}/50`;
+        nameLimit.textContent = `${editName.value.length}/50`;
         editBox.style.display = 'flex';
     });
 
-    editNameInput.addEventListener('input', () => {
-        nameLimit.textContent = `${editNameInput.value.length}/50`;
+    editName.addEventListener('input', () => {
+        nameLimit.textContent = `${editName.value.length}/50`;
     });
 }
 
-export function saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox) {
+export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, editBox) {
     saveBtn.addEventListener('click', async () => {
         try {
-            const newName = editNameInput.value.trim();
+            const newName = editName.value.trim();
 
             let username = localStorage.getItem("username");
 
             console.log(username);
-            console.log(newName);
-            console.log(newPfp);
+            console.log("newname: ", newName);
+            console.log("newPfp: ", newPfp);
 
         
             let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
@@ -124,6 +124,8 @@ export function changes(fileInput, profilePicInput) {
             reader.onload = function (e) {
                 profilePicInput.src = e.target.result;
                 setNewPfp(e.target.result);
+                console.log("getNewPfp: ",getNewPfp);
+                console.log("newPfp: ",newPfp);
             };
             reader.readAsDataURL(file);
         }
