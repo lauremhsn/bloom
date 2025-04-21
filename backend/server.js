@@ -646,6 +646,23 @@ app.post('/add-friend', async (req, res) => {
   });
   
 
+  app.post('/sendFriendRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query(
+        `INSERT INTO "FriendsREQUESTS" (user1_id, user2_id)
+         VALUES ($1, $2)
+         ON CONFLICT DO NOTHING`,  
+        [user1_id, user2_id]
+      );
+      res.status(200).json({ message: 'Friend request sent!' });
+    } catch (error) {
+      console.error('Error sending friend request:', error);
+      res.status(500).json({ error: 'Could not send friend request.' });
+    }
+  });
+  
   
 
 app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
