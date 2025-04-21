@@ -106,10 +106,12 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             localStorage.setItem("displayname", newName);
             
             if (selectedFile) {
-                const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${data.newPfp}`;
+                const filename = data.newPfp;
+                const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${filename}`;
+
                 pfpMain.src = imageUrl;
                 sidebarPfp.src = imageUrl;
-                localStorage.setItem("profilepic", imageUrl);
+                localStorage.setItem("profilepic", filename);
             }
             
         } catch (err) {
