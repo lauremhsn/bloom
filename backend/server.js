@@ -664,17 +664,22 @@ app.post('/add-friend', async (req, res) => {
   });
   
   
-
   app.post('/sendFriendRequest', async (req, res) => {
     const { user1_id, user2_id } = req.body;
+    console.log("Received friend request:", { user1_id, user2_id });
   
     try {
-      await db.query(
+      const result = await db.query(
         `INSERT INTO "FriendsREQUESTS" (user1_id, user2_id)
          VALUES ($1, $2)
-         ON CONFLICT DO NOTHING`,  
+         ON CONFLICT DO NOTHING`,
         [user1_id, user2_id]
       );
+  
+      if (result.rowCount === 0) {
+        return res.status(200).json({ message: 'Friend request already sent!' });
+      }
+  
       res.status(200).json({ message: 'Friend request sent!' });
     } catch (error) {
       console.error('Error sending friend request:', error);
@@ -682,6 +687,117 @@ app.post('/add-friend', async (req, res) => {
     }
   });
   
+
+
+  app.post('/acceptFriendRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
   
+    try {
+      await db.query('BEGIN');
+  
+      await db.query(
+        `DELETE FROM "FriendsREQUESTS" 
+         WHERE user1_id = $1 AND user2_id = $2`,
+        [user1_id, user2_id]
+      );
+  
+      await db.query(
+        `INSERT INTO "Friends" (friend1_id, friend2_id) 
+         VALUES ($1, $2) 
+         ON CONFLICT DO NOTHING`,
+        [user1_id, user2_id]
+      );
+  
+      await db.query('COMMIT');
+      res.status(200).json({ message: 'Friend request accepted!' });
+    } catch (err) {
+      await db.query('ROLLBACK');
+      console.error('Error accepting friend request:', err);
+      res.status(500).json({ error: 'Could not accept friend request.' });
+    }
+  });
+
+  
+  app.post('/rejectFriendRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query(
+        `DELETE FROM "FriendsREQUESTS" 
+         WHERE user1_id = $1 AND user2_id = $2`,
+        [user1_id, user2_id]
+      );
+  
+      res.status(200).json({ message: 'Friend request rejected!' });
+    } catch (err) {
+      console.error('Error rejecting friend request:', err);
+      res.status(500).json({ error: 'Could not reject friend request.' });
+    }
+  });
+  
+
+  app.post('/sendCollabRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query(
+        `INSERT INTO "CollabREQUESTS" (user1_id, user2_id)
+         VALUES ($1, $2)
+         ON CONFLICT DO NOTHING`,  
+        [user1_id, user2_id]
+      );
+      res.status(200).json({ message: 'Collab request sent!' });
+    } catch (error) {
+      console.error('Error sending collab request:', error);
+      res.status(500).json({ error: 'Could not send collab request.' });
+    }
+  });
+
+  app.post('/acceptFriendRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query('BEGIN');
+  
+      await db.query(
+        `DELETE FROM "CollabREQUESTS" 
+         WHERE user1_id = $1 AND user2_id = $2`,
+        [user1_id, user2_id]
+      );
+  
+      await db.query(
+        `INSERT INTO "Collaborations" (user1_id, user2_id, plant_id) 
+         VALUES ($1, $2) 
+         ON CONFLICT DO NOTHING`,
+        [user1_id, user2_id]
+      );
+  
+      await db.query('COMMIT');
+      res.status(200).json({ message: 'collab request accepted!' });
+    } catch (err) {
+      await db.query('ROLLBACK');
+      console.error('Error accepting collab request:', err);
+      res.status(500).json({ error: 'Could not accept collab request.' });
+    }
+  });
+
+
+  app.post('/rejectCollabRequest', async (req, res) => {
+    const { user1_id, user2_id } = req.body;
+  
+    try {
+      await db.query(
+        `DELETE FROM "CollabREQUESTS" 
+         WHERE user1_id = $1 AND user2_id = $2`,
+        [user1_id, user2_id]
+      );
+  
+      res.status(200).json({ message: 'Collab request rejected!' });
+    } catch (err) {
+      console.error('Error rejecting collab request:', err);
+      res.status(500).json({ error: 'Could not reject collab request.' });
+    }
+  });
+
 
 app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
