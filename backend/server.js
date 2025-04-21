@@ -234,11 +234,16 @@ app.get("/getProfilePic/:filename", (req, res) => {
     res.sendFile(imagePath);
 });
 
-app.post("/updateProfile/:username", async(req,res) => {
+app.post("/updateProfile/:username",upload.single('newPfp'), async(req,res) => {
     try {
-        const { username, newName, newPfp } = req.params;
-        console.log(req.params);
-        
+        const  username = req.arams.username;
+        const newName = req.params.newName;
+        const newPfp = req.file ? req.file.filename : '';
+
+        console.log("username: ", username);
+        console.log("newName: ", newName);
+        console.log("newPfp: ", newPfp);
+
         await db.query(`
             UPDATE "Users"
             SET displayname = $2, profilepic = $3

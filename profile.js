@@ -71,7 +71,7 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             let username = localStorage.getItem("username");
 
             console.log(username);
-            console.log("newname: ", newName);
+            console.log("newName: ", newName);
             console.log("newPfp: ", newPfp);
 
         
@@ -124,7 +124,7 @@ export function changes(fileInput, profilePicInput) {
             reader.onload = function (e) {
                 profilePicInput.src = e.target.result;
                 setNewPfp(e.target.result);
-                console.log("getNewPfp: ",getNewPfp);
+                console.log("getNewPfp: ",getNewPfp());
                 console.log("newPfp: ",newPfp);
             };
             reader.readAsDataURL(file);
