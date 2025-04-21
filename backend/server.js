@@ -234,6 +234,22 @@ app.get("/getProfilePic/:filename", (req, res) => {
     res.sendFile(imagePath);
 });
 
+app.post("/updateProfile/:username", async(req,res) => {
+    try {
+        const { username, displayname, profilepic } = req.params;
+        await db.query(`
+            UPDATE "Users"
+            SET displayname = $1, profilepic = $2
+            WHERE username = $3;
+        `, [displayname, profilepic, username]);
+
+        res.status(200).json({ message: "Profile updated succesfully" });
+    }
+    catch {
+        res.status(500).json({ error: 'Failed to update profile' });
+    }
+});
+
 app.post('/save-plant-progress', async (req, res) => {
     try {
         const { token, plantStage } = req.body;
