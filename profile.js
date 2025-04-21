@@ -31,7 +31,7 @@ export function eventList() {
         let accountType = localStorage.getItem("accountType"); // Update this dynamically if needed
         let un = localStorage.getItem("username"); // Update this dynamically if needed
         let dn = localStorage.getItem("displayname"); // Update this dynamically if needed
-        let pp = localStorage.getItem("profilePic"); // Update this dynamically if needed
+        let pp = localStorage.getItem("profilepic"); // Update this dynamically if needed
 
         console.log(un);
         console.log(dn);
@@ -39,8 +39,8 @@ export function eventList() {
 
         username.innerText = un;
         displayname.innerText = dn;
-        pfpMain.src = `https://bloom-zkk8.onrender.com/api/getProfilePic/${pp}`;
-        sidebarPfp.src = `https://bloom-zkk8.onrender.com/api/getProfilePic/${pp}`;
+        pfpMain.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
+        sidebarPfp.src = `https://bloom-zkk8.onrender.com/getProfilePic/${pp}`;
         editButton(editBtn, editNameInput, profilePicInput, pfpMain, displayname, editBox, nameLimit);
         saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebarPfp, editBox);
         exitButton(closeEB, editBox);
