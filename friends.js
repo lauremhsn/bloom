@@ -188,11 +188,18 @@ acceptBtn.addEventListener('click', async (event) => {
     const res = await fetch("https://bloom-zkk8.onrender.com/acceptCollabRequest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+      body: JSON.stringify({ user1_id: CURRENTuserID, user2_id: user2_id , plant_id})
     });
     const result = await res.json();
-    alert(result.message || "Accepted!");
+    alert("Accepted!");
+    if (result.message === 'Collaboration accepted and plant shared successfully') {
+      
+        console.log('Collaboration accepted, both users are now sharing the same plant!');
+        await getPlantProgress(); }
+      else { console.error('Failed to accept collaboration.');}
+
     collabReq.remove();
+
   } catch (err) {
     console.error("Accept failed:", err);
     alert("Could not accept collab request.");

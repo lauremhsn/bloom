@@ -535,13 +535,25 @@ app.post('/acceptCollabRequest', async(req,res) => {
     const { user1_id , user2_id, plant_id} = req.body;
 
     try{
-        await db.query(
-            `INSERT INTO "Collaborations" (user1_id, user2_id, plant_id)
-            VALUES ($1, $2, $3)`
-            , [user1_id, user2_id, plant_id]);
+        const query = `
+        INSERT INTO "Collaborations" ("user1_id", "user2_id", "plant_id")
+        VALUES ($1, $2, $3)
+        RETURNING *;
+    `;
+    const values = [user1_id, user2_id, plant_id];
+    const { rows } = await db.query(query, values);
 
-        res.status(200).json({message: 'Collaboration accepted.'});
-    } catch(error) {
+    const updateQuery = `
+        UPDATE "Plants"
+        SET user2_id = $1
+        WHERE id = $2
+        RETURNING *;
+    `;
+    await db.query(updateQuery, [user2_id, plant_id]);
+
+    res.status(200).json({ message: 'Collaboration accepted and plant shared successfully' });
+    }
+     catch(error) {
         console.error('Error accepting collaboration request: ', error);
         res.status(500).json({error: 'Could not accept collaboration request.'});
     }
