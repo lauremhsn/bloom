@@ -74,27 +74,30 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
             console.log("newName: ", newName);
             console.log("newPfp: ", newPfp);
 
-        
+            nn = '';
+            pp = '';
+
+            if (newName) {
+                displayname.textContent = newName;
+                nn = newName;
+            }
+            if (newPfp) {
+                pfpMain.src = newPfp;
+                sidebarPfp.src = newPfp;
+                pp = newPfp
+                console.log("pp: ", pp);
+            }
+
             let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, newName, newPfp })
+                body: JSON.stringify({ username, nn, pp })
             });
     
             let data = await response.json();
             
             if (!response.ok) {
                 throw new Error(data.error || "Update profile failed successfully");
-            }
-            else {
-
-                if (newName) {
-                    displayname.textContent = newName;
-                }
-                if (newPfp) {
-                    pfpMain.src = newPfp;
-                    sidebarPfp.src = newPfp;
-                }
             }
 
             editBox.style.display = 'none';    
