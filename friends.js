@@ -43,17 +43,29 @@ const searchBtn = document.getElementById('searchBtn');
 //         }
 //     });
 // });
-document.getElementById('searchBtn').addEventListener('click', async () => {
+
+  document.getElementById('searchBtn').addEventListener('click', async () => {
     const query = document.querySelector('.searchBar').value.trim();
     const resultsContainer = document.getElementById('searchResults');
     resultsContainer.innerHTML = '';
     resultsContainer.style.display = 'block';
   
+    const apiUrl = `https://bloomm-olel.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
+    console.log("Calling API:", apiUrl); // Debug log
+  
     try {
-        const response = await fetch(`https://bloomm-olel.onrender.com/api/search-users?q=${encodeURIComponent(query)}`);
+      const response = await fetch(apiUrl);
+  
+      // Check if the endpoint exists
+      if (!response.ok) {
+        console.error(`API returned ${response.status}: ${response.statusText}`);
+        resultsContainer.innerHTML = `<p>Error: ${response.statusText}</p>`;
+        return;
+      }
+  
       const users = await response.json();
   
-      if (users.length === 0) {
+      if (!users.length) {
         resultsContainer.innerHTML = '<p>No users found.</p>';
         return;
       }
@@ -77,6 +89,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       resultsContainer.innerHTML = '<p>Error fetching results.</p>';
     }
   });
+  
   
 //accept/reject stuff
 const friendReqs = document.querySelectorAll('.friendReq');
