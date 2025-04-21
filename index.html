@@ -52,7 +52,26 @@
         </form>
     </div>
 
-    <script src="login.js"></script>
+    <script type="module">
+        import {
+          showForm,
+          showSelection,
+          resetForms,
+          signUp,
+          submission,
+          showSuccessMessage,
+          changeAccountType
+        } from './login.js';
+      
+        
+        showSelection();
+        //showForm('login');
+        resetForms();
+        signUp();
+        submission();
+        changeAccountType();
+      </script>
+      
 </body>
 
 </html>
