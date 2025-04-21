@@ -68,12 +68,12 @@ export function saveButton(saveBtn, editNameInput, displayname, pfpMain, sidebar
         try {
             const newName = editNameInput.value.trim();
 
-            let un = localStorage.getItem("username");
+            let username = localStorage.getItem("username");
         
             let response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${un}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ un, newName, newPfp })
+                body: JSON.stringify({ username, newName, newPfp })
             });
     
             let data = await response.json();

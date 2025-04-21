@@ -236,12 +236,12 @@ app.get("/getProfilePic/:filename", (req, res) => {
 
 app.post("/updateProfile/:username", async(req,res) => {
     try {
-        const { username, displayname, profilepic } = req.params;
+        const { username, newName, newPfp } = req.params;
         await db.query(`
             UPDATE "Users"
-            SET displayname = $1, profilepic = $2
-            WHERE username = $3;
-        `, [displayname, profilepic, username]);
+            SET displayname = $2, profilepic = $3
+            WHERE username = $1;
+        `, [username, newName, newPfp]);
 
         res.status(200).json({ message: "Profile updated succesfully" });
     }
