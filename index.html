@@ -1,11 +1,14 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
+        rel="stylesheet">
     <title>BLOOM</title>
     <link rel="stylesheet" href="login.css">
 </head>
+
 <body>
     <div class="container">
         <div id="selectionBox">
@@ -49,6 +52,17 @@
         </form>
     </div>
 
-    <script src="login.js"></script>
+    <script type="module">
+        import {
+            showForm, showSelection, resetForms, signUp, submission, showSuccessMessage, changeAccountType
+        } from './login.js'
+        showForm(type);
+        showSelection();
+        resetForms();
+        signUp();
+        submission();
+        showSuccessMessage(message, callback);
+    </script>
 </body>
+
 </html>
