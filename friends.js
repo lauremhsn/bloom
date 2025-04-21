@@ -4,7 +4,7 @@ const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
 
 
-const CURRENTuserID = localStorage.getItem("userID");
+const CURRENTuserID = localStorage.getItem("userId");
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
 //     searchResults.style.display = "block";
@@ -213,3 +213,25 @@ rejectBtn.addEventListener('click', async (event) => {
   }
 });
 });
+
+
+async function loadCollabRequests() {
+  const res = await fetch(`/myCollabRequests/${CURRENTuserID}`);
+  const data = await res.json();
+  const container = document.getElementById("collabReqSection");
+  container.innerHTML = ""; 
+
+  data.forEach(user => {
+    const div = document.createElement("div");
+    div.className = "request-card";
+    div.innerHTML = `
+      <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" />
+      <h3>${user.displayname}</h3>
+      <p>@${user.username}</p>
+      <p>Plant ID: ${user.plant_id}</p>
+      <button onclick="acceptCollab(${CURRENTuserID}, ${user.other_id}, ${user.plant_id})">Accept</button>
+      <button onclick="rejectCollab(${CURRENTuserID}, ${user.other_id}, ${user.plant_id})">Reject</button>
+    `;
+    container.appendChild(div);
+  });
+}

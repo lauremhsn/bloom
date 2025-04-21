@@ -1,14 +1,14 @@
-function showForm(ftype) {
+function showForm(type) {
     document.getElementById('selectionBox').style.display = 'none';
-    document.getElementById('loginForm').style.display = ftype === 'login' ? 'block' : 'none';
-    document.getElementById('signupForm').style.display = ftype === 'signup' ? 'block' : 'none';
+    document.getElementById('loginForm').style.display = type === 'login' ? 'block' : 'none';
+    document.getElementById('signupForm').style.display = type === 'signup' ? 'block' : 'none';
 }
 
 function showSelection() {
     document.getElementById('selectionBox').style.display = 'block';
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('signupForm').style.display = 'none';
-    resetForms();
+    resetForms(); 
 }
 
 function resetForms() {
@@ -26,17 +26,14 @@ function resetForms() {
     document.getElementById("extraFields").innerHTML = "";
 }
 
-document.getElementById('signupForm').addEventListener('submit', async function (event) {        
+document.getElementById('signupForm').addEventListener('submit', async function(event) {
     event.preventDefault();
-    signUp(); 
-});
 
-async function signUp() {
     let errorMessage = document.getElementById('signupError');
     let formData = new FormData(this); // Collects all input fields, including file uploads
-
-
-    console.log([...formData]); // Logs the form data (key-value pairs)
+    
+    
+console.log([...formData]); // Logs the form data (key-value pairs)
 
 
     try {
@@ -44,8 +41,8 @@ async function signUp() {
             method: 'POST',
             body: formData
         });
-
-        console.log('API Response:', response);
+        
+        console.log('API Response:', response);  
         let data = await response.json();
         console.log('Response Data:', data);
         if (!response.ok) {
@@ -55,9 +52,10 @@ async function signUp() {
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
+        localStorage.setItem("userId", data.user.id);
         console.log(data.user.accounttype);
         showSuccessMessage("Signup successful! Redirecting...", () => {
-            accountType = localStorage.getItem("accountType");
+            accountType= localStorage.getItem("accountType");
             window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
         });
 
@@ -65,14 +63,11 @@ async function signUp() {
         errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
         errorMessage.style.display = 'block';
     }
-}
-
-document.getElementById('loginForm').addEventListener('submit', async function (event) {        
-    event.preventDefault();
-    submission(); 
 });
 
-async function submission() {
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
     let errorMessage = document.getElementById('loginError');
     let email = document.getElementById('loginEmail').value.trim();
     let password = document.getElementById('loginPass').value.trim();
@@ -91,36 +86,36 @@ async function submission() {
         });
 
         let data = await response.json();
-
+        
         if (!response.ok) {
             throw new Error(data.error || "Login failed");
         }
-
-
+       
+        
 
         localStorage.setItem('token', data.token); // Save token for authentication
         localStorage.setItem("accountType", data.user.accounttype);
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
+        
 
-
-
+        
         console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
 
-
+        
         showSuccessMessage("Login successful! Redirecting...", () => {
-            accountType = localStorage.getItem("accountType");
+            accountType= localStorage.getItem("accountType");
             console.log(data.user.accounttype);
             window.location.href = `${accountType}Profile.html`;
-            // Redirect to the social feed page
+             // Redirect to the social feed page
         });
 
     } catch (error) {
         errorMessage.innerHTML = `⚠️ <strong>Error:</strong> ${error.message}`;
         errorMessage.style.display = 'block';
     }
-}
+});
 
 function showSuccessMessage(message, callback) {
     let successBox = document.createElement('div');
@@ -134,17 +129,15 @@ function showSuccessMessage(message, callback) {
     }, 2000);
 }
 
-function changeAccountType() {
+document.getElementById('accountType').addEventListener('change', function() {
+    let selectedType = this.value;
+    let extraFields = document.getElementById('extraFields');
+    extraFields.innerHTML = ""; // Clear previous fields
 
-    document.getElementById('accountType').addEventListener('change', function () {
-        let selectedType = this.value;
-        let extraFields = document.getElementById('extraFields');
-        extraFields.innerHTML = ""; // Clear previous fields
-
-        if (selectedType === "pro") {
-            extraFields.innerHTML = `<input type="number" id="years-experience" placeholder="Years of Experience" required>`;
-        } else if (selectedType === "business") {
-            extraFields.innerHTML = `
+    if (selectedType === "pro") {
+        extraFields.innerHTML = `<input type="number" id="years-experience" placeholder="Years of Experience" required>`;
+    } else if (selectedType === "business") {
+        extraFields.innerHTML = `
             <select id="product-category">
                 <option value="" disabled selected>Product Category</option>
                 <option value="indoor">Indoor Plants</option>
@@ -154,16 +147,7 @@ function changeAccountType() {
                 <option value="decor">Home Decor</option>
             </select>
         `;
-        } else if (selectedType === "ngo") {
-            extraFields.innerHTML = `<textarea id="ngo-description" placeholder="Brief Description" required></textarea>`;
-        }
-    });
-}
-
-window.showForm = showForm;
-window.showSelection = showSelection;
-window.resetForms = resetForms;
-window.signUp = signUp;
-window.submission = submission;
-window.showSuccessMessage = showSuccessMessage;
-window.changeAccountType = changeAccountType;
+    } else if (selectedType === "ngo") {
+        extraFields.innerHTML = `<textarea id="ngo-description" placeholder="Brief Description" required></textarea>`;
+    }
+});
