@@ -9,7 +9,7 @@ const db = require('./db');
 const fs = require("fs");
 const mailer = require('./mailer');
 
-const jwtDecode = require('jwt-decode');
+const { jwtDecode } = require("jwt-decode");
 console.log(jwtDecode);
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -636,16 +636,7 @@ app.post('/add-friend', async (req, res) => {
     console.log("typeof token:", typeof token);
 
     try {
-        if (typeof token !== 'string' || !token.trim()) {
-            return res.status(400).json({ error: "Invalid or missing token" });
-        }
-
-        let parsedToken;
-        try {
-            parsedToken = jwtDecode(token); 
-        } catch (err) {
-            return res.status(400).json({ error: "Invalid token" });
-        }
+        const parsedToken = jwtDecode(token); // cleaner!
 
         const userId = parsedToken.id;
 
@@ -667,7 +658,6 @@ app.post('/add-friend', async (req, res) => {
         res.status(500).json({ error: "Could not add friend" });
     }
 });
-
 
   app.get('/api/search-users', async (req, res) => {
     const searchTerm = decodeURIComponent(req.query.q) || '';
