@@ -28,7 +28,7 @@ function resetForms() {
 
 document.getElementById('signupForm').addEventListener('submit', async function (event) {        
     event.preventDefault();
-    signUp(); 
+    signUp(this); 
 });
 
 async function signUp() {
