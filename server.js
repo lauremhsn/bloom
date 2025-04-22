@@ -7,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const db = require('./db');
 const fs = require("fs");
+const mailer = require('./mailer');
 
 const jwtDecode = require('jwt-decode');
 const app = express();
@@ -95,6 +96,7 @@ app.post('/signup', upload.single('profilePic'), async (req, res) => {
                 accounttype: user.accounttype,
                 username: user.username,
                 displayname: user.displayname,
+                email: user.email,
                 profilepic: user.profilepic,
             }
         });
@@ -124,6 +126,9 @@ app.post('/login', async (req, res) => {
                     if (await bcrypt.compare(password, results.rows[0].password)) {
                         const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                         console.log(results.rows[0]);
+
+                        //await mailer.sendEmail(results.rows[0].email,'New Login','<p>you have logged in to Bloom</p>')
+
                         res.json({ message: 'Login successful', token, user: results.rows[0] });
 
 
@@ -148,10 +153,10 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
         const { token, text } = req.body;
         const file = req.file ? req.file.filename : '';
 
-        const parsedToken = jwtDecode.jwtDecode(token);
+        const parsedToken = jwtDecode(token);
         const userid = parsedToken.id;
 
-        db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3);`, [userid, text, file], (error, result) => {
+        await db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`, [userid, text, file], (error, result) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
@@ -168,28 +173,29 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
 
 app.get('/getposts', async (req, res) => {
     try {
-        const authHeader = req.headers.authorization;
-        if (!authHeader) return res.status(401).json({ error: 'Missing auth token' });
-
-        const token = authHeader.split(' ')[1];
-        const parsedToken = jwtDecode(token);
+        const token = req.body;
+        const parsedToken = jwtDecode.jwtDecode(token);
         const userid = parsedToken.id;
 
-        db.query(`SELECT * FROM "Posts" WHERE user_id = $1`, [userid], (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return res.status(500).json({ error: 'Query failed' });
-            }
 
-            res.status(200).json(results.rows);
-        });
+        db.query((
+            `SELECT * FROM "Posts" WHERE user_id = $1;`, [userid], async (error, results) => {
+                if (error) {
+                    console.error('Error executing query:', error);
+                    return;
+                }
+
+                if (results.rows > 0) {
+
+                    res.status(201).json(results.rows);
+                }
+            }));
 
     } catch (error) {
-        console.error('Error in /getposts:', error);
-        res.status(500).json({ error: 'Post fetch failed' });
+        console.error('Error in /addpost:', error);
+        res.status(500).json({ error: 'Post Failed' });
     }
 });
-
 
 app.get("/getProfileByType/:accountType", async (req, res) => {
     const accountType = req.params.accountType;
