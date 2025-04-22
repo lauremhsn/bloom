@@ -90,7 +90,10 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 
       document.querySelectorAll(".request-friend").forEach(button => {
         button.addEventListener("click", async () => {
-          const user2_id = button.dataset.userId;
+          const user2_id = button.getAttribute("data-user-id");
+          // const user2_id = button.dataset.userId;
+          console.log("CURRENTuserID:", CURRENTuserID);
+          console.log("user2_id:", user2_id);
           try {
             const res = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
               method: "POST",
