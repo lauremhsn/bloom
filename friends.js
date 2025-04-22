@@ -5,6 +5,9 @@ const searchBtn = document.getElementById('searchBtn');
 
 
 const CURRENTuserID = localStorage.getItem("userId");
+if (!CURRENTuserID) {
+  console.error("No user ID found in localStorage!");
+}
 
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
