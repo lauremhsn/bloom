@@ -108,7 +108,6 @@ async function submission() {
 
 
 
-
         console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
 
 
@@ -160,6 +159,17 @@ function changeAccountType() {
         `;
         } else if (selectedType === "ngo") {
             extraFields.innerHTML = `<textarea id="ngo-description" placeholder="Brief Description" required></textarea>`;
+        } else if (selectedType === "beginner") {
+            extraFields.innerHTML = `
+                <select id="plantType" name="plantType">
+                <option value="" disabled selected>Choose a plant to care for (optional)</option>
+                <option value="sunflowers">Sunflowers (twice a week)</option>
+                <option value="tulips">Tulips (every 3 weeks)</option>
+                <option value="roses">Roses (every 4 days)</option>
+                <option value="cactus">Cactus (once a month)</option>
+                <option value="daisies">Daisies (once a week)</option>
+            </select>
+        `;
         }
     });
 }
