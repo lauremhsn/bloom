@@ -145,6 +145,20 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
       };
       reader.readAsDataURL(file);
     }
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append('text', text);
+    formData.append('file', file);
+    formData.append('token', token);
+    try {
+      const response = fetch('https://bloom-zkk8.onrender.com/addpost', {
+        method: 'POST',
+        body: formData,
+      });
+    } catch (error) {
+      console.error('Error adding post:', error);
+      alert('An error occurred');
+    }
 
     postList.prepend(post);
     postText.value = "";
@@ -157,9 +171,9 @@ async function fetchPosts() {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-  console.warn("No token found in localStorage");
-  return; 
-}
+      console.warn("No token found in localStorage");
+      return;
+    }
 
     const response = await fetch("https://bloom-zkk8.onrender.com/getposts", {
       headers: {
