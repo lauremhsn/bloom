@@ -153,17 +153,17 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
         const { token, text } = req.body;
         const file = req.file ? req.file.filename : '';
 
-        const parsedToken = jwtDecode.jwtDecode(token);
+        const parsedToken = jwtDecode(token);
         const userid = parsedToken.id;
 
-        db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3);`,[userid, text, file], (error, result) => {
+        await db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`, [userid, text, file], (error, result) => {
             if (error) {
                 console.error('Error executing query:', error);
                 return;
             }
         });
 
-        res.status(201).json({ message: 'Posted Successfully'});
+        res.status(201).json({ message: 'Posted Successfully' });
 
     } catch (error) {
         console.error('Error in /addpost:', error);
