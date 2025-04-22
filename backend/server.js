@@ -633,18 +633,23 @@ app.post('/add-friend', async (req, res) => {
     const { token, friendId } = req.body;
 
     console.log("token:", token);
-    console.log("typeof token:", typeof token);
+    console.log("friendId (raw):", friendId);
 
     try {
-        const parsedToken = jwtDecode(token); // cleaner!
-
+        const parsedToken = jwtDecode(token);
         const userId = parsedToken.id;
 
-        if (userId === parseInt(friendId)) {
+        if (!friendId || isNaN(parseInt(friendId))) {
+            return res.status(400).json({ error: "Invalid or missing friend ID" });
+        }
+
+        const friendIdInt = parseInt(friendId);
+
+        if (userId === friendIdInt) {
             return res.status(400).json({ error: "You cannot friend yourself!" });
         }
 
-        const [id1, id2] = userId < friendId ? [userId, friendId] : [friendId, userId];
+        const [id1, id2] = userId < friendIdInt ? [userId, friendIdInt] : [friendIdInt, userId];
 
         await db.query(`
             INSERT INTO "Friends" (friend1_id, friend2_id)
