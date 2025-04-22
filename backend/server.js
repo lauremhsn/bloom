@@ -633,8 +633,19 @@ app.post('/add-friend', async (req, res) => {
     const { token, friendId } = req.body;
 
     try {
+        // Validate token format
+        if (!isValidToken(token)) {
+            return res.status(400).json({ error: "Invalid token format" });
+        }
 
-        const parsedToken = jwtDecode(token);
+        // Decode token
+        let parsedToken;
+        try {
+            parsedToken = jwtDecode(token);  // Decode the token
+        } catch (err) {
+            return res.status(400).json({ error: "Invalid token" });
+        }
+
         const userId = parsedToken.id;
 
         if (userId === parseInt(friendId)) {
@@ -647,8 +658,6 @@ app.post('/add-friend', async (req, res) => {
             INSERT INTO "Friends" (friend1_id, friend2_id)
             VALUES ($1, $2)
             ON CONFLICT DO NOTHING
-
-            INSERT INTO "
         `, [id1, id2]);
 
         res.status(201).json({ message: "Friend added successfully" });
@@ -657,7 +666,6 @@ app.post('/add-friend', async (req, res) => {
         res.status(500).json({ error: "Could not add friend" });
     }
 });
-
 
 
   app.get('/api/search-users', async (req, res) => {
