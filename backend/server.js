@@ -7,7 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const db = require('./db');
 const fs = require("fs");
-const mailer = require('mailer');
+const mailer = require('./mailer');
 
 const jwtDecode = require('jwt-decode');
 const app = express();
