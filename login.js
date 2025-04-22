@@ -104,6 +104,8 @@ async function submission() {
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
+        localStorage.setItem("userId", data.user.id);
+
 
 
 
