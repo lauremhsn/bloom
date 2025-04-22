@@ -168,7 +168,9 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
 
 app.get('/getposts', async (req, res) => {
     try {
-        const token = req.body;
+        const authHeader = req.headers.authorization;
+        if (!authHeader) return res.status(401).json({ error: 'Missing auth token' });
+        const token = authHeader.split(' ')[1];
         const parsedToken = jwtDecode.jwtDecode(token);
         const userid = parsedToken.id;
 
