@@ -4,35 +4,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <title>Business Explore</title>
-  <link rel="stylesheet" href="businessExplore.css">
+  <link rel="stylesheet" href="Explore.css">
   <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="sidebarThing">
-            <p>BLOOM</p>
-            </div>
-            <div class="sidebarThing">
-                <a href="beginnerProfile.html">
-                    <div class="pfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
-                    </div>
-                </a>
-            </div>
-            <div class="sidebarThing middle">
-                <a href="ngoExplore.html">🌍 NGOs</a>
-                <a href="businessExplore.html">🛍 Shops</a>
-                <a href="profExplore.html">👩‍🌾 Professionals</a>
-                <a href="friends.html">👥 Friends</a>
-            </div>
-            <div class="sidebarThing sets">
-                <!--    <a href="settings.html">Settings</a> -->
-            </div>
+    <body>
+        <div class="topBar">
+            <a href="home.html" class="bloomLogo">BLOOM</a>
+            <a href="plants-grid.html" class="icon">🪴</a>
+            <a href="#">
+                <div class="pfp">
+                    <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
+                </div>
+            </a>
+            <a href="friends.html" class="icon">👥</a>
+            <a href="contact.html" class="contactLink">Contact Us</a> <!--fix this-->
         </div>
 
         <div class="feedCont">
@@ -180,6 +169,12 @@
                 <button class="closeBtn" onclick="closeModal()">&times;</button>
             </div>
         </div>
+    </div>
+    <div class="bottomFeedTypes">
+        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
+        <a href="businessExplore.html" class="feedIcon selected">🛍 Shops</a>
+        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
+        <a href="friends.html" class="feedIcon">👥 Friends</a>
     </div>
     <script src="businessExplore.js"></script>
 </body>

@@ -1,144 +1,218 @@
-body {
-  font-family: 'Quicksand', sans-serif;
-  background: #9a6555;
-  display: flex;
-  background-image: url('wood-pattern.png');
-  background-repeat: repeat;
-  background-size: auto;
-  background-position: top left;
-  height: 100vh;
-  margin: 0;
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #EDEAE0;
+    margin: 0;
+    color: #5C3B2E;
 }
 
-.sidebar {
-  background: #2e6f4d;
-  color: white;
-  width: 20vw;
-  height: 100%;
-  padding: 20px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  z-index: 2;
+.topBar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background-color: #647340;
+    border-bottom: 5px solid #BCA08A;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    gap: 40px;
+}
+.top-bar > *{
+    flex: 1;
+    text-align: center;
 }
 
-.sidebarThing {
-  padding: 15px;
-  text-align: center;
-  margin-bottom: 20px;
+.bloomLogo{
+    text-align: left;
+    font-family: 'Pacifico', cursive;
+    font-size: 30px;
+    color: #C2D1A5;
+    text-decoration: none;
+    letter-spacing: 1px;
 }
 
-.sidebarThing a{
+.icon{
+  font-size: 28px;
   text-decoration: none;
-  font-size: 1rem;
-  display: block;
-  color: white;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-  text-align: center;
-  padding: 10px;
-  border-radius: 12px;
+  color: #F8F5F2;
+  transition: transform 0.25s ease;
 }
 
-.sidebarThing a:hover{
-  background: #E2BFB3;
-}
-
-.sidebarThing p{
-  font-family: 'Pacifico', cursive;
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-}
-
-.pfp{
-  width: 80px;
-  height: 80px;
+.topPfp{
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  overflow: hidden;
-  display: inline-block;
-  border-radius: 50%;
-  border: 3px solid white;
-}
-
-.pfp img{
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-  cursor: pointer;
+  border: 2px solid white;
 }
 
-.middle {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+.contactLink{
+  text-decoration: none;
+  color: #F8F5F2;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: right;
+  transition: opacity 0.2s;
+}
+.feedCont{
+    padding: 40px 20px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
 }
 
-.sidebarThing.sets {
-  margin-top: auto;
+.businessProfile{
+    background-color: #BCA08A;
+    border: 2px solid #BCA08A;
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 900px;
+    margin: 0 auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
 }
 
-.char-limit {
-  font-size: 12px;
-  color: #437b4e;
-  margin-top: 5px;
+.header{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
-.posts {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-  max-width: 70vw;
-  gap: 30px;
-  margin-top: 20px;
-  margin-left: 30vw;
-  margin-right: 15vw;
+.businessPfp{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #647340;
 }
 
-.postSection {
-  flex: 1;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  overflow-y: auto;
+.headerInfo .username{
+    font-size: 18px;
+    font-weight: bold;
 }
 
-.sectionTitle {
-  font-size: 20px;
-  font-weight: bold;
-  color: #437b4e;
-  text-align: center;
-  padding: 10px;
-  background: #A7C7A3;
-  border-radius: 12px;
-  margin-bottom: 10px;
+.headerInfo .handle{
+    font-size: 14px;
+    color: #82674d;
 }
 
-#updates {
-  flex: 1;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  margin-top: 1vh;
-  margin-right: 5vw;
-  margin-left: 5vw;
+.products h3{
+    font-size: 16px;
+    margin-bottom: 10px;
 }
 
-.update {
-  background: #A7C7A3;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 12px;
-  border: 1px solid #A7C7A3;
+.productGrid{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
 
-.update img,
-.update video {
-  width: 100%;
-  border-radius: 12px;
+.productCard{
+    background-color: #F8F5F2;
+    border: 1px solid #DDD;
+    border-radius: 14px;
+    padding: 12px;
+    width: 150px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.productImage{
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.productName{
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.productPrice{
+    font-size: 13px;
+    color: #82674d;
+}
+
+.suggBus{
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.suggBusScroll{
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 12px 0;
+}
+
+.suggBusCard{
+    min-width: 120px;
+    background: #fff;
+    border: 1px solid #DDD;
+    border-radius: 14px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.suggBusPfp{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+}
+
+.suggBusName{
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.bottomFeedTypes{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 16px 24px;
+    background-color: #765a4f;
+    border-top: 8px solid #BCA08A;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.3);
+    position: sticky;
+    bottom: 0;
+}
+
+.feedIcon{
+    background-color: #C2D1A5;
+    color: #5C3B2E;
+    border-radius: 50%;
+    padding: 12px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    text-decoration: none;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+.feedIcon:hover{
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.feedIcon.selected{
+    opacity: 1;
+    background-color: #C2D1A5;
+    color: #5C3B2E;
+    font-weight: bold;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
 }
 
 .modal {
@@ -149,99 +223,80 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.4);
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(2px);
 }
 
 .modalContent {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  width: 350px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: 24px;
+  border-radius: 20px;
+  width: 360px;
+  max-width: 90%;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  position: relative;
   text-align: center;
+  color: #5C3B2E;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-#submitPost:hover {
-  background: #E2BFB3;
+.modalImageContainer {
+  width: 100%;
 }
 
-@media (max-width: 900px) {
-  .sidebar {
-    background: #2e6f4d;
-    color: white;
-    height: 100px;
-    width: 100%;
-    padding: 20px 0;
-    position: fixed;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  .sidebarThing {
-    padding: 15px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .sidebarThing p {
-    font-family: 'Pacifico', cursive;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-  }
-
-  .middle {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-  }
-
-  .grid-layout {
-    grid-template-columns: repeat(1, 1fr);
-  }
-
-  .profile {
-    margin-top: 20vh;
-    width: 80vw;
-    margin-right: 27vw;
-    margin-left: 7vw;
-  }
-
-  .profileHead {
-    width: 80vw;
-    margin-left: 7vw;
-    margin-right: 7vw;
-  }
-
-  .profileAtt {
-    width: 80vw;
-  }
-
-  .profilePic {
-    justify-content: center;
-  }
-
-  .posts {
-    flex-direction: column;
-    margin-left: 0;
-    padding-top: 20px;
-  }
-
-  .tabs {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .tab {
-    width: 100%;
-  }
-
-  #updates {
-    width: 100%;
-    margin-top: 15vh;
-  }
+.modalImage {
+  width: 100%;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 1px solid #DDD;
 }
+
+.modalInfo h3 {
+  margin: 8px 0 4px;
+  font-size: 18px;
+}
+
+.modalInfo p {
+  font-size: 14px;
+  color: #82674d;
+}
+
+.modalInfo span {
+  font-weight: bold;
+  color: #647340;
+  font-size: 16px;
+}
+
+.buyNowButton {
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+  background-color: #647340;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.buyNowButton:hover {
+  background-color: #BCA08A;
+  color: #5C3B2E;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #5C3B2E;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
