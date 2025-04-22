@@ -632,16 +632,17 @@ app.get('/suggestedUsers/:userId', async (req, res) => {
 app.post('/add-friend', async (req, res) => {
     const { token, friendId } = req.body;
 
+    console.log("token:", token);
+    console.log("typeof token:", typeof token);
+
     try {
-        // Validate token format
-        if (!isValidToken(token)) {
-            return res.status(400).json({ error: "Invalid token format" });
+        if (typeof token !== 'string' || !token.trim()) {
+            return res.status(400).json({ error: "Invalid or missing token" });
         }
 
-        // Decode token
         let parsedToken;
         try {
-            parsedToken = jwtDecode(token);  // Decode the token
+            parsedToken = jwtDecode(token); 
         } catch (err) {
             return res.status(400).json({ error: "Invalid token" });
         }
