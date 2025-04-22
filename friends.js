@@ -5,10 +5,7 @@ const searchBtn = document.getElementById('searchBtn');
 
 
 const CURRENTuserID = localStorage.getItem("userId");
-if (!CURRENTuserID) {
-  alert("User ID not found. Please log in.");
-  return;
-}
+
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
 //     searchResults.style.display = "block";
