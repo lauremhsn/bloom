@@ -5,6 +5,7 @@ const searchBtn = document.getElementById('searchBtn');
 
 
 const CURRENTuserID = localStorage.getItem("userId");
+console.log("CURRENTuserID:", CURRENTuserID);
 if (!CURRENTuserID) {
   alert("User ID not found. Please log in.");
   return;
