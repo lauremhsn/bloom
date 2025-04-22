@@ -10,6 +10,7 @@ const fs = require("fs");
 const mailer = require('./mailer');
 
 const jwtDecode = require('jwt-decode');
+console.log("jwtDecode type:", typeof jwtDecode);
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -632,6 +633,7 @@ app.post('/add-friend', async (req, res) => {
     const { token, friendId } = req.body;
 
     try {
+
         const parsedToken = jwtDecode(token);
         const userId = parsedToken.id;
 
