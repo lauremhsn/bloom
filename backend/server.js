@@ -96,7 +96,6 @@ app.get("/api/getCurrentUserId", (req, res) => {
                 accounttype: user.accounttype,
                 username: user.username,
                 displayname: user.displayname,
-                email: user.email,
                 profilepic: user.profilepic,
             }
         });
@@ -127,7 +126,7 @@ app.post('/login', async (req, res) => {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                     console.log(results.rows[0]);
 
-                    //await mailer.sendEmail(results.rows[0].email,'New Login','<p>you have logged in to Bloom</p>')
+                    await mailer.sendEmail('stephanechedid@gmail.com','New Login','<p>you have logged in to Bloom</p>')
 
                     res.json({ message: 'Login successful', token, user: results.rows[0] });
                     
@@ -148,28 +147,28 @@ app.post('/login', async (req, res) => {
 
 
 
-app.post('/addpost', upload.single('file'), async (req, res) => {
-    try {
-        const { token, text } = req.body;
-        const file = req.file ? req.file.filename : '';
+// app.post('/addpost', upload.single('file'), async (req, res) => {
+//     try {
+//         const { token, text } = req.body;
+//         const file = req.file ? req.file.filename : '';
 
-        const parsedToken = jwtDecode(token);
-        const userid = parsedToken.id;
+//         const parsedToken = jwtDecode.jwtDecode(token);
+//         const userid = parsedToken.id;
 
-        await db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`, [userid, text, file], (error, result) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return;
-            }
-        });
+//         db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3);`,[userid, text, file], (error, result) => {
+//             if (error) {
+//                 console.error('Error executing query:', error);
+//                 return;
+//             }
+//         });
 
-        res.status(201).json({ message: 'Posted Successfully' });
+//         res.status(201).json({ message: 'Posted Successfully'});
 
-    } catch (error) {
-        console.error('Error in /addpost:', error);
-        res.status(500).json({ error: 'Post Failed' });
-    }
-});
+//     } catch (error) {
+//         console.error('Error in /addpost:', error);
+//         res.status(500).json({ error: 'Post Failed' });
+//     }
+// });
 
 app.get('/getposts', async (req, res) => {
     try {
