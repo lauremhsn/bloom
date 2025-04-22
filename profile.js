@@ -60,6 +60,7 @@ export function eventList() {
         changes(fileInput, profilePicInput);
         postRelated(addPostBtn, postModal, closePostModal);
         postSubmission(submitPost, postMedia, postText, postList, postModal);
+        fetchPosts();
     })
 }
 
@@ -81,30 +82,30 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
         try {
             const newName = editName.value.trim();
             const username = localStorage.getItem("username");
-    
+
             const formData = new FormData();
             formData.append("displayname", newName);
-    
+
             if (selectedFile) {
                 formData.append("profilePic", selectedFile); // the actual file object
             }
-    
+
             const response = await fetch(`https://bloom-zkk8.onrender.com/updateProfile/${username}`, {
                 method: 'POST',
                 body: formData
             });
-    
+
             const data = await response.json();
-    
+
             if (!response.ok) {
                 throw new Error(data.error || "Update profile failed");
             }
-    
+
             editBox.style.display = 'none';
-    
+
             displayname.innerText = newName;
             localStorage.setItem("displayname", newName);
-            
+
             if (selectedFile) {
                 const filename = data.newPfp;
                 const imageUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${filename}`;
@@ -113,7 +114,7 @@ export function saveButton(saveBtn, editName, displayname, pfpMain, sidebarPfp, 
                 sidebarPfp.src = imageUrl;
                 localStorage.setItem("profilepic", filename);
             }
-            
+
         } catch (err) {
             console.error('update profile error:', err);
         }
@@ -236,4 +237,37 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
         postModal.style.display = 'none';
 
     });
+}
+
+async function fetchPosts() {
+    try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch("https://bloom-zkk8.onrender.com/getposts", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        const posts = await response.json();
+        const container = document.getElementById("postsContainer");
+
+        posts.forEach((post) => {
+            const div = document.createElement("div");
+            div.innerHTML = `
+          <p>${post.text}</p>
+          ${post.media ? `<img src="https://bloom-zkk8.onrender.com/uploads/${post.media}" class="postImage" style="max-width:200px; cursor:pointer;" />` : ''}
+          <hr />
+        `;
+            container.appendChild(div);
+        });
+
+        document.querySelectorAll('.postImage').forEach(img => {
+            img.addEventListener('click', function () {
+                openModal(this);
+            });
+        });
+    } catch (error) {
+        console.error("Error fetching posts:", error);
+    }
 }
