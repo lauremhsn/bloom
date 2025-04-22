@@ -60,7 +60,6 @@ export function eventList() {
         changes(fileInput, profilePicInput);
         postRelated(addPostBtn, postModal, closePostModal);
         postSubmission(submitPost, postMedia, postText, postList, postModal);
-        fetchPosts();
     })
 }
 
@@ -271,3 +270,4 @@ async function fetchPosts() {
         console.error("Error fetching posts:", error);
     }
 }
+fetchPosts();
