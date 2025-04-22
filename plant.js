@@ -2,20 +2,20 @@ const plantVideo = document.getElementById("plantVideo");
 const wateringCan = document.getElementById("wateringCan");
 const trimButton = document.getElementById("trimButton");
 const plantContainer = document.querySelector(".plant-container");
-const streakDisplay = document.createElement("p"); 
+const streakDisplay = document.createElement("p");
 
 streakDisplay.id = "streakDisplay";
 document.body.appendChild(streakDisplay);
 
-let streakData = { 
-    streak: 0, lastDate: null, dailyGrowth: 0, dead: false, missedDays: 0 
+let streakData = JSON.parse(localStorage.getItem("plantStreak")) || {
+    streak: 0, lastDate: null, dailyGrowth: 0, dead: false, missedDays: 0
 };
 let isDragging = false;
 let offsetX = 0, offsetY = 0;
 let lastUpdate = 0;
-let user_id = 1;  
+let user_id = 1;
 let progress = 0;
-let streak = 0;   
+let streak = 0;
 let trimmed = false;
 
 function updateStreak() {
@@ -23,6 +23,7 @@ function updateStreak() {
 
     if (!streakData.lastDate) {
         streakData.lastDate = today;
+        localStorage.setItem("plantStreak", JSON.stringify(streakData)); 
         return;
     }
 
@@ -49,6 +50,7 @@ function updateStreak() {
 
     streakData.dailyGrowth = 0;
     streakData.lastDate = today;
+    localStorage.setItem("plantStreak", JSON.stringify(streakData)); 
     displayStreak();
 }
 
@@ -80,13 +82,14 @@ function showRestartButton() {
         streakData.lastDate = new Date().toDateString();
         streakData.dailyGrowth = 0;
         streakData.missedDays = 0;
-        displayStreak();
+        localStorage.setItem("plantStreak", JSON.stringify(streakData)); 
     
         plantVideo.src = "plant1.mp4";
         plantVideo.currentTime = 0;
         plantVideo.play();
     
         restartBtn.style.display = "none";
+        displayStreak();
     };
 }
 
@@ -96,7 +99,7 @@ wateringCan.addEventListener("mousedown", (event) => {
     offsetX = event.clientX - rect.left;
     offsetY = event.clientY - rect.top;
     wateringCan.style.pointerEvents = "none";
-    userInteraction(); 
+    userInteraction();
 });
 
 document.addEventListener("mousemove", (event) => {
@@ -108,7 +111,7 @@ document.addEventListener("mousemove", (event) => {
         const canRect = wateringCan.getBoundingClientRect();
         const videoRect = plantVideo.getBoundingClientRect();
         const now = Date.now();
-        const maxDailyGrowth = 300.0; // limit: 3 seconds per day
+        const maxDailyGrowth = 300.0;
 
         if (
             canRect.left < videoRect.right &&
@@ -124,6 +127,7 @@ document.addEventListener("mousemove", (event) => {
                 lastUpdate = now;
 
                 progress = plantVideo.currentTime;
+                localStorage.setItem("plantStreak", JSON.stringify(streakData)); // Store progress in local storage
             }
         }
     }
@@ -137,9 +141,9 @@ window.addEventListener("mouseup", () => {
 trimButton.addEventListener("click", () => {
     if (plantVideo.currentTime > 0) {
         plantVideo.currentTime = Math.max(0, plantVideo.currentTime - 0.1);
-        trimmed = true; 
-        userInteraction(); 
-        updatePlantProgress(); 
+        trimmed = true;
+        userInteraction();
+        updatePlantProgress();
     }
 });
 
@@ -174,7 +178,7 @@ async function updatePlantProgress() {
             progress,
             trimmed_at,
             last_watered,
-            columnPrefix, 
+            columnPrefix,
         }),
     });
 
@@ -192,7 +196,7 @@ async function getPlantProgress() {
         streakData.streak = data.streak;
         trimmed = data.trimmed;
 
-        plantVideo.currentTime = progress; 
+        plantVideo.currentTime = progress;
         displayStreak();
     }
 }
