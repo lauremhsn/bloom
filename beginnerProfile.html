@@ -2,114 +2,85 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
-        rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <title>Beginner Profile</title>
-    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="profile.css" />
 </head>
 
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="sidebarThing">
-                <p>BLOOM</p>
+    <div class="topBar">
+        <a href="home.html" class="bloomLogo">BLOOM</a>
+        <a href="plants-grid.html" class="icon">🪴</a>
+        <a href="beginnerProfile.html">
+            <div class="pfp">
+                <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
             </div>
-            <div class="sidebarThing">
-                <a href="#">
-                    <div class="pfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
-                    </div>
-                </a>
-            </div>
-            <div class="sidebarThing middle">
-                <a href="ngoExplore.html">🌍 NGOs</a>
-                <a href="businessExplore.html">🛍 Shops</a>
-                <a href="profExplore.html">👩‍🌾 Professionals</a>
-                <a href="friends.html">👥 Friends</a>
-            </div>
-            <div class="sidebarThing sets">
-                <!--    <a href="settings.html">Settings</a> -->
-            </div>
-        </div>
+        </a>
+        <a href="friends.html" class="icon">👥</a>
+        <a href="contact.html" class="contactLink">Contact Us</a> <!--fix this-->
+    </div>
 
-        <div class="profile">
-            <div class="profileHead">
-                <div class="profilePic">
-                    <img src="pfp1.jpg" alt="Profile Picture" id="mainPfp">
-                </div>
-                <div class="profileAtt">
-                    <h1 id="displayname">Some Name</h1> <!--Here are name, username, etc etc-->
-                    <p id="username">@username</p>
-
-
+    <div class="profile">
+        <div class="profileHead">
+            <div class="profilePic">
+                <img src="pfp1.jpg" alt="Profile Picture" id="mainPfp" />
+            </div>
+            <div class="profileAtt">
+                <h1 id="displayname">Some Name</h1>
+                <p id="username">@username</p>
+                <div class="buttons">
                     <button id="editBtn" class="editButton">Edit</button>
                 </div>
             </div>
+        </div>
 
-            <div id="editBox" class="editBox">
-                <div class="editBoxAtt">
-                    <span id="closeEB" class="closeEB">&times;</span>
-                    <h2>Edit Profile</h2>
-                    <div class="editPfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput"
-                            onclick="document.getElementById('fileInput').click();">
-                        <span class="editPen">✏️</span>
-                        <input type="file" id="fileInput" accept="image/*">
-                    </div>
-                    <label for="editName">Some Name</label>
-                    <input id="editName" type="text" placeholder="Edit Name" maxlength="50">
-                    <p id="nameLimit" class="charLimit">0/50</p>
-
-                    <button id="saveBtn" class="saveButton">Save</button>
-                </div>
-            </div>
-
-            <div class="posts">
-                <div id="garden" class="postSection">
-                    <a href="plants-grid.html">
-                        <h2 class="sectionTitle">Garden</h2>
-                    </a>
-                    <div class="shelfCont">
-                        <a href="plant.html">
-                            <div class="plant">🌻</div>
-                        </a>
-                        <a href="plants-grid.html">
-                            <div class="plant">🌹</div>
-                        </a>
-                        <a href="plants-grid.html">
-                            <div class="plant">🌵</div>
-                        </a>
-                    </div>
-                    <div class="shelf"></div>
-
-                    <div class="shelfCont">
-                        <a href="plants-grid.html">
-                            <div class="plant">🌿</div>
-                        </a>
-                        <a href="plants-grid.html">
-                            <div class="plant">🌷</div>
-                        </a>
-                    </div>
-                    <div class="shelf"></div>
-                </div>
-                <div id="updates" class="posts-section">
-                    <h2 class="sectionTitle">Updates</h2>
-                    <button id="addPostBtn" class="addPostBtn">+ New Update</button>
-                    <div id="postList"></div>
-                </div>
-                <div id="postModal" class="modal">
-                    <div class="modalContent">
-                        <span id="closePostModal" class="close">&times;</span>
-                        <h2>Add a Tip</h2>
-                        <textarea id="postText" placeholder="Share an update..."></textarea>
-                        <input type="file" id="postMedia" accept="image/*, video/*">
-                        <button id="submitPost" class="saveButton">Post</button>
-                    </div>
+        <div class="posts">
+            <div id="updates" class="postSection">
+                
+                <button id="addPostBtn" class="addPostBtn">+ New Update</button>
+                <div id="postList"></div>
+                <div class="update">
+                    <img src="gardening.jpg" alt="Plant post">
+                    <p>This is a post Im sooo posting rn</p>
                 </div>
             </div>
         </div>
+
+        <div id="postModal" class="modal">
+            <div class="modalContent">
+                <span id="closePostModal" class="close">&times;</span>
+                <h2>Add a post</h2>
+                <textarea id="postText" placeholder="Share an update..."></textarea>
+                <input type="file" id="postMedia" accept="image/*, video/*"/>
+                <button id="submitPost" class="saveButton">Post</button>
+            </div>
+        </div>
+
+        <div id="editBox" class="editBox">
+            <div class="editBoxAtt">
+                <span id="closeEB" class="closeEB">&times;</span>
+                <h2>Edit Profile</h2>
+                <div class="editPfp" onclick="document.getElementById('fileInput').click();">
+                    <img src="pfp1.jpg" alt="Profile Picture" id="profilePicInput" />
+                    <span class="editPen">✏️</span>
+                    <input type="file" id="fileInput" accept="image/*" />
+                </div>
+                <label for="editName">Some Name</label>
+                <input id="editName" type="text" placeholder="Edit Name" maxlength="50" />
+                <p id="nameLimit" class="charLimit">0/50</p>
+                <button id="saveBtn" class="saveButton">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottomFeedTypes">
+        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
+        <a href="businessExplore.html" class="feedIcon">🛍 Shops</a>
+        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
+        <a href="beginnerExplore.html" class="feedIcon">👥 Users</a>
+     <!--   <a href="friends.html" class="feedIcon selected">👥 Friends</a> -->
     </div>
 
     <script type="module">

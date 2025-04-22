@@ -4,82 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
-    <title>Professional Profile</title>
+    <title>View Profile</title>
     <link rel="stylesheet" href="profile.css">
+        <style>
+            .topBar > a:nth-child(3)::after{display: none;}
+        </style>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="sidebarThing">
-                <p>BLOOM</p>
+    <div class="topBar">
+        <a href="home.html" class="bloomLogo">BLOOM</a>
+        <a href="plants-grid.html" class="icon">🪴</a>
+        <a href="businessProfile.html">
+            <div class="pfp">
+                <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
             </div>
-            <div class="sidebarThing">
-                <a href="professionalProfile.html">
-                    <div class="pfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
-                    </div>
-                </a>
+        </a>
+        <a href="friends.html" class="icon">👥</a>
+        <a href="contact.html" class="contactLink">Contact Us</a> <!--fix this-->
+    </div>
+
+    <div class="profile">
+        <div class="profileHead">
+            <div class="profilePic">
+                <img src="pfp1.jpg" alt="Profile Picture" id="mainPfp" />
             </div>
-            <div class="sidebarThing middle">
-                <a href="ngoExplore.html">🌍 NGOs</a>
-                <a href="businessExplore.html">🛍 Shops</a>
-                <a href="profExplore.html">👩‍🌾 Professionals</a>
-                <a href="friends.html">👥 Friends</a>
-            </div>
-            <div class="sidebarThing sets">
-                <!--    <a href="settings.html">Settings</a> -->
+            <div class="profileAtt">
+                <h1 id="name" class="name">Some Name</h1>
+                <p id="username" class="username">@username</p>
+                <p class="experience">🌿 5+ years of experience</p>
+                <div class="buttons">
+                    <button id="frndBtn" class="friendButton">Request Friendship?</button>
+                    <button id="collabBtn" class="friendButton" style="display:none;">Request Collaboration</button>
+                </div>
             </div>
         </div>
 
-        <div class="profile">
-            <div class="profileHead">
-                <div class="profilePic">
-                    <img src="pfp1.jpg" alt="Profile Picture" id="mainPfp">
-                </div>
-                <div class="profileAtt">
-                    <h1 class="name">Some Name</h1> <!--Here are name, username, etc etc-->
-                    <p class="username">@username</p>
-                    <p class="experience">🌿 5+ years of experience</p>
-
-                    <div class="buttons">
-                        <button id="frndBtn" class="friendButton">Request Friendship?</button>
-                        <button id="collabBtn" class="friendButton" style="display:none;">Request Collaboration</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="posts">
-                <div id="garden" class="postSection">
-                    <h2 class="sectionTitle">Garden</h2>
-                    <div class="shelfCont">
-                        <div class="plant">🌷</div>
-                        <div class="plant">🌻</div>
-                        <div class="plant">🌵</div>
-                    </div>
-                    <div class="shelf"></div>
-                
-                    <div class="shelfCont">
-                        <div class="plant">🌿</div>
-                        <div class="plant">🌹</div>
-                    </div>
-                    <div class="shelf"></div>
-                </div>
-                <div id="updates" class="posts-section">
-                    <h2 class="sectionTitle">Tips and Tricks!</h2>
-                    <div id="postList"></div>
-                    <div class="update">
-                        <img src="plant1.jpg" alt="Plant post">
-                        <p>Tomato plant for testing! 🍅</p>
-                    </div>
-                    <div class="update">
-                        <video controls>
-                            <source src="garden-video.mp4" type="video/mp4">
-                        </video>
-                        <p>Empty video for testing!</p>
-                    </div>
+        <div class="posts">
+            <div id="updates" class="postSection">
+                <h2 class="sectionTitle">Tips and Tricks!</h2>
+                <div id="postList"></div>
+                <div class="update">
+                    <img src="plant1.jpg" alt="Plant tip">
+                    <p>Tomato plant for testing! 🍅</p>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="bottomFeedTypes">
+        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
+        <a href="businessExplore.html" class="feedIcon">🛍 Shops</a>
+        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
+        <a href="beginnerExplore.html" class="feedIcon">👥 Users</a>
+     <!--<a href="friends.html" class="feedIcon selected">👥 Friends</a>-->
     </div>
 
     <script src="otherProfileProfessional.js"></script>
