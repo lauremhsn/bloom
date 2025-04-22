@@ -185,8 +185,8 @@ rejectBtn.addEventListener('click', async (event) => {
 
 const collabReqs = document.querySelectorAll('.friendReq');
 collabReqs.forEach(collabReq => {
-const acceptBtn = collabReq.querySelector('#accept');
-const rejectBtn = collabReq.querySelector('#reject');
+const acceptBtn = collabReq.querySelector('#acceptCollab');
+const rejectBtn = collabReq.querySelector('#rejectCollab');
 const user2_id = collabReq.dataset.senderId; 
 
 acceptBtn.addEventListener('click', async (event) => {
