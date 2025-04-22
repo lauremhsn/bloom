@@ -170,29 +170,26 @@ app.get('/getposts', async (req, res) => {
     try {
         const authHeader = req.headers.authorization;
         if (!authHeader) return res.status(401).json({ error: 'Missing auth token' });
+
         const token = authHeader.split(' ')[1];
-        const parsedToken = jwtDecode.jwtDecode(token);
+        const parsedToken = jwtDecode(token);
         const userid = parsedToken.id;
 
+        db.query(`SELECT * FROM "Posts" WHERE user_id = $1`, [userid], (error, results) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return res.status(500).json({ error: 'Query failed' });
+            }
 
-        db.query(
-            `SELECT * FROM "Posts" WHERE user_id = $1;`, [userid], async (error, results) => {
-                if (error) {
-                    console.error('Error executing query:', error);
-                    return;
-                }
-
-                if (results.rows > 0) {
-
-                    res.status(201).json(results.rows);
-                }
-            });
+            res.status(200).json(results.rows);
+        });
 
     } catch (error) {
-        console.error('Error in /addpost:', error);
-        res.status(500).json({ error: 'Post Failed' });
+        console.error('Error in /getposts:', error);
+        res.status(500).json({ error: 'Post fetch failed' });
     }
 });
+
 
 app.get("/getProfileByType/:accountType", async (req, res) => {
     const accountType = req.params.accountType;
