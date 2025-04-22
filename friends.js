@@ -93,7 +93,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 
       document.querySelectorAll(".request-friend").forEach(button => {
         button.addEventListener("click", async () => {
-          const user2_id = button.getAttribute('data-user-id');
+          const user2_id = button.dataset.userId;
           try {
             const res = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
               method: "POST",
@@ -112,7 +112,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 
       document.querySelectorAll(".request-collab").forEach(button => {
         button.addEventListener("click", async () => {
-          const user2_id = button.getAttribute('data-user-id');
+          const user2_id = button.dataset.userId;
           try {
             const res = await fetch("https://bloom-zkk8.onrender.com/sendCollabRequest", {
               method: "POST",
