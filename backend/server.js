@@ -9,7 +9,7 @@ const db = require('./db');
 const fs = require("fs");
 const mailer = require('./mailer');
 
-const jwtDecode = require('jwt-decode');
+const jwtDecode = require('jwt-decode').default;
 console.log("jwtDecode type:", typeof jwtDecode);
 const app = express();
 const PORT = process.env.PORT || 8000;
