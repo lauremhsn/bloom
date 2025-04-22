@@ -33,7 +33,7 @@ document.getElementById('signupForm').addEventListener('submit', async function 
 
 async function signUp(form) {
     let errorMessage = document.getElementById('signupError');
-    let formData = new FormData(this); // Collects all input fields, including file uploads
+    let formData = new FormData(form); // Collects all input fields, including file uploads
 
 
     console.log([...formData]); // Logs the form data (key-value pairs)
