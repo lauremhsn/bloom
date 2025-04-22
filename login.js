@@ -114,6 +114,7 @@ async function submission() {
             console.log(data.user.accounttype);
             window.location.href = `${accountType}Profile.html`;
             // Redirect to the social feed page
+            
         });
 
     } catch (error) {

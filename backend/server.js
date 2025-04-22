@@ -7,6 +7,7 @@ const multer = require('multer');
 const path = require('path');
 const db = require('./db');
 const fs = require("fs");
+const mailer = require('mailer');
 
 const jwtDecode = require('jwt-decode');
 const app = express();
@@ -126,6 +127,9 @@ app.post('/login', async (req, res) => {
                 if (await bcrypt.compare(password, results.rows[0].password)) {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                     console.log(results.rows[0]);
+
+                    mailer.sendEmail('stephanechedid@gmail.com','New Login','<p>you have logged in to Bloom</p>')
+
                     res.json({ message: 'Login successful', token, user: results.rows[0] });
                     
                    
