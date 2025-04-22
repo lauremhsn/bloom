@@ -63,50 +63,48 @@ app.get("/api/getCurrentUserId", (req, res) => {
   });
 
 
-app.post('/signup', upload.single('profilePic'), async (req, res) => {
+  app.post('/signup', upload.single('profilePic'), async (req, res) => {
     try {
         const { displayName, username, email, password, accountType } = req.body;
         const profilePic = req.file ? req.file.filename : '';
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Using async/await for the database query
-        const query = `
+        const userQuery = `
             INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
         `;
-        const values = [email, username, hashedPassword, profilePic, displayName, accountType];
+        const userValues = [email, username, hashedPassword, profilePic, displayName, accountType];
+        const { rows } = await db.query(userQuery, userValues);
 
-        // Wait for the query result
-        const { rows } = await db.query(query, values);  // Assuming db.query returns a Promise
-
-        // Log the results to see the inserted row(s)
-        console.log('Query Results:', rows);
-
-        if (rows.length > 0) {
-            const user = rows[0];  // Get the inserted user data
-            console.log('Inserted User:', user);  // Log the inserted user object
-            
-            // Respond with success and the user data
-            return res.json({
-                message: 'User registered successfully',
-                user: {
-                    accounttype: user.accounttype,
-                    username: user.username,
-                    displayname: user.displayname,
-                    profilepic: user.profilepic,
-                }
-            });
-        } else {
+        if (rows.length === 0) {
             return res.status(400).json({ error: 'User registration failed' });
         }
+
+        const user = rows[0];
+
+        const plantQuery = `
+            INSERT INTO "Plants" (user1_id) VALUES ($1);
+        `;
+        await db.query(plantQuery, [user.id]);
+
+        console.log('Inserted User:', user);
+
+        return res.json({
+            message: 'User registered successfully and plant created',
+            user: {
+                accounttype: user.accounttype,
+                username: user.username,
+                displayname: user.displayname,
+                profilepic: user.profilepic,
+            }
+        });
 
     } catch (error) {
         console.error('Error during signup:', error);
         return res.status(500).json({ error: 'Signup failed: ' + error.message });
     }
 });
-
 
 
 
@@ -541,13 +539,25 @@ app.post('/acceptCollabRequest', async(req,res) => {
     const { user1_id , user2_id, plant_id} = req.body;
 
     try{
-        await db.query(
-            `INSERT INTO "Collaborations" (user1_id, user2_id, plant_id)
-            VALUES ($1, $2, $3)`
-            , [user1_id, user2_id, plant_id]);
+        const query = `
+        INSERT INTO "Collaborations" ("user1_id", "user2_id", "plant_id")
+        VALUES ($1, $2, $3)
+        RETURNING *;
+    `;
+    const values = [user1_id, user2_id, plant_id];
+    const { rows } = await db.query(query, values);
 
-        res.status(200).json({message: 'Collaboration accepted.'});
-    } catch(error) {
+    const updateQuery = `
+        UPDATE "Plants"
+        SET user2_id = $1
+        WHERE id = $2
+        RETURNING *;
+    `;
+    await db.query(updateQuery, [user2_id, plant_id]);
+
+    res.status(200).json({ message: 'Collaboration accepted and plant shared successfully' });
+    }
+     catch(error) {
         console.error('Error accepting collaboration request: ', error);
         res.status(500).json({error: 'Could not accept collaboration request.'});
     }
@@ -800,6 +810,41 @@ app.post('/add-friend', async (req, res) => {
     } catch (err) {
       console.error('Error rejecting collab request:', err);
       res.status(500).json({ error: 'Could not reject collab request.' });
+    }
+  });
+
+
+  app.get('/myFriendRequests/:id', async (req, res) => {
+    const userId = parseInt(req.params.id);
+    try {
+      const result = await db.query(
+        `SELECT fr.*, u.id AS other_id, u.username, u.displayname, u.profilepic
+         FROM "FriendsREQUESTS" fr
+         JOIN "Users" u ON (u.id = CASE WHEN fr.user1_id = $1 THEN fr.user2_id ELSE fr.user1_id END)
+         WHERE fr.user1_id = $1 OR fr.user2_id = $1`,
+        [userId]
+      );
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching friend requests:", error);
+      res.status(500).json({ error: "Could not fetch friend requests." });
+    }
+  });
+  
+  app.get('/myCollabRequests/:id', async (req, res) => {
+    const userId = parseInt(req.params.id);
+    try {
+      const result = await db.query(
+        `SELECT cr.*, u.id AS other_id, u.username, u.displayname, u.profilepic
+         FROM "CollaborationsREQUESTS" cr
+         JOIN "Users" u ON (u.id = CASE WHEN cr.user1_id = $1 THEN cr.user2_id ELSE cr.user1_id END)
+         WHERE cr.user1_id = $1 OR cr.user2_id = $1`,
+        [userId]
+      );
+      res.json(result.rows);
+    } catch (error) {
+      console.error("Error fetching collab requests:", error);
+      res.status(500).json({ error: "Could not fetch collab requests." });
     }
   });
 

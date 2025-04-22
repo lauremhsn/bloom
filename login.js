@@ -44,8 +44,8 @@ async function signUp() {
             method: 'POST',
             body: formData
         });
-
-        console.log('API Response:', response);
+        
+        console.log('API Response:', response);  
         let data = await response.json();
         console.log('Response Data:', data);
         if (!response.ok) {
@@ -55,6 +55,7 @@ async function signUp() {
         localStorage.setItem("username", data.user.username);
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
+        localStorage.setItem("userId", data.user.id);
         console.log(data.user.accounttype);
         showSuccessMessage("Signup successful! Redirecting...", () => {
             accountType = localStorage.getItem("accountType");
@@ -77,18 +78,18 @@ async function submission() {
     let email = document.getElementById('loginEmail').value.trim();
     let password = document.getElementById('loginPass').value.trim();
 
-    if (!email || !password) {
-        errorMessage.innerHTML = `⚠️ <strong>Error:</strong> Please enter both email and password.`;
-        errorMessage.style.display = 'block';
-        return;
-    }
+        if (!email || !password) {
+            errorMessage.innerHTML = `⚠️ <strong>Error:</strong> Please enter both email and password.`;
+            errorMessage.style.display = 'block';
+            return;
+        }
 
-    try {
-        let response = await fetch('https://bloom-zkk8.onrender.com/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
-        });
+        try {
+            let response = await fetch('https://bloom-zkk8.onrender.com/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
         let data = await response.json();
 

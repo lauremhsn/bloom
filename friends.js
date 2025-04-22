@@ -4,7 +4,12 @@ const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
 
 
-const CURRENTuserID = localStorage.getItem("userID");
+const CURRENTuserID = localStorage.getItem("userId");
+console.log("CURRENTuserID:", CURRENTuserID);
+if (!CURRENTuserID) {
+  alert("User ID not found. Please log in.");
+  return;
+}
 //search bar stuff
 // searchInput.addEventListener('focus', () => {
 //     searchResults.style.display = "block";
@@ -98,6 +103,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             });
             const result = await res.json();
             alert(result.message || "Request sent!");
+            button.innerHTML=`Requested!`
           } catch (err) {
             console.error("Request failed:", err);
             alert("Something went wrong.");
@@ -115,7 +121,9 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
               body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
             });
             const result = await res.json();
+            console.log(result);
             alert(result.message || "Request sent!");
+            button.innerHTML=`Requested!`
           } catch (err) {
             console.error("Request failed:", err);
             alert("Something went wrong.");
@@ -185,11 +193,18 @@ acceptBtn.addEventListener('click', async (event) => {
     const res = await fetch("https://bloom-zkk8.onrender.com/acceptCollabRequest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+      body: JSON.stringify({ user1_id: CURRENTuserID, user2_id: user2_id , plant_id})
     });
     const result = await res.json();
-    alert(result.message || "Accepted!");
+    alert("Accepted!");
+    if (result.message === 'Collaboration accepted and plant shared successfully') {
+      
+        console.log('Collaboration accepted, both users are now sharing the same plant!');
+        await getPlantProgress(); }
+      else { console.error('Failed to accept collaboration.');}
+
     collabReq.remove();
+
   } catch (err) {
     console.error("Accept failed:", err);
     alert("Could not accept collab request.");
@@ -213,3 +228,25 @@ rejectBtn.addEventListener('click', async (event) => {
   }
 });
 });
+
+
+async function loadCollabRequests() {
+  const res = await fetch(`/myCollabRequests/${CURRENTuserID}`);
+  const data = await res.json();
+  const container = document.getElementById("collabReqSection");
+  container.innerHTML = ""; 
+
+  data.forEach(user => {
+    const div = document.createElement("div");
+    div.className = "request-card";
+    div.innerHTML = `
+      <img src="/getProfilePic/${user.profilepic || 'profile.jpg'}" />
+      <h3>${user.displayname}</h3>
+      <p>@${user.username}</p>
+      <p>Plant ID: ${user.plant_id}</p>
+      <button onclick="acceptCollab(${CURRENTuserID}, ${user.other_id}, ${user.plant_id})">Accept</button>
+      <button onclick="rejectCollab(${CURRENTuserID}, ${user.other_id}, ${user.plant_id})">Reject</button>
+    `;
+    container.appendChild(div);
+  });
+}
