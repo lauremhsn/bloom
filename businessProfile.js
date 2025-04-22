@@ -112,7 +112,7 @@ export function postRelated(addPostBtn, postModal, closePostModal) {
 }
 
 export function postSubmission(submitPost, postMedia, postText, postList, postModal) {
-  submitPost.addEventListener('click', () => {
+  submitPost.addEventListener('click', async () => {
     const text = postText.value.trim();
     const file = postMedia.files[0];
 
@@ -145,25 +145,34 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
       };
       reader.readAsDataURL(file);
     }
+
     const token = localStorage.getItem('token');
     const formData = new FormData();
     formData.append('text', text);
     formData.append('file', file);
     formData.append('token', token);
+
     try {
-      const response = fetch('https://bloom-zkk8.onrender.com/addpost', {
+      const response = await fetch('https://bloom-zkk8.onrender.com/addpost', {
         method: 'POST',
         body: formData,
       });
+
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || 'Unknown error');
+      }
+
+      console.log("Post successful:", result.message);
+      postList.prepend(post);
+      postText.value = "";
+      postMedia.value = "";
+      postModal.style.display = 'none';
+
     } catch (error) {
       console.error('Error adding post:', error);
-      alert('An error occurred');
+      alert('Failed to add post: ' + error.message);
     }
-
-    postList.prepend(post);
-    postText.value = "";
-    postMedia.value = "";
-    postModal.style.display = 'none';
   });
 }
 
