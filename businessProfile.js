@@ -156,6 +156,10 @@ export function postSubmission(submitPost, postMedia, postText, postList, postMo
 async function fetchPosts() {
   try {
     const token = localStorage.getItem("token");
+    if (!token) {
+  console.warn("No token found in localStorage");
+  return; 
+}
 
     const response = await fetch("https://bloom-zkk8.onrender.com/getposts", {
       headers: {
