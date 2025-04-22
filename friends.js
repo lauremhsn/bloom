@@ -101,7 +101,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+              body: JSON.stringify({ user1_id: CURRENTuserID, friendId: user2_id })
             });
             const result = await res.json();
             alert(result.message || "Request sent!");
