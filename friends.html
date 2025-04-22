@@ -1,336 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap"
-    rel="stylesheet">
-  <title>Friends</title>
-  <link rel="stylesheet" href="friends.css">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="profile.css"/>
+    <link rel="stylesheet" href="friends.css"/>
+        <style>
+            .topBar > a:nth-child(3)::after{display: none;}
+            .topBar > a:nth-child(4){
+                position: relative;
+                display: inline-block;
+            }
+
+            .topBar > a:nth-child(4)::after{
+                content: "";
+                position: absolute;
+                bottom: -6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60%;
+                max-width: 30px;
+                height: 4px;
+                background-color: #b89d85;
+                border-radius: 2px;
+            }
+        </style>
+    <title>Friends</title>
 </head>
 
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <div class="sidebarThing">
-                <p>BLOOM</p>
+    <div class="topBar">
+        <a href="home.html" class="bloomLogo">BLOOM</a>
+        <a href="plants-grid.html" class="icon">🪴</a>
+        <a href="#">
+            <div class="pfp">
+                <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
             </div>
-            <div class="sidebarThing">
-                <a href="beginnerProfile.html">
-                    <div class="pfp">
-                        <img src="pfp1.jpg" alt="Profile Picture" id="sidebarPfp">
+        </a>
+        <a href="friends.html" class="icon">👥</a>
+        <a href="contact.html" class="contactLink">Contact Us</a> <!--fix this-->
+    </div>
+
+
+    <div class="Content">
+        <div class="searchCont">
+            <input type="text" class="searchBar" placeholder="Search…"/>
+            <button class="searchBtn" id="searchBtn">Search</button>
+
+            <div class="searchResults" id="searchResults">
+                <div class="searchResultItem">
+                    <div class="thePfp"><img src="profile.jpg" alt="Alice"></div>
+                    <div class="userInfo">
+                        <h1 class="name">Alice</h1>
+                        <p class="username">@alice</p>
                     </div>
-                </a>
+                </div>
+                <div class="searchResultItem">
+                    <div class="thePfp"><img src="profile.jpg" alt="Bob"></div>
+                    <div class="userInfo">
+                        <h1 class="name">Bob</h1>
+                        <p class="username">@bob</p>
+                    </div>
+                </div>
+                <div class="searchResultItem">
+                    <div class="thePfp"><img src="profile.jpg" alt="Carol"></div>
+                    <div class="userInfo">
+                        <h1 class="name">Carol</h1>
+                        <p class="username">@carol</p>
+                    </div>
+                </div>
             </div>
-            <div class="sidebarThing middle">
-                <a href="ngoExplore.html">🌍 NGOs</a>
-                <a href="businessExplore.html">🛍 Shops</a>
-                <a href="profExplore.html">👩‍🌾 Professionals</a>
-                <a href="friends.html">👥 Friends</a>
-            </div>
-            <div class="sidebarThing sets">
-            <!--    <a href="settings.html">Settings</a>-->
+
+            <div class="suggested">
+                <h2 class="sectionTitle">Suggested Friends</h2>
+
+                <div class="suggProf">
+                    <a class="thePfp" href="#"><img src="pfp1.jpg" alt="Dave"></a>
+                    <div class="suggAtt">
+                        <h1 class="name">Dave</h1>
+                        <p class="username">@dave</p>
+                    </div>
+                </div>
+                <div class="suggProf">
+                    <a class="thePfp" href="#"><img src="pfp1.jpg" alt="Eve"></a>
+                    <div class="suggAtt">
+                        <h1 class="name">Eve</h1>
+                        <p class="username">@eve</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="Content">
-            <div class="searchCont">
-                <input type="text" class="searchBar" placeholder="Search...">
-                <button class="searchBtn" id="searchBtn">Search</button>
-                <div class="searchResults" id="searchResults">
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-                    <div class="searchResultItem">
-                        <div class="thePfp">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </div>
-                        <div class="userInfo">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
+
+
+        <div class="topCont">
+            <div class="ngoRec">
+                <h2 class="sectionTitle">Discover NGOs</h2>
+                <div class="contributorProf">
+                    <div class="thePfp"><img src="pfp1.jpg" alt=""></div>
+                    <div class="contributorAtt">
+                        <h2 class="name">NGO One</h2>
+                        <p class="username">@ngo1</p>
                     </div>
                 </div>
-                <div class="suggested">
-                    <div class="suggProf">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="suggAtt">
-                            <h1 class="name">Website User</h1>
-                            <p class="username">@theirusername</p>
-                        </div>
-                    </div>
-
-                    <div class="suggProf">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="suggAtt">
-                            <h1 class="name">userfr userfr</h1>
-                            <p class="username">@userfr</p>
-                        </div>
-                    </div>
-
-                    <div class="suggProf">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="suggAtt">
-                            <h1 class="name">Some Person</h1>
-                            <p class="username">@aUsername</p>
-                        </div>
-                    </div>
-
-                    <div class="suggProf">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="suggAtt">
-                            <h1 class="name">Name Surname</h1>
-                            <p class="username">@uniqueusser</p>
-                        </div>
-                    </div>
-                    
-                </div>
+                <div class="contributorProf">…</div>
+                <div class="contributorProf">…</div>
             </div>
-            <div class="topCont">
-                <div class="ngoRec">
-                    <h1>Discover NGOs</h1>
-                    <div class="contributorProf first">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">userfr userfr</h2>
-                                <p class="username">@userfr</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contributorProf second">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">Name Surname</h2>
-                                <p class="username">@uniqueusser</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contributorProf third">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">Website User</h2>
-                                <p class="username">@theirusername</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="busRec">
-                    <h1>Discover Businesses</h1>
-                    <div class="contributorProf first">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">userfr userfr</h2>
-                                <p class="username">@userfr</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contributorProf second">
-                        <a class="thePfp" href="otherProfile.html">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">Name Surname</h2>
-                                <p class="username">@uniqueusser</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contributorProf third">
-                        <a class="thePfp" href="#">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="contributorAtt">
-                            <div class="stuff">
-                                <h2 class="name">Website User</h2>
-                                <p class="username">@theirusername</p>
-                            </div>
+            <div class="busRec">
+                <h2 class="sectionTitle">Discover Businesses</h2>
+                <div class="contributorProf">
+                    <a class="thePfp" href="#"><img src="pfp1.jpg" alt="PlantStuff"></a>
+                    <div class="contributorAtt">
+                        <div class="stuff">
+                            <h2 class="name">PlantStuff</h2>
+                            <p class="username">@plantstuff</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="reqCont">
-                <h1>Requests</h1>
-                <div class="friendReqSection">
-                    <h2>Friend Requests</h2>
-                    <div class="friendReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">userfr userfr</h1>
-                                <p class="username">@userfr</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="accept">Accept</button>
-                                <button class="butt" id="reject">Reject</button>
-                            </div>
-                        </div>
-                    </div>
+        </div>
 
-                    <div class="friendReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">Name Surname</h1>
-                                <p class="username">@uniqueusser</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="accept">Accept</button>
-                                <button class="butt" id="reject">Reject</button>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="friendReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">Website User</h1>
-                                <p class="username">@theirusername</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="accept">Accept</button>
-                                <button class="butt" id="reject">Reject</button>
-                            </div>
-                        </div>
-                    </div>
+        <div class="reqCont">
+            <h2 class="sectionTitle">Requests</h2>
 
-                    <div class="friendReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="profile.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">Website User</h1>
-                                <p class="username">@theirusername</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="accept">Accept</button>
-                                <button class="butt" id="reject">Reject</button>
-                            </div>
+            <div class="friendReqSection">
+                <h3>Friend Requests</h3>
+                <div class="friendReq">
+                    <div class="thePfpfrnd"><img src="pfp1.jpg" alt="Frank"></div>
+                    <div class="reqAtt">
+                        <div class="reqStuff">
+                            <h1 class="name">Frank</h1>
+                            <p class="username">@frank</p>
+                        </div>
+                        <div class="afterfrndStuff">
+                            <button class="butt" id="accept">Accept</button>
+                            <button class="butt" id="reject">Reject</button>
                         </div>
                     </div>
                 </div>
-                <div id="collabReqSection">
-                    <h2>Collab Invites</h2>
-                    <div class="collabReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">userfr userfr</h1>
-                                <p class="username">@userfr</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="acceptCollab">Accept</button>
-                                <button class="butt" id="rejectCollab">Reject</button>
-                            </div>
+            </div>
+
+            <div class="collabReqSection">
+                <h3>Collab Invites</h3>
+                <div class="collabReq">
+                    <div class="thePfpfrnd"><img src="pfp1.jpg" alt="Heidi"></div>
+                    <div class="reqAtt">
+                        <div class="reqStuff">
+                            <h1 class="name">Heidi</h1>
+                            <p class="username">@heidi</p>
                         </div>
-                    </div>
-            
-                    <div class="collabReq">
-                        <a class="thePfpfrnd" href="#">
-                            <img src="pfp1.jpg" alt="Profile Picture">
-                        </a>
-                        <div class="reqAtt">
-                            <div class="reqStuff">
-                                <h1 class="name">Name Surname</h1>
-                                <p class="username">@uniqueusser</p>
-                            </div>
-                            <div class="afterfrndStuff">
-                                <button class="butt" id="acceptCollab">Accept</button>
-                                <button class="butt" id="rejectCollab">Reject</button>
-                            </div>
+                        <div class="afterfrndStuff">
+                            <button class="butt" id="acceptCollab">Accept</button>
+                            <button class="butt" id="rejectCollab">Reject</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <div class="bottomFeedTypes">
+        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
+        <a href="businessExplore.html" class="feedIcon">🛍 Shops</a>
+        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
+        <a href="beginnerExplore.html" class="feedIcon">👥 Users</a>
+    </div>
+
     <script src="friends.js"></script>
     <script src="profile.js"></script>
-
 </body>
-
 </html>
