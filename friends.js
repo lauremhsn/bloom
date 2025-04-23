@@ -102,34 +102,13 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         </div>
       `;
       const requestFriendInfo = item.querySelector(".userInfo");
-const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
-console.log("Friend button element:", requestFriendButton);
-console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("data-user-id"));
+      const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
+      console.log("Friend button element:", requestFriendButton);
+      console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("data-user-id"));
 
 resultsContainer.appendChild(item);
 
 requestFriendButton.addEventListener("click", async () => {
-  // const friendId = requestFriendButton.getAttribute("data-user-id");
-  // const token = localStorage.getItem('token');
-
-  // console.log("friendId (raw):", friendId);
-  // console.log("token:", token);
-
-  // try {
-  //   const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ token, friendId })
-  //   });
-  //   const result = await res.json();
-  //   alert(result.message || "Request sent!");
-  //   requestFriendButton.innerHTML = `Requested!`;
-  //   requestFriendButton.disabled = true;
-  // } catch (err) {
-  //   console.error("Request failed:", err);
-  //   alert("Something went wrong.");
-  // }
-
   const friend2_id = requestFriendButton.getAttribute("data-user-id");
   const token = localStorage.getItem('token');
 

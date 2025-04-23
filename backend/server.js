@@ -732,51 +732,51 @@ app.post('/add-friend', async (req, res) => {
     console.log("Received friend request:", { user1_id, user2_id });
   
     try {
-      const result = await db.query(
-        `INSERT INTO "FriendsREQUESTS" (user1_id, user2_id)
-         VALUES ($1, $2)
-         ON CONFLICT DO NOTHING`,
-        [user1_id, user2_id]
-      );
+        const result = await db.query(
+            `SELECT *
+             FROM friendsREQUESTS
+             WHERE (friend1_id = ${user1_id} AND friend2_id = ${user2_id}) OR (friend2_id = ${user1_id} AND friend1_id = ${user2_id})`
+        );
   
-      if (result.rowCount === 0) {
-        return res.status(200).json({ message: 'Friend request already sent!' });
-      }
-  
-      res.status(200).json({ message: 'Friend request sent!' });
+        if (result.rowCount > 0) {
+            return res.status(200).json({ message: 'Friend request already sent!' });
+        }
+        else {
+            await db.query(
+                `INSERT INTO friendsREQUESTS (friend1_id, friend2_id) 
+                 VALUES (${user1_id}, ${user2_id})`
+            );
+        }
+        
+        res.status(200).json({ message: 'Friend request sent!' });
+
     } catch (error) {
-      console.error('Error sending friend request:', error);
-      res.status(500).json({ error: 'Could not send friend request.' });
+        console.error('Error sending friend request:', error);
+        res.status(500).json({ error: 'Could not send friend request.' });
     }
   });
   
-
-
   app.post('/acceptFriendRequest', async (req, res) => {
     const { user1_id, user2_id } = req.body;
   
     try {
-      await db.query('BEGIN');
+        await db.query(
+            `DELETE FROM "FriendsREQUESTS" 
+             WHERE (friend1_id = ${user1_id} AND friend2_id = ${user2_id}) OR (friend2_id = ${user1_id} AND friend1_id = ${user2_id})`
+        );
   
-      await db.query(
-        `DELETE FROM "FriendsREQUESTS" 
-         WHERE user1_id = $1 AND user2_id = $2`,
-        [user1_id, user2_id]
-      );
-  
-      await db.query(
-        `INSERT INTO "Friends" (friend1_id, friend2_id) 
-         VALUES ($1, $2) 
-         ON CONFLICT DO NOTHING`,
-        [user1_id, user2_id]
-      );
-  
-      await db.query('COMMIT');
-      res.status(200).json({ message: 'Friend request accepted!' });
-    } catch (err) {
-      await db.query('ROLLBACK');
-      console.error('Error accepting friend request:', err);
-      res.status(500).json({ error: 'Could not accept friend request.' });
+        await db.query(
+            `INSERT INTO "Friends" (friend1_id, friend2_id)
+             VALUES (${user1_id}, ${user2_id})`
+         );
+    
+         res.status(200).json({ message: 'Friend request accepted!' });
+    
+        }
+    catch (err) {
+        await db.query('ROLLBACK');
+        console.error('Error accepting friend request:', err);
+        res.status(500).json({ error: 'Could not accept friend request.' });
     }
   });
 
