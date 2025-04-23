@@ -67,7 +67,6 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
   resultsContainer.style.display = 'block';
 
   const apiUrl = `https://bloom-zkk8.onrender.com/api/search-users?q=${encodeURIComponent(query)}`;
-  console.log("Calling API:", apiUrl); // Debug log
 
   try {
     const response = await fetch(apiUrl);
@@ -87,8 +86,6 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     }
 
     users.forEach(user => {
-      console.log(user);
-      console.log("user id: ", user.id);
       const item = document.createElement('div');
       item.className = 'searchResultItem';
       item.innerHTML = `
@@ -104,8 +101,6 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       `;
       const requestFriendInfo = item.querySelector(".userInfo");
       const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
-      console.log("Friend button element:", requestFriendButton);
-      console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("data-user-id"));
 
 resultsContainer.appendChild(item);
 
@@ -113,6 +108,7 @@ requestFriendButton.addEventListener("click", async () => {
   const friend2_id = parseInt(requestFriendButton.getAttribute("data-user-id"));
   const token = localStorage.getItem('token');
 
+  console.log("user 2 id: ", friend2_id);
   if (!token) {
     alert("You must be logged in to add friends.");
     return;
