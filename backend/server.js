@@ -27,32 +27,28 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
   
-// app.post('/signup', upload.single('profilePic'), async (req, res) => {
-//     try {
-//         const { displayName, username, email, password, accountType } = req.body;
-//         const profilePic = req.file ? req.file.filename : ''
+app.post('/addpost', upload.single('file'), async (req, res) => {
+    try {
+        const { token, text } = req.body;
+        const file = req.file ? req.file.filename : '';
 
-       
+        const parsedToken = jwtDecode(token);
+        const userid = parsedToken.id;
 
-//         const hashedPassword = await bcrypt.hash(password, 10);
+        db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`, [userid, text, file], async (error, result) => {
+            if (error) {
+                console.error('Error executing query:', error);
+                return;
+            }
+        });
 
-//         db.query(`INSERT INTO "Users" (email, username, password, profilePic, displayName, accountType) 
-//             VALUES ($1, $2, $3, $4, $5, $6);`, [email, username, hashedPassword, profilePic, displayName, accountType], (error, results) => {
-//             if (error) {
-//                 console.error('Error executing query:', error);
-//                 return;
-//             }
-//             const user = results.rows[0];  // Assuming result.rows contains the newly created user
-//             res.json({ message: 'User registered successfully', user: user });
-//         });
-        
-        
-       
-        
-//     } catch (error) {
-//         res.status(500).json({ error: 'Signup failed' });
-//     }
-// });
+        res.status(201).json({ message: 'Posted Successfully' });
+
+    } catch (error) {
+        console.error('Error in /addpost:', error);
+        res.status(500).json({ error: 'Post Failed' });
+    }
+});
 
 
 app.get("/api/getCurrentUserId", (req, res) => {
