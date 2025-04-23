@@ -1,3 +1,5 @@
+const { request } = require("express");
+
 const searchInput = document.querySelector('.searchBar');
 const searchResults = document.getElementById('searchResults');
 const searchResultItems = document.querySelectorAll('.searchResultItem');
@@ -91,28 +93,28 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       `;
       resultsContainer.appendChild(item);
 
-      document.querySelectorAll(".request-friend").forEach(button => {
-        button.addEventListener("click", async () => {
-          const friendId = button.getAttribute("data-user-id");
-          const token = localStorage.getItem('token');
-          console.log("friendId:", friendId);
-          console.log("token:", token);
+      const requestFriendButton = item.querySelector(".request-friend");
+      requestFriendButton.addEventListener("click", async() => {
+        const friendId = requestFriendButton.getAttribute("data-user-id");
+        const token = localStorage.getItem('token');
+        console.log("friendId:", friendId);
+        console.log("token:", token);
 
-          try {
-            const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ token, friendId })
-            });
-            const result = await res.json();
-            alert(result.message || "Request sent!");
-            button.innerHTML=`Requested!`
-          } catch (err) {
-            console.error("Request failed:", err);
-            alert("Something went wrong.");
-          }
-        });
-      });
+        try {
+          const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token, friendId })
+          });
+          const result = await res.json();
+          alert(result.message || "Request sent!");
+          button.innerHTML=`Requested!`
+        } catch (err) {
+          console.error("Request failed:", err);
+          alert("Something went wrong.");
+        }
+      });      
+          
 
       document.querySelectorAll(".request-collab").forEach(button => {
         button.addEventListener("click", async () => {
