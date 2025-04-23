@@ -97,8 +97,8 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         <div class="userInfo">
             <h1 class="name">${user.displayname}</h1>
             <p class="username">@${user.username}</p>
-            <button class="request-friend" data-user-id="${user.id}">Request Friend</button>
-            <button class="request-collab" data-user-id="${user.id}">Request Collab</button>
+            <button class="request-friend" data-user-id=${user.id}>Request Friend</button>
+            <button class="request-collab" data-user-id=${user.id}>Request Collab</button>
         </div>
       `;
       const requestFriendInfo = item.querySelector(".userInfo");
