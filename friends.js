@@ -108,7 +108,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
           });
           const result = await res.json();
           alert(result.message || "Request sent!");
-          button.innerHTML=`Requested!`
+          requestFriendButton.innerHTML=`Requested!`
         } catch (err) {
           console.error("Request failed:", err);
           alert("Something went wrong.");
