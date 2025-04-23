@@ -93,7 +93,8 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       `;
       resultsContainer.appendChild(item);
 
-      const requestFriendButton = item.querySelector(".request-friend");
+      const requestFriendInfo = item.querySelector(".userInfo");
+      const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
       requestFriendButton.addEventListener("click", async() => {
         const friendId = requestFriendButton.getAttribute("data-user-id");
         const token = localStorage.getItem('token');
