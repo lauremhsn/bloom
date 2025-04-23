@@ -115,27 +115,25 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
         }
       });      
           
+      const requestCollabButton = item.querySelector(".request-collab");
+      requestCollabButton.addEventListener("click", async () => {
+        const user2_id = requestCollabButton.getAttribute("data-user-id");
 
-      document.querySelectorAll(".request-collab").forEach(button => {
-        button.addEventListener("click", async () => {
-          const user2_id = button.dataset.userId;
-          try {
-            const res = await fetch("https://bloom-zkk8.onrender.com/sendCollabRequest", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
-            });
-            const result = await res.json();
-            console.log(result);
-            alert(result.message || "Request sent!");
-            button.innerHTML=`Requested!`
-          } catch (err) {
-            console.error("Request failed:", err);
-            alert("Something went wrong.");
-          }
-        });
+        try {
+          const res = await fetch("https://bloom-zkk8.onrender.com/sendCollabRequest", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+          });
+          const result = await res.json();
+          alert(result.message || "Request sent!");
+          requestCollabButton.innerHTML = `Requested!`;
+          requestCollabButton.disabled = true;
+        } catch (err) {
+          console.error("Request failed:", err);
+          alert("Something went wrong.");
+        }
       });
-
     });
   } catch (err) {
     console.error('Search error:', err);
