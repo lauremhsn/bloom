@@ -10,6 +10,7 @@ const fs = require("fs");
 const mailer = require('./mailer');
 
 const { jwtDecode } = require("jwt-decode");
+const { isContext } = require('vm');
 console.log(jwtDecode);
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -731,6 +732,7 @@ app.post('/add-friend', async (req, res) => {
   app.post('/sendFriendRequest', async (req, res) => {
     const friend1_id = parseInt(req.body.friend1_id)
     const friend2_id = parseInt(req.body.friend2_id)
+    console.log(req.body);
     console.log("Received friend request:", { friend1_id, friend2_id });
   
     try {
