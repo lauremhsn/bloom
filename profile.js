@@ -60,6 +60,9 @@ export function eventList() {
         changes(fileInput, profilePicInput);
         postRelated(addPostBtn, postModal, closePostModal);
         postSubmission(submitPost, postMedia, postText, postList, postModal);
+        if (localStorage.getItem('token')) {
+            loadPosts(postList);  // ✅ This will auto-populate posts
+        }
     })
 }
 
@@ -270,4 +273,38 @@ async function fetchPosts() {
         console.error("Error fetching posts:", error);
     }
 }
+
+export async function loadPosts(postList) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    const { id } = jwtDecode(token); // or store id in localStorage on login
+    const response = await fetch(`https://bloom-zkk8.onrender.com/getposts/${id}`);
+    const posts = await response.json();
+
+    posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('update');
+
+        if (post.text) {
+            const paragraph = document.createElement('p');
+            paragraph.textContent = post.text;
+            postElement.appendChild(paragraph);
+        }
+
+        if (post.media) {
+            const ext = post.media.split('.').pop();
+            const mediaElement = ext === 'mp4'
+                ? document.createElement('video')
+                : document.createElement('img');
+            if (ext === 'mp4') mediaElement.setAttribute('controls', '');
+
+            mediaElement.src = `https://bloom-zkk8.onrender.com/uploads/${post.media}`;
+            postElement.appendChild(mediaElement);
+        }
+
+        postList.appendChild(postElement);
+    });
+}
+
 

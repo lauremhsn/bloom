@@ -177,31 +177,46 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
-app.get('/getposts', async (req, res) => {
-    try {
-        const token = req.body;
-        const parsedToken = jwtDecode.jwtDecode(token);
-        const userid = parsedToken.id;
+// app.get('/getposts', async (req, res) => {
+//     try {
+//         const token = req.body;
+//         const parsedToken = jwtDecode.jwtDecode(token);
+//         const userid = parsedToken.id;
        
 
-        db.query((
-            `SELECT * FROM "Posts" WHERE user_id = $1;`,[userid],  async (error, results) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return;
-            }
+//         db.query((
+//             `SELECT * FROM "Posts" WHERE user_id = $1;`,[userid],  async (error, results) => {
+//             if (error) {
+//                 console.error('Error executing query:', error);
+//                 return;
+//             }
             
-            if (results.rows > 0) {
+//             if (results.rows > 0) {
                 
-                res.status(201).json(results.rows);
-            }
-        }));
+//                 res.status(201).json(results.rows);
+//             }
+//         }));
 
-    } catch (error) {
-        console.error('Error in /addpost:', error);
-        res.status(500).json({ error: 'Post Failed' });
+//     } catch (error) {
+//         console.error('Error in /addpost:', error);
+//         res.status(500).json({ error: 'Post Failed' });
+//     }
+// });
+
+app.get('/getposts/:userid', async (req, res) => {
+    try {
+        const userid = req.params.userid;
+        const result = await db.query(`
+            SELECT * FROM "Posts" WHERE user_id = $1 ORDER BY id DESC
+        `, [userid]);
+
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Error fetching posts:', err);
+        res.status(500).json({ error: 'Failed to load posts' });
     }
 });
+
 
 app.get("/getProfileByType/:accountType", async (req, res) => {
     const accountType = req.params.accountType;
