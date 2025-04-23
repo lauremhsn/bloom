@@ -686,6 +686,7 @@ app.get('/suggestedUsers/:userId', async (req, res) => {
 //     }
 // });
 
+/*
 app.post('/add-friend', async (req, res) => {
     const { friend1_id, friend2_id } = req.body;
    
@@ -705,7 +706,7 @@ app.post('/add-friend', async (req, res) => {
         res.status(500).json({ error: 'Failed to add friend' });
     }
 });
-
+*/
 
   app.get('/api/search-users', async (req, res) => {
     const searchTerm = decodeURIComponent(req.query.q) || '';

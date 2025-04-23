@@ -120,13 +120,15 @@ requestFriendButton.addEventListener("click", async () => {
   // Decode token to get your user ID
   const { id: friend1_id } = decodeJWT(token);
 
+  console.log (friend1_id, friend2_id);
+
   try {
-    const response = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
+    const response = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ friend1_id, friend2_id })
+      body: JSON.stringify({ user1_id: friend1_id, user2_id: friend2_id })
     });
 
     const result = await response.json();
