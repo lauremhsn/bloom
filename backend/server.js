@@ -736,7 +736,7 @@ app.post('/add-friend', async (req, res) => {
         const result = await db.query(
             `SELECT *
              FROM friendsREQUESTS
-             WHERE (friend1_id = ${user1_id} AND friend2_id = ${user2_id}) OR (friend2_id = ${user1_id} AND friend1_id = ${user2_id})`
+             WHERE (user1_id = ${user1_id} AND user2_id = ${user2_id}) OR (user2_id = ${user1_id} AND user1_id = ${user2_id})`
         );
   
         if (result.rowCount > 0) {
