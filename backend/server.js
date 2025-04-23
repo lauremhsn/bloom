@@ -35,17 +35,27 @@ app.post('/addpost', upload.single('file'), async (req, res) => {
         const parsedToken = jwtDecode(token);
         const userid = parsedToken.id;
 
-        db.query(`INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`, [userid, text, file], async (error, result) => {
-            if (error) {
-                console.error('Error executing query:', error);
-                return;
-            }
-        });
+        db.query(
+            `INSERT INTO "Posts" (user_id, text, media) VALUES ($1, $2, $3) RETURNING id;`,
+            [userid, text, file],
+            (error, result) => {
+                if (error) {
+                    console.error('❌ DB Error:', error);
+                    return res.status(500).json({ error: 'Failed to create post' });
+                }
 
-        res.status(201).json({ message: 'Posted Successfully' });
+                const postId = result.rows[0].id;
+                console.log('✅ Post created with ID:', postId);
+
+                res.status(201).json({
+                    message: 'Posted Successfully',
+                    postId: postId
+                });
+            }
+        );
 
     } catch (error) {
-        console.error('Error in /addpost:', error);
+        console.error('❌ Error in /addpost:', error);
         res.status(500).json({ error: 'Post Failed' });
     }
 });

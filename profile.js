@@ -270,4 +270,4 @@ async function fetchPosts() {
         console.error("Error fetching posts:", error);
     }
 }
-fetchPosts();
+
