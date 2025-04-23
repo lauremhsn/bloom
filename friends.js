@@ -195,7 +195,8 @@ friendReqs.forEach(friendReq => {
 const acceptBtn = friendReq.querySelector('#accept');
 const rejectBtn = friendReq.querySelector('#reject');
 const user2_id = friendReq.dataset.senderId; 
-
+const acceptBtn1 = document.getElementById("acceptBtn");
+if (acceptBtn1) {
 acceptBtn.addEventListener('click', async (event) => {
   event.preventDefault();
   try {
@@ -211,7 +212,7 @@ acceptBtn.addEventListener('click', async (event) => {
     console.error("Accept failed:", err);
     alert("Could not accept friend request.");
   }
-});
+});}
 
 rejectBtn.addEventListener('click', async (event) => {
   event.preventDefault();

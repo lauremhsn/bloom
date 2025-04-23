@@ -688,7 +688,11 @@ app.get('/suggestedUsers/:userId', async (req, res) => {
 
 app.post('/add-friend', async (req, res) => {
     const { friend1_id, friend2_id } = req.body;
-
+   
+    if (!friend1_id || !friend2_id) {
+      return res.status(400).json({ error: 'Missing friend IDs' });
+    }
+    
     try {
         await db.query(`
             INSERT INTO "Friends" (friend1_id, friend2_id, created_at)
