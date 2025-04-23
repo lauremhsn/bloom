@@ -744,7 +744,7 @@ app.post('/add-friend', async (req, res) => {
         }
         else {
             await db.query(
-                `INSERT INTO friendsREQUESTS (user_id, friend2_id) 
+                `INSERT INTO friendsREQUESTS (user1_id, user2_id) 
                  VALUES (${user1_id}, ${user2_id})`
             );
         }
