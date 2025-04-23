@@ -88,6 +88,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 
     users.forEach(user => {
       console.log(user);
+      console.log("user id: ", user.id);
       const item = document.createElement('div');
       item.className = 'searchResultItem';
       item.innerHTML = `
