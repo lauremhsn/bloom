@@ -123,6 +123,9 @@ requestFriendButton.addEventListener("click", async () => {
   try {
     const response = await fetch("https://bloom-zkk8.onrender.com/sendFriendRequest", {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json"  // <- THIS WAS MISSING
+      },
       body: JSON.stringify({
         friend1_id,
         friend2_id

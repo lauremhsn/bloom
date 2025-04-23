@@ -738,7 +738,7 @@ app.post('/add-friend', async (req, res) => {
     try {
         const result = await db.query(
             `SELECT *
-             FROM friendsREQUESTS
+             FROM "friendsREQUESTS"
              WHERE (user1_id = ${friend1_id} AND user2_id = ${friend2_id}) OR (user2_id = ${friend1_id} AND user1_id = ${friend2_id})`
         );
   
@@ -747,7 +747,7 @@ app.post('/add-friend', async (req, res) => {
         }
         else {
             await db.query(
-                `INSERT INTO friendsREQUESTS (user1_id, user2_id) 
+                `INSERT INTO "friendsREQUESTS" (user1_id, user2_id) 
                  VALUES (${friend1_id}, ${friend2_id})`
             );
         }
