@@ -1,4 +1,4 @@
-const { request } = require("express");
+// const { request } = require("express");
 
 const searchInput = document.querySelector('.searchBar');
 const searchResults = document.getElementById('searchResults');
