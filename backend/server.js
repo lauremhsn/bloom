@@ -650,40 +650,58 @@ app.get('/suggestedUsers/:userId', async (req, res) => {
     }
 });
 
-app.post('/add-friend', async (req, res) => {
-    const { token, friendId } = req.body;
+// app.post('/add-friend', async (req, res) => {
 
-    console.log("token:", token);
-    console.log("friendId (raw):", friendId);
+//     const { token, friendId } = req.body;
+
+//     console.log("token:", token);
+//     console.log("friendId (raw):", friendId);
+
+//     try {
+//         const parsedToken = jwtDecode(token);
+//         const userId = parsedToken.id;
+
+//         if (!friendId || isNaN(parseInt(friendId))) {
+//             return res.status(400).json({ error: "Invalid or missing friend ID" });
+//         }
+
+//         const friendIdInt = parseInt(friendId);
+
+//         if (userId === friendIdInt) {
+//             return res.status(400).json({ error: "You cannot friend yourself!" });
+//         }
+
+//         const [id1, id2] = userId < friendIdInt ? [userId, friendIdInt] : [friendIdInt, userId];
+
+//         await db.query(`
+//             INSERT INTO "Friends" (friend1_id, friend2_id)
+//             VALUES ($1, $2)
+//             ON CONFLICT DO NOTHING
+//         `, [id1, id2]);
+
+//         res.status(201).json({ message: "Friend added successfully" });
+//     } catch (error) {
+//         console.error('Error adding friend:', error);
+//         res.status(500).json({ error: "Could not add friend" });
+//     }
+// });
+
+app.post('/add-friend', async (req, res) => {
+    const { friend1_id, friend2_id } = req.body;
 
     try {
-        const parsedToken = jwtDecode(token);
-        const userId = parsedToken.id;
-
-        if (!friendId || isNaN(parseInt(friendId))) {
-            return res.status(400).json({ error: "Invalid or missing friend ID" });
-        }
-
-        const friendIdInt = parseInt(friendId);
-
-        if (userId === friendIdInt) {
-            return res.status(400).json({ error: "You cannot friend yourself!" });
-        }
-
-        const [id1, id2] = userId < friendIdInt ? [userId, friendIdInt] : [friendIdInt, userId];
-
         await db.query(`
-            INSERT INTO "Friends" (friend1_id, friend2_id)
-            VALUES ($1, $2)
-            ON CONFLICT DO NOTHING
-        `, [id1, id2]);
+            INSERT INTO "Friends" (friend1_id, friend2_id, created_at)
+            VALUES ($1, $2, NOW())
+        `, [friend1_id, friend2_id]);
 
-        res.status(201).json({ message: "Friend added successfully" });
-    } catch (error) {
-        console.error('Error adding friend:', error);
-        res.status(500).json({ error: "Could not add friend" });
+        res.status(201).json({ message: 'Friendship added' });
+    } catch (err) {
+        console.error('Error adding friend:', err);
+        res.status(500).json({ error: 'Failed to add friend' });
     }
 });
+
 
   app.get('/api/search-users', async (req, res) => {
     const searchTerm = decodeURIComponent(req.query.q) || '';

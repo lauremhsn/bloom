@@ -4,6 +4,16 @@ const searchInput = document.querySelector('.searchBar');
 const searchResults = document.getElementById('searchResults');
 const searchResultItems = document.querySelectorAll('.searchResultItem');
 const searchBtn = document.getElementById('searchBtn');
+function decodeJWT(token) {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(
+      atob(base64).split('').map(c =>
+          '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join('')
+  );
+  return JSON.parse(jsonPayload);
+}
 
 
 const CURRENTuserID = localStorage.getItem("userId");
@@ -99,25 +109,57 @@ console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("
 resultsContainer.appendChild(item);
 
 requestFriendButton.addEventListener("click", async () => {
-  const friendId = requestFriendButton.getAttribute("data-user-id");
+  // const friendId = requestFriendButton.getAttribute("data-user-id");
+  // const token = localStorage.getItem('token');
+
+  // console.log("friendId (raw):", friendId);
+  // console.log("token:", token);
+
+  // try {
+  //   const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ token, friendId })
+  //   });
+  //   const result = await res.json();
+  //   alert(result.message || "Request sent!");
+  //   requestFriendButton.innerHTML = `Requested!`;
+  //   requestFriendButton.disabled = true;
+  // } catch (err) {
+  //   console.error("Request failed:", err);
+  //   alert("Something went wrong.");
+  // }
+
+  const friend2_id = requestFriendButton.getAttribute("data-user-id");
   const token = localStorage.getItem('token');
 
-  console.log("friendId (raw):", friendId);
-  console.log("token:", token);
+  if (!token) {
+    alert("You must be logged in to add friends.");
+    return;
+  }
+
+  // Decode token to get your user ID
+  const { id: friend1_id } = decodeJWT(token);
 
   try {
-    const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
+    const response = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token, friendId })
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ friend1_id, friend2_id })
     });
-    const result = await res.json();
-    alert(result.message || "Request sent!");
-    requestFriendButton.innerHTML = `Requested!`;
-    requestFriendButton.disabled = true;
+
+    const result = await response.json();
+
+    if (response.ok) {
+      requestFriendButton.textContent = "Friend Requested";
+      requestFriendButton.disabled = true;
+    } else {
+      alert("Failed to send request: " + result.error);
+    }
   } catch (err) {
-    console.error("Request failed:", err);
-    alert("Something went wrong.");
+    console.error("Error sending friend request:", err);
   }
 });     
           
