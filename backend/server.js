@@ -729,15 +729,15 @@ app.post('/add-friend', async (req, res) => {
   
   
   app.post('/sendFriendRequest', async (req, res) => {
-    const user1_id = parseInt(req.body.user1_id)
-    const user2_id = parseInt(req.body.user2_id)
-    console.log("Received friend request:", { user1_id, user2_id });
+    const friend1_id = parseInt(req.body.friend1_id)
+    const friend2_id = parseInt(req.body.friend2_id)
+    console.log("Received friend request:", { friend1_id, friend2_id });
   
     try {
         const result = await db.query(
             `SELECT *
              FROM friendsREQUESTS
-             WHERE (user1_id = ${user1_id} AND user2_id = ${user2_id}) OR (user2_id = ${user1_id} AND user1_id = ${user2_id})`
+             WHERE (user1_id = ${friend1_id} AND user2_id = ${friend2_id}) OR (user2_id = ${friend1_id} AND user1_id = ${friend2_id})`
         );
   
         if (result.rowCount > 0) {
@@ -746,7 +746,7 @@ app.post('/add-friend', async (req, res) => {
         else {
             await db.query(
                 `INSERT INTO friendsREQUESTS (user1_id, user2_id) 
-                 VALUES (${user1_id}, ${user2_id})`
+                 VALUES (${friend1_id}, ${friend2_id})`
             );
         }
         
