@@ -91,12 +91,12 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             <button class="request-collab" data-user-id="${user.id}">Request Collab</button>
         </div>
       `;
-      resultsContainer.appendChild(item);
-
       const requestFriendInfo = item.querySelector(".userInfo");
 const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
 console.log("Friend button element:", requestFriendButton);
 console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("data-user-id"));
+
+resultsContainer.appendChild(item);
 
 requestFriendButton.addEventListener("click", async () => {
   const friendId = requestFriendButton.getAttribute("data-user-id");
