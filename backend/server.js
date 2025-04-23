@@ -133,7 +133,7 @@ app.post('/login', async (req, res) => {
                     const token = jwt.sign({ id: results.rows[0].id }, 'secretKey', { expiresIn: '1h' });
                     console.log(results.rows[0]);
 
-                    await mailer.sendEmail('stephanechedid@gmail.com','New Login','<p>you have logged in to Bloom</p>')
+                    //await mailer.sendEmail('stephanechedid@gmail.com','New Login','<p>you have logged in to Bloom</p>')
 
                     res.json({ message: 'Login successful', token, user: results.rows[0] });
                     
