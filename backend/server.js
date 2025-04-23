@@ -729,7 +729,8 @@ app.post('/add-friend', async (req, res) => {
   
   
   app.post('/sendFriendRequest', async (req, res) => {
-    const { user1_id, user2_id } = req.body;
+    const user1_id = parseInt(req.body.user1_id)
+    const user2_id = parseInt(req.body.user2_id)
     console.log("Received friend request:", { user1_id, user2_id });
   
     try {
