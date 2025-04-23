@@ -278,7 +278,8 @@ export async function loadPosts(postList) {
     const token = localStorage.getItem('token');
     if (!token) return;
 
-    const { id } = jwtDecode(token); // or store id in localStorage on login
+    const { id } = jwt_decode(token); // ✅ function exposed globally by CDN
+ 
     const response = await fetch(`https://bloom-zkk8.onrender.com/getposts/${id}`);
     const posts = await response.json();
 
