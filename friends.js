@@ -1,3 +1,5 @@
+// const { request } = require("express");
+
 const searchInput = document.querySelector('.searchBar');
 const searchResults = document.getElementById('searchResults');
 const searchResultItems = document.querySelectorAll('.searchResultItem');
@@ -89,51 +91,55 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
             <button class="request-collab" data-user-id="${user.id}">Request Collab</button>
         </div>
       `;
-      resultsContainer.appendChild(item);
+      const requestFriendInfo = item.querySelector(".userInfo");
+const requestFriendButton = requestFriendInfo.querySelector(".request-friend");
+console.log("Friend button element:", requestFriendButton);
+console.log("data-user-id attribute exists:", requestFriendButton.hasAttribute("data-user-id"));
 
-      document.querySelectorAll(".request-friend").forEach(button => {
-        button.addEventListener("click", async () => {
-          const friendId = button.getAttribute("data-user-id");
-          const token = localStorage.getItem('token');
-          console.log("friendId:", friendId);
-          console.log("token:", token);
+resultsContainer.appendChild(item);
 
-          try {
-            const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ token, friendId })
-            });
-            const result = await res.json();
-            alert(result.message || "Request sent!");
-            button.innerHTML=`Requested!`
-          } catch (err) {
-            console.error("Request failed:", err);
-            alert("Something went wrong.");
-          }
-        });
+requestFriendButton.addEventListener("click", async () => {
+  const friendId = requestFriendButton.getAttribute("data-user-id");
+  const token = localStorage.getItem('token');
+
+  console.log("friendId (raw):", friendId);
+  console.log("token:", token);
+
+  try {
+    const res = await fetch("https://bloom-zkk8.onrender.com/add-friend", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, friendId })
+    });
+    const result = await res.json();
+    alert(result.message || "Request sent!");
+    requestFriendButton.innerHTML = `Requested!`;
+    requestFriendButton.disabled = true;
+  } catch (err) {
+    console.error("Request failed:", err);
+    alert("Something went wrong.");
+  }
+});     
+          
+      const requestCollabButton = item.querySelector(".request-collab");
+      requestCollabButton.addEventListener("click", async () => {
+        const user2_id = requestCollabButton.getAttribute("data-user-id");
+
+        try {
+          const res = await fetch("https://bloom-zkk8.onrender.com/sendCollabRequest", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
+          });
+          const result = await res.json();
+          alert(result.message || "Request sent!");
+          requestCollabButton.innerHTML = `Requested!`;
+          requestCollabButton.disabled = true;
+        } catch (err) {
+          console.error("Request failed:", err);
+          alert("Something went wrong.");
+        }
       });
-
-      document.querySelectorAll(".request-collab").forEach(button => {
-        button.addEventListener("click", async () => {
-          const user2_id = button.dataset.userId;
-          try {
-            const res = await fetch("https://bloom-zkk8.onrender.com/sendCollabRequest", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ user1_id: CURRENTuserID, user2_id })
-            });
-            const result = await res.json();
-            console.log(result);
-            alert(result.message || "Request sent!");
-            button.innerHTML=`Requested!`
-          } catch (err) {
-            console.error("Request failed:", err);
-            alert("Something went wrong.");
-          }
-        });
-      });
-
     });
   } catch (err) {
     console.error('Search error:', err);
