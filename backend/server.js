@@ -107,18 +107,19 @@ app.get("/api/getCurrentUserId", (req, res) => {
                 daisies: 7 * 24 * 60 * 60 * 1000,
             };
 
-            const interval = wateringIntervals[plantType.toLowerCase()];
-            if (interval) {
-                setTimeout(() => {
-                    mailer.sendEmail(
-                        stephanechedid@gmail.com,
-                        `🌿 Time to water your ${plantType}!`,
-                        `<p>Hi ${displayName},</p>
-                         <p>This is your Bloom reminder to water your <strong>${plantType}</strong>.</p>
-                         <p>Healthy plant, happy you 🌱</p>`
-                    );
-                }, interval); // First reminder only (for demo); switch to cron for repeated emails
-            }}
+//            const interval = wateringIntervals[plantType.toLowerCase()];
+//            if (interval) {
+//                setTimeout(() => {
+//                    mailer.sendEmail(
+//                        stephanechedid@gmail.com,
+//                        `🌿 Time to water your ${plantType}!`,
+//                        `<p>Hi ${displayName},</p>
+//                         <p>This is your Bloom reminder to water your <strong>${plantType}</strong>.</p>
+//                         <p>Healthy plant, happy you 🌱</p>`
+//                    );
+//                }, interval); // First reminder only (for demo); switch to cron for repeated emails
+//            }
+        }
 
         return res.json({
             message: 'User registered successfully and plant created',
