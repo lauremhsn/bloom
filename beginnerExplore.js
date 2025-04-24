@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       el.addEventListener("click", () => {
         const userId = el.getAttribute("data-user-id");
         localStorage.setItem("selectedUserId", userId);
+        console.log(userId);
         window.location.href = "otherProfileBeginner.html";
       });
     });
