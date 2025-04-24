@@ -277,7 +277,7 @@ app.get("/getBeginnerTopPosts", async (req, res) => {
   app.get("/getBusinessTopPosts", async (req, res) => {
     try {
       const result = await db.query(`
-        SELECT p.*, u.username, u.displayName, u.profilePic
+        SELECT p.*, u.username, u.displayname, u.profilepic
         FROM "Posts" p
         JOIN "Users" u ON p.user_id = u.id
         WHERE u.accountType = 'business'
@@ -294,7 +294,7 @@ app.get("/getBeginnerTopPosts", async (req, res) => {
   app.get("/getNGOTopPosts", async (req, res) => {
     try {
       const result = await db.query(`
-        SELECT p.*, u.username, u.displayName, u.profilePic
+        SELECT p.*, u.username, u.displayname, u.profilepic
         FROM "Posts" p
         JOIN "Users" u ON p.user_id = u.id
         WHERE u.accountType = 'ngo'
@@ -311,7 +311,7 @@ app.get("/getBeginnerTopPosts", async (req, res) => {
   app.get("/getProTopPosts", async (req, res) => {
     try {
       const result = await db.query(`
-        SELECT p.*, u.username, u.displayName, u.profilePic
+        SELECT p.*, u.username, u.displayname, u.profilepic
         FROM "Posts" p
         JOIN "Users" u ON p.user_id = u.id
         WHERE u.accountType = 'professional'
