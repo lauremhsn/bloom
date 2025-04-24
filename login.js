@@ -181,3 +181,5 @@ window.signUp = signUp;
 window.submission = submission;
 window.showSuccessMessage = showSuccessMessage;
 window.changeAccountType = changeAccountType;
+
+changeAccountType();
