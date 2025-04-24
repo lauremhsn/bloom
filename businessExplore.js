@@ -1,12 +1,12 @@
 
 function loadUserProfilePicture() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const profilepic = localStorage.getItem("profilepic");
+    const sidebarPfp = document.getElementById("sidebarPfp");
 
-    if (currentUser && currentUser.profilepic) {
-        const sidebarPfp = document.getElementById("sidebarPfp");
-        if (sidebarPfp) {
-            sidebarPfp.src = currentUser.profilepic;
-        }
+    if (sidebarPfp) {
+        sidebarPfp.src = profilepic
+            ? `https://bloom-zkk8.onrender.com/getProfilePic/${profilepic}`
+            : "profile.jpg"; // fallback if profilepic is not available
     }
 }
 
