@@ -82,7 +82,7 @@
                     if (post.media) {
                         mediaContent = post.media.endsWith(".mp4")
                             ? `<video controls><source src="${post.media}" type="video/mp4"></video>`
-                            : `<img src="${post.media}" alt="Post media">`;
+                            : `<img src="${post.text}" alt="Post media">`;
                     }
 
                     postDiv.innerHTML = `
