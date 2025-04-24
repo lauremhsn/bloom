@@ -111,7 +111,7 @@ app.get("/api/getCurrentUserId", (req, res) => {
             if (interval) {
                 setTimeout(() => {
                     mailer.sendEmail(
-                        email,
+                        stephanechedid@gmail.com,
                         `🌿 Time to water your ${plantType}!`,
                         `<p>Hi ${displayName},</p>
                          <p>This is your Bloom reminder to water your <strong>${plantType}</strong>.</p>
