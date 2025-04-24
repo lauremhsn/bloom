@@ -230,25 +230,31 @@ app.post('/login', async (req, res) => {
 
 app.get('/users/:userId', async (req, res) => {
     const { userId } = req.params;
-    
+  
     try {
-        const user = await User.findById(userId);
-        
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        
-        res.json({
-            name: user.name,
-            username: user.username,
-            profilePhoto: user.profilePhoto || 'pfp1.jpg',  
-            isFriend: user.friends.includes(req.user.id),  
-        });
+      const result = await db.query(`
+        SELECT id, username, displayName, profilePic
+        FROM "Users"
+        WHERE id = $1
+      `, [userId]);
+  
+      if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const user = result.rows[0];
+  
+      res.json({
+        id: user.id,
+        username: user.username,
+        displayname: user.displayname,
+        profilepic: user.profilepic || 'pfp1.jpg'
+      });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error' });
+      console.error("Error fetching user:", err);
+      res.status(500).json({ message: 'Server error' });
     }
-});
+  });
 
 
 app.get("/getBeginnerTopPosts", async (req, res) => {
