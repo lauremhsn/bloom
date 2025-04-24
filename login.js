@@ -39,10 +39,6 @@ async function signUp(form) {
     
     console.log([...formData]); // Logs the form data (key-value pairs)
 
-    const plantType = form.querySelector('#plantType')?.value;
-    if (plantType) {
-        formData.append('plantType', plantType);
-    }
     try {
         let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
             method: 'POST',

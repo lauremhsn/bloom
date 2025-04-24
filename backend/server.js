@@ -97,6 +97,7 @@ app.get("/api/getCurrentUserId", (req, res) => {
         await db.query(plantQuery, [user.id]);
 
         console.log('Inserted User:', user);
+        console.log('🌱 Plant Type received:', plantType);
 
         if (accountType === 'beginner' && plantType) {
             const wateringIntervals = {
