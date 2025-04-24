@@ -190,3 +190,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `${days}d`;
   }
   
+const topPfp = document.getElementsByClassName("topPfp");
+topPfp.addEventListener('click', function() {
+    topPfp.innerHTML=`
+            <img src="https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" alt="Profile Picture">
+    `;
+});
