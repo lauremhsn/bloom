@@ -1,3 +1,19 @@
+document.querySelectorAll('.productImage').forEach(img => {
+    img.addEventListener('click', function () {
+        const productName = this.dataset.productName;
+        const productDescription = this.dataset.productDescription;
+        const productPrice = this.dataset.productPrice;
+        openModal(this, productName, productDescription, productPrice);
+    });
+});
+
+var modal = document.getElementById("imageModal");
+modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+});
+
 export function openModal(imgElement, productName, productDescription, productPrice) {
     var modal = document.getElementById("imageModal");
     var modalImg = document.getElementById("modalImg");
@@ -20,6 +36,30 @@ export function openModal(imgElement, productName, productDescription, productPr
         console.error("Buy Now button not found.");
     }
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const profileLink = document.getElementById("profileLink");
+    if (!profileLink) return;
+  
+    const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("accountType");
+  
+    if (userId && role) {
+        if (role === "ngo") {
+            profileLink.href = `NGOProfile.html?id=${userId}`;
+        } else if (role === "business") {
+            profileLink.href = `businessProfile.html?id=${userId}`;
+        } else if (role === "pro") {
+            profileLink.href = `professionalProfile.html?id=${userId}`;
+        } else if (role === "beginner") {
+            profileLink.href = `beginnerProfile.html?id=${userId}`;
+        } else {
+            profileLink.href = "#";
+        }
+    }
+});
+
 export function closeModal() {
     var modal = document.getElementById("imageModal");
     modal.style.display = "none";
@@ -52,15 +92,6 @@ export function createCheckoutSession(productName, productPrice) {
             console.error("Error:", error);
         });
 }
-
-document.querySelectorAll('.productImage').forEach(img => {
-    img.addEventListener('click', function () {
-        const productName = this.dataset.productName;
-        const productDescription = this.dataset.productDescription;
-        const productPrice = this.dataset.productPrice;
-        openModal(this, productName, productDescription, productPrice);
-    });
-});
 
 function handleBuyNowClick() {
     const productName = "Product Name";
