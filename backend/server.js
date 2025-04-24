@@ -1013,7 +1013,8 @@ app.post('/add-friend', async (req, res) => {
       console.error("Error fetching friend requests:", error);
       res.status(500).json({ error: "Could not fetch friend requests." });
     }
-  });
+});
+
   
   app.get('/myCollabRequests/:id', async (req, res) => {
     const userId = parseInt(req.params.id);

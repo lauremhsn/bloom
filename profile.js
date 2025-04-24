@@ -63,8 +63,47 @@ export function eventList() {
         if (localStorage.getItem('token')) {
             loadPosts(postList);  // ✅ This will auto-populate posts
         }
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            loadFriendRequests(userId);
+        }
+
     })
 }
+
+async function loadFriendRequests(userId) {
+    try {
+        const res = await fetch(`https://bloom-zkk8.onrender.com/myFriendRequests/${userId}`);
+        const requests = await res.json();
+
+        const container = document.getElementById('friendRequestContainer');
+        container.innerHTML = '';
+
+        if (requests.length === 0) {
+            container.innerHTML = '<p>No pending friend requests.</p>';
+            return;
+        }
+
+        requests.forEach(user => {
+            const div = document.createElement('div');
+            div.classList.add('friendReq');
+            div.dataset.senderId = user.other_id;
+
+            div.innerHTML = `
+                <img src="https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" />
+                <h3>${user.displayname}</h3>
+                <p>@${user.username}</p>
+                <button id="accept">Accept</button>
+                <button id="reject">Reject</button>
+            `;
+
+            container.appendChild(div);
+        });
+    } catch (err) {
+        console.error("Error loading friend requests:", err);
+    }
+}
+
 
 export function editButton(editBtn, editName, profilePicInput, pfpMain, displayname, editBox, nameLimit) {
     editBtn.addEventListener('click', () => {
@@ -147,6 +186,8 @@ export function exitButton(closeEB, editBox) {
         }
     });
 }
+
+
 
 export function postRelated(addPostBtn, postModal, closePostModal) {
     addPostBtn.addEventListener('click', () => {
