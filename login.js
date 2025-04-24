@@ -35,16 +35,14 @@ async function signUp(form) {
     let errorMessage = document.getElementById('signupError');
     let formData = new FormData(form); // Collects all input fields, including file uploads
 
-    const plantTypeElement = document.getElementById("plantType");
-    if (plantTypeElement) {
-        const plantType = plantTypeElement.value;
-        if (plantType) {
-            formData.append("plantType", plantType);
-        }
-    }
+    
+    
     console.log([...formData]); // Logs the form data (key-value pairs)
 
-
+    const plantType = form.querySelector('#plantType')?.value;
+    if (plantType) {
+        formData.append('plantType', plantType);
+    }
     try {
         let response = await fetch('https://bloom-zkk8.onrender.com/signup', {
             method: 'POST',
@@ -62,6 +60,7 @@ async function signUp(form) {
         localStorage.setItem("displayname", data.user.displayname);
         localStorage.setItem("profilepic", data.user.profilepic);
         localStorage.setItem("userId", data.user.id);
+        
         console.log(data.user.accounttype);
         
         showSuccessMessage("Signup successful! Redirecting...", () => {
