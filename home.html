@@ -12,7 +12,7 @@
     <div class="topBar">
         <a href="home.html" class="bloomLogo">BLOOM</a>
         <a href="plants-grid.html" class="icon">🪴</a>
-        <a href="businessProfile.html">
+        <a href="#" id="profileLink">
             <div class="pfp">
                 <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
             </div>
@@ -119,6 +119,28 @@
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", () => {
+        loadUserProfilePicture();
+        const profileLink = document.getElementById("profileLink");
+        if (!profileLink) return;
+    
+        const userId = localStorage.getItem("userId");
+        const role = localStorage.getItem("accountType");
+    
+        if (userId && role) {
+            if (role === "ngo") {
+                profileLink.href = `NGOProfile.html?id=${userId}`;
+            } else if (role === "business") {
+                profileLink.href = `businessProfile.html?id=${userId}`;
+            } else if (role === "pro") {
+                profileLink.href = `professionalProfile.html?id=${userId}`;
+            } else if (role === "beginner") {
+                profileLink.href = `beginnerProfile.html?id=${userId}`;
+            } else {
+                profileLink.href = "#";
+            }
+        }
+    });
         const name = localStorage.getItem("username");
         const pfp = localStorage.getItem("profilepic") || "pfp1.jpg";
         const pfpUrl = "https://bloom-zkk8.onrender.com/getProfilePic/" + pfp;

@@ -60,7 +60,7 @@ async function signUp(form) {
         console.log(data.user.accounttype);
         
         showSuccessMessage("", () => {
-            //accountType = localStorage.getItem("accountType");
+            accountType = localStorage.getItem("accountType");
             //window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
             window.location.href = 'home.html';
         });
