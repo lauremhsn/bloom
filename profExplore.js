@@ -3,54 +3,75 @@ function loadUserProfilePicture() {
   const sidebarPfp = document.getElementById("sidebarPfp");
 
   if (sidebarPfp) {
-      sidebarPfp.src = profilepic
-          ? `https://bloom-zkk8.onrender.com/getProfilePic/${profilepic}`
-          : "profile.jpg"; // fallback if profilepic is not available
+    sidebarPfp.src = profilepic
+      ? `https://bloom-zkk8.onrender.com/getProfilePic/${profilepic}`
+      : "profile.jpg"; // fallback
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadUserProfilePicture();
-  const profileLink = document.getElementById("profileLink");
-  if (!profileLink) return;
-
-  const userId = localStorage.getItem("userId");
-  const role = localStorage.getItem("accountType");
-
-  if (userId && role) {
-      if (role === "ngo") {
-          profileLink.href = `NGOProfile.html?id=${userId}`;
-      } else if (role === "business") {
-          profileLink.href = `businessProfile.html?id=${userId}`;
-      } else if (role === "pro") {
-          profileLink.href = `professionalProfile.html?id=${userId}`;
-      } else if (role === "beginner") {
-          profileLink.href = `beginnerProfile.html?id=${userId}`;
-      } else {
-          profileLink.href = "#";
-      }
-  }
-});
-
 function openModal(imgElement) {
-  var modal = document.getElementById("imageModal");
-  var modalImg = document.getElementById("modalImg");
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
 
   modal.style.display = "flex";
   modalImg.src = imgElement.src;
 }
 
 function closeModal() {
-  var modal = document.getElementById("imageModal");
+  const modal = document.getElementById("imageModal");
   modal.style.display = "none";
 }
 
-document.getElementById("imageModal").addEventListener("click", closeModal);
+document.addEventListener("DOMContentLoaded", async () => {
+  loadUserProfilePicture();
+
+  // Modal close listener
+  const imageModal = document.getElementById("imageModal");
+  if (imageModal) {
+    imageModal.addEventListener("click", closeModal);
+  }
+
+  // Profile link setup
+  const profileLink = document.getElementById("profileLink");
+  const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("accountType");
+
+  if (profileLink && userId && role) {
+    const roleToPage = {
+      ngo: "NGOProfile.html",
+      business: "businessProfile.html",
+      pro: "professionalProfile.html",
+      beginner: "beginnerProfile.html"
+    };
+    profileLink.href = roleToPage[role] ? `${roleToPage[role]}?id=${userId}` : "#";
+  }
+
+  // Fetch top posts
+  const feedContainer = document.querySelector(".feedCont");
+  if (feedContainer) {
+    try {
+      const response = await fetch("https://bloom-zkk8.onrender.com/getNGOTopPosts?limit=30");
+      if (!response.ok) throw new Error("Failed to fetch posts");
+
+      const posts = await response.json();
+
+      posts.forEach(post => {
+        const postElement = createPostElement(post);
+        feedContainer.appendChild(postElement);
+      });
+    } catch (err) {
+      console.error("Error loading posts:", err);
+      feedContainer.innerHTML = "<p>Failed to load posts. Please try again later.</p>";
+    }
+  }
+
+  // Fetch user posts
+  await fetchPosts(); 
+});
 
 async function fetchPosts() {
   try {
     const token = localStorage.getItem("token");
-
     const response = await fetch("https://bloom-zkk8.onrender.com/getposts", {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -59,6 +80,7 @@ async function fetchPosts() {
 
     const posts = await response.json();
     const container = document.getElementById("postsContainer");
+    if (!container) return;
 
     posts.forEach((post) => {
       const div = document.createElement("div");
@@ -80,4 +102,18 @@ async function fetchPosts() {
   }
 }
 
-fetchPosts();
+// Helper function you should define elsewhere
+function createPostElement(post) {
+  const div = document.createElement("div");
+  div.className = "post";
+  const media = post.media ? (post.media.endsWith(".mp4")
+    ? `<video controls src="https://bloom-zkk8.onrender.com/${post.media}" style="max-width: 100%;"></video>`
+    : `<img src="https://bloom-zkk8.onrender.com/${post.media}" alt="media" style="max-width: 100%;" />`)
+    : "";
+
+  div.innerHTML = `
+    ${media}
+    <p>${post.text}</p>
+  `;
+  return div;
+}
