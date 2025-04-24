@@ -303,6 +303,12 @@ body{
     font-weight: bold;
     box-shadow: 0 0 8px rgba(255,255,255,0.15);
 }
+.update {
+    border-bottom: 1px solid rgba(92, 59, 46, 0.2);
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
 @media (max-width: 900px){
     .posts {
         flex-direction: column;
