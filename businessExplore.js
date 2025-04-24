@@ -11,9 +11,6 @@ function loadUserProfilePicture() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    loadUserProfilePicture();
-});
 
 document.querySelectorAll('.productImage').forEach(img => {
     img.addEventListener('click', function () {
@@ -56,6 +53,7 @@ export function openModal(imgElement, productName, productDescription, productPr
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    loadUserProfilePicture();
     const profileLink = document.getElementById("profileLink");
     if (!profileLink) return;
   
