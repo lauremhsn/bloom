@@ -204,7 +204,7 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
-app.get("/getTopPosts", async (req, res) => {
+app.get("/getBeginnerTopPosts", async (req, res) => {
     try {
       const result = await db.query(`
         SELECT p.*, u.username, u.displayName, u.profilePic
@@ -220,6 +220,58 @@ app.get("/getTopPosts", async (req, res) => {
       res.status(500).json({ error: "Failed to load posts" });
     }
   });
+
+  app.get("/getBusinessTopPosts", async (req, res) => {
+    try {
+      const result = await db.query(`
+        SELECT p.*, u.username, u.displayName, u.profilePic
+        FROM "Posts" p
+        JOIN "Users" u ON p.user_id = u.id
+        WHERE u.accountType = 'business'
+        ORDER BY p.created_at DESC
+        LIMIT 20
+      `);
+      res.json(result.rows);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json({ error: "Failed to load posts" });
+    }
+  });
+
+  app.get("/getNGOTopPosts", async (req, res) => {
+    try {
+      const result = await db.query(`
+        SELECT p.*, u.username, u.displayName, u.profilePic
+        FROM "Posts" p
+        JOIN "Users" u ON p.user_id = u.id
+        WHERE u.accountType = 'ngo'
+        ORDER BY p.created_at DESC
+        LIMIT 20
+      `);
+      res.json(result.rows);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json({ error: "Failed to load posts" });
+    }
+  });
+
+  app.get("/getProTopPosts", async (req, res) => {
+    try {
+      const result = await db.query(`
+        SELECT p.*, u.username, u.displayName, u.profilePic
+        FROM "Posts" p
+        JOIN "Users" u ON p.user_id = u.id
+        WHERE u.accountType = 'professional'
+        ORDER BY p.created_at DESC
+        LIMIT 20
+      `);
+      res.json(result.rows);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json({ error: "Failed to load posts" });
+    }
+  });
+
 
 app.get('/getposts/:userid', async (req, res) => {
     try {

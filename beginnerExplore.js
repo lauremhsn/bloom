@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const feedContainer = document.querySelector(".feedCont");
   
     try {
-      const response = await fetch("https://bloom-zkk8.onrender.com/getTopPosts?limit=30");
+      const response = await fetch("https://bloom-zkk8.onrender.com/getBeginnerTopPosts?limit=30");
       if (!response.ok) throw new Error("Failed to fetch posts");
   
       const posts = await response.json();
