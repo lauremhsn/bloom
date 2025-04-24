@@ -227,6 +227,7 @@ app.post('/login', async (req, res) => {
 // });
 
 app.get('/users/:userId', async (req, res) => {
+app.get('/users/:userId', async (req, res) => {
     const { userId } = req.params;
     
     try {
