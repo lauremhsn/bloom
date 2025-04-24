@@ -59,9 +59,10 @@ async function signUp(form) {
         
         console.log(data.user.accounttype);
         
-        showSuccessMessage("Signup successful! Redirecting...", () => {
-            accountType = localStorage.getItem("accountType");
-            window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
+        showSuccessMessage("", () => {
+            //accountType = localStorage.getItem("accountType");
+            //window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
+            window.location.href = 'home.html';
         });
 
     } catch (error) {
@@ -113,10 +114,11 @@ async function submission() {
         console.log("✅ Stored accountType:", localStorage.getItem("accountType"));
 
 
-        showSuccessMessage("Login successful! Redirecting...", () => {
+        showSuccessMessage("", () => {
             accountType = localStorage.getItem("accountType");
             console.log(data.user.accounttype);
-            window.location.href = `${accountType}Profile.html`;
+            //window.location.href = `${accountType}Profile.html`;
+            window.location.href = 'home.html';
             // Redirect to the social feed page
             
         });
