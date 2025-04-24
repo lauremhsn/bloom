@@ -111,13 +111,13 @@ app.get("/api/getCurrentUserId", (req, res) => {
             if (interval) {
                 setTimeout(() => {
                     mailer.sendEmail(
-                        stephanechedid@gmail.com,
+                        'stephanechedid@gmail.com',
                         `🌿 Time to water your ${plantType}!`,
                         `<p>Hi ${displayName},</p>
                          <p>This is your Bloom reminder to water your <strong>${plantType}</strong>.</p>
                          <p>Healthy plant, happy you 🌱</p>`
                     );
-                }, interval); // First reminder only (for demo); switch to cron for repeated emails
+                }, interval);
             }}
 
         return res.json({
@@ -226,7 +226,7 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
-router.get('/users/:userId', async (req, res) => {
+app.get('/users/:userId', async (req, res) => {
     const { userId } = req.params;
     
     try {
