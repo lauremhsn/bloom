@@ -22,12 +22,12 @@
             </div>
             <div class="sidebarThing middle">
                 <a href="ngoExplore.html">🌍 NGOs</a>
-                <a href="businessExplore.html">🛍 Shops</a>
+                <a href="businessExplore.html">💼 Shops</a>
                 <a href="profExplore.html">👩‍🌾 Professionals</a>
                 <a href="friends.html">👥 Friends</a>
             </div>
             <div class="sidebarThing sets">
-                <!--    <a href="settings.html">Settings</a> -->
+                <!-- <a href="settings.html">Settings</a> -->
             </div>
         </div>
 
@@ -37,7 +37,7 @@
                     <img src="pfp1.jpg" alt="Profile Picture" id="mainPfp">
                 </div>
                 <div class="profileAtt">
-                    <h1 class="name">Some Name</h1> <!--Here are name, username, etc etc-->
+                    <h1 class="name">Some Name</h1>
                     <p class="username">@username</p>
 
                     <div class="buttons">
@@ -56,7 +56,7 @@
                         <div class="plant">🌵</div>
                     </div>
                     <div class="shelf"></div>
-                
+
                     <div class="shelfCont">
                         <div class="plant">🌿</div>
                         <div class="plant">🌷</div>
@@ -66,21 +66,57 @@
                 <div id="updates" class="posts-section">
                     <h2 class="sectionTitle">Updates</h2>
                     <div id="postList"></div>
-                    <div class="update">
-                        <img src="plant1.jpg" alt="Plant post">
-                        <p>Tomato plant for testing! 🍅</p>
-                    </div>
-                    <div class="update">
-                        <video controls>
-                            <source src="garden-video.mp4" type="video/mp4">
-                        </video>
-                        <p>Empty video for testing!</p>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="otherProfile.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const selectedUserId = localStorage.getItem("selectedUserId");
+            if (!selectedUserId) return;
+
+            const nameEl = document.querySelector(".name");
+            const usernameEl = document.querySelector(".username");
+            const pfpMain = document.getElementById("mainPfp");
+            const sidebarPfp = document.getElementById("sidebarPfp");
+            const postList = document.getElementById("postList");
+
+            try {
+                const userRes = await fetch(`https://bloom-zkk8.onrender.com/users/${selectedUserId}`);
+                const user = await userRes.json();
+                nameEl.textContent = user.displayname || "Unknown";
+                usernameEl.textContent = `@${user.username}`;
+                const pfpUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}`;
+                pfpMain.src = pfpUrl;
+                sidebarPfp.src = pfpUrl;
+
+                const postRes = await fetch(`https://bloom-zkk8.onrender.com/getposts/${selectedUserId}`);
+                const posts = await postRes.json();
+
+                postList.innerHTML = "";
+                posts.forEach(post => {
+                    const postDiv = document.createElement("div");
+                    postDiv.className = "update";
+                    let mediaContent = "";
+
+                    if (post.media) {
+                        mediaContent = post.media.endsWith(".mp4")
+                            ? `<video controls><source src="${post.media}" type="video/mp4"></video>`
+                            : `<img src="${post.media}" alt="Post media">`;
+                    }
+
+                    postDiv.innerHTML = `
+                        ${mediaContent}
+                        <p>${post.content || ""}</p>
+                    `;
+
+                    postList.appendChild(postDiv);
+                });
+            } catch (err) {
+                console.error("Failed to load user or posts:", err);
+            }
+        });
+    </script>
 </body>
 </html>

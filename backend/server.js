@@ -204,6 +204,29 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
+router.get('/users/:userId', async (req, res) => {
+    const { userId } = req.params;
+    
+    try {
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        
+        res.json({
+            name: user.name,
+            username: user.username,
+            profilePhoto: user.profilePhoto || 'pfp1.jpg',  
+            isFriend: user.friends.includes(req.user.id),  
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
 app.get("/getBeginnerTopPosts", async (req, res) => {
     try {
       const result = await db.query(`
