@@ -109,6 +109,15 @@ app.get("/api/getCurrentUserId", (req, res) => {
             };
 
             const interval = wateringIntervals[plantType.toLowerCase()];
+
+            await mailer.sendEmail(
+                'stephanechedid@gmail.com',
+                `🌱 Welcome to Bloom!`,
+                `<p>Hi ${displayName},</p>
+                 <p>You're now taking care of a <strong>${plantType}</strong> 🌿</p>
+                 <p>We'll remind you when it's time to water it!</p>`
+            );
+        
             if (interval) {
                 setTimeout(() => {
                     mailer.sendEmail(
