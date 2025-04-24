@@ -68,7 +68,7 @@
         // Fetch user info
         const userRes = await fetch(`https://bloom-zkk8.onrender.com/users/${selectedUserId}`);
         const user = await userRes.json();
-        nameEl.textContent = user.displayname || user.username || "Unknown";
+        nameEl.textContent = user.displayname || "Unknown";
         usernameEl.textContent = `@${user.username}`;
         const pfpUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}`;
         pfpMain.src = pfpUrl;
