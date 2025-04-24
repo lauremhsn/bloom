@@ -1,15 +1,13 @@
 
 function loadUserProfilePicture() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const profilepic = localStorage.getItem("profilepic");
     const sidebarPfp = document.getElementById("sidebarPfp");
-    sidebarPfp.src = "https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" 
-    // if (currentUser && currentUser.profilepic) {
-    //     const sidebarPfp = document.getElementById("sidebarPfp");
-    //     if (sidebarPfp) {
-    //         sidebarPfp.src = "https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}" 
 
-    //     }
-    // }
+    if (sidebarPfp) {
+        sidebarPfp.src = profilepic
+            ? `https://bloom-zkk8.onrender.com/getProfilePic/${profilepic}`
+            : "profile.jpg"; // fallback if profilepic is not available
+    }
 }
 
 
