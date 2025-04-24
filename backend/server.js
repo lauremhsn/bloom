@@ -206,31 +206,20 @@ app.post('/login', async (req, res) => {
 
 app.get("/getTopPosts", async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit) || 30;
-  
-      const query = `
-        SELECT 
-          Posts.id,
-          Posts.text AS content,
-          Posts.media,
-          Posts.created_at,
-          Users.username,
-          Users.displayName,
-          Users.profilePic
-        FROM Posts
-        JOIN Users ON Posts.user_id = Users.id
-        ORDER BY Posts.created_at DESC
-        LIMIT $1
-      `;
-  
-      const { rows } = await pool.query(query, [limit]);
-      res.json(rows);
+      const result = await db.query(`
+        SELECT p.*, u.username, u.displayName, u.profilePic
+        FROM "Posts" p
+        JOIN "Users" u ON p.user_id = u.id
+        ORDER BY p.created_at DESC
+        LIMIT 20
+      `);
+      res.json(result.rows);
     } catch (err) {
       console.error("Error fetching posts:", err);
-      res.status(500).json({ error: "Failed to fetch posts" });
+      res.status(500).json({ error: "Failed to load posts" });
     }
   });
-  
+
 app.get('/getposts/:userid', async (req, res) => {
     try {
         const userid = req.params.userid;
