@@ -2,7 +2,6 @@
 function loadUserProfilePicture() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    const sidebarPfp = document.getElementsByClassName("")
     if (currentUser && currentUser.profilepic) {
         const sidebarPfp = document.getElementById("sidebarPfp");
         if (sidebarPfp) {
