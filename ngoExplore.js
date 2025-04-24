@@ -1,3 +1,25 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const profileLink = document.getElementById("profileLink");
+  if (!profileLink) return;
+
+  const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("accountType");
+
+  if (userId && role) {
+      if (role === "ngo") {
+          profileLink.href = `NGOProfile.html?id=${userId}`;
+      } else if (role === "business") {
+          profileLink.href = `businessProfile.html?id=${userId}`;
+      } else if (role === "pro") {
+          profileLink.href = `professionalProfile.html?id=${userId}`;
+      } else if (role === "beginner") {
+          profileLink.href = `beginnerProfile.html?id=${userId}`;
+      } else {
+          profileLink.href = "#";
+      }
+  }
+});
+
 function openModal(imgElement) {
     var modal = document.getElementById("imageModal");
     var modalImg = document.getElementById("modalImg");
