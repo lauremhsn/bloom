@@ -1,4 +1,16 @@
+function loadUserProfilePicture() {
+  const profilepic = localStorage.getItem("profilepic");
+  const sidebarPfp = document.getElementById("sidebarPfp");
+
+  if (sidebarPfp) {
+      sidebarPfp.src = profilepic
+          ? `https://bloom-zkk8.onrender.com/getProfilePic/${profilepic}`
+          : "profile.jpg"; // fallback if profilepic is not available
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  loadUserProfilePicture();
   const profileLink = document.getElementById("profileLink");
   if (!profileLink) return;
 
