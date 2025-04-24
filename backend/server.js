@@ -1001,19 +1001,27 @@ app.post('/add-friend', async (req, res) => {
   app.get('/myFriendRequests/:id', async (req, res) => {
     const userId = parseInt(req.params.id);
     try {
-      const result = await db.query(
-        `SELECT fr.*, u.id AS other_id, u.username, u.displayname, u.profilepic
-         FROM "FriendsREQUESTS" fr
-         JOIN "Users" u ON (u.id = CASE WHEN fr.user1_id = $1 THEN fr.user2_id ELSE fr.user1_id END)
-         WHERE fr.user1_id = $1 OR fr.user2_id = $1`,
-        [userId]
-      );
-      res.json(result.rows);
+        const query = `
+            SELECT fr.*, u.id AS other_id, u.username, u.displayname, u.profilepic
+            FROM "FriendsREQUESTS" fr
+            JOIN "Users" u ON u.id = fr.user1_id
+            WHERE fr.user2_id = $1
+
+            UNION
+
+            SELECT fr.*, u.id AS other_id, u.username, u.displayname, u.profilepic
+            FROM "FriendsREQUESTS" fr
+            JOIN "Users" u ON u.id = fr.user2_id
+            WHERE fr.user1_id = $1
+        `;
+        const result = await db.query(query, [userId]);
+        res.json(result.rows);
     } catch (error) {
-      console.error("Error fetching friend requests:", error);
-      res.status(500).json({ error: "Could not fetch friend requests." });
+        console.error("Error fetching friend requests:", error);
+        res.status(500).json({ error: "Could not fetch friend requests." });
     }
 });
+
 
   
   app.get('/myCollabRequests/:id', async (req, res) => {
