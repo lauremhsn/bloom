@@ -73,7 +73,7 @@ app.get("/api/getCurrentUserId", (req, res) => {
 
   app.post('/signup', upload.single('profilePic'), async (req, res) => {
     try {
-        const { displayName, username, email, password, accountType } = req.body;
+        const { displayName, username, email, password, accountType, plantType } = req.body;
         const profilePic = req.file ? req.file.filename : '';
 
         const hashedPassword = await bcrypt.hash(password, 10);
