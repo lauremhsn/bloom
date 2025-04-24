@@ -98,6 +98,28 @@ app.get("/api/getCurrentUserId", (req, res) => {
 
         console.log('Inserted User:', user);
 
+        if (accountType === 'beginner' && plantType) {
+            const wateringIntervals = {
+                sunflowers: 3.5 * 24 * 60 * 60 * 1000,  // ~2x a week
+                tulips: 21 * 24 * 60 * 60 * 1000,
+                roses: 4 * 24 * 60 * 60 * 1000,
+                cactus: 30 * 24 * 60 * 60 * 1000,
+                daisies: 7 * 24 * 60 * 60 * 1000,
+            };
+
+            const interval = wateringIntervals[plantType.toLowerCase()];
+            if (interval) {
+                setTimeout(() => {
+                    mailer.sendEmail(
+                        email,
+                        `🌿 Time to water your ${plantType}!`,
+                        `<p>Hi ${displayName},</p>
+                         <p>This is your Bloom reminder to water your <strong>${plantType}</strong>.</p>
+                         <p>Healthy plant, happy you 🌱</p>`
+                    );
+                }, interval); // First reminder only (for demo); switch to cron for repeated emails
+            }}
+
         return res.json({
             message: 'User registered successfully and plant created',
             user: {

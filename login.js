@@ -35,7 +35,13 @@ async function signUp(form) {
     let errorMessage = document.getElementById('signupError');
     let formData = new FormData(form); // Collects all input fields, including file uploads
 
-
+    const plantTypeElement = document.getElementById("plantType");
+    if (plantTypeElement) {
+        const plantType = plantTypeElement.value;
+        if (plantType) {
+            formData.append("plantType", plantType);
+        }
+    }
     console.log([...formData]); // Logs the form data (key-value pairs)
 
 
@@ -57,6 +63,7 @@ async function signUp(form) {
         localStorage.setItem("profilepic", data.user.profilepic);
         localStorage.setItem("userId", data.user.id);
         console.log(data.user.accounttype);
+        
         showSuccessMessage("Signup successful! Redirecting...", () => {
             accountType = localStorage.getItem("accountType");
             window.location.href = `${accountType}Profile.html`; // Redirects to the correct profile page
