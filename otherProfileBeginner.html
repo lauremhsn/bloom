@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&display=swap" rel="stylesheet">
     <title>View Profile</title>
     <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="profExplore.css"
         <style>
             .topBar > a:nth-child(3)::after{display: none;}
         </style>
@@ -42,15 +43,8 @@
             </div>
         </div>
 
-        <div class="posts">
-            <div id="updates" class="postSection">
-                <h2 class="sectionTitle">Updates</h2>
-                <div id="postList"></div>
-                <div class="update">
-                    <img src="plant1.jpg" alt="Plant tip">
-                    <p>Tomato plant for testing! 🍅</p>
-                </div>
-            </div>
+        <div class="posts" id="postList">
+            
         </div>
     </div>
 
@@ -72,6 +66,7 @@
         // Fetch user info
         const userRes = await fetch(`https://bloom-zkk8.onrender.com/users/${selectedUserId}`);
         const user = await userRes.json();
+        console.log("user: ",user);
         nameEl.textContent = user.displayname || "Unknown";
         usernameEl.textContent = `@${user.username}`;
         const pfpUrl = `https://bloom-zkk8.onrender.com/getProfilePic/${user.profilepic || 'profile.jpg'}`;
@@ -112,10 +107,18 @@
 });
     </script>
     <div class="bottomFeedTypes">
-        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
-        <a href="businessExplore.html" class="feedIcon">🛍 Shops</a>
-        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
-        <a href="beginnerExplore.html" class="feedIcon">👥 Users</a>
+        <a href="ngoExplore.html" class="feedIcon">
+            <img src="ngos.png" style="width: 70px; height: 70px;"/>
+        </a>
+        <a href="businessExplore.html" class="feedIcon">
+            <img src="businesses.png" style="width: 70px; height: 70px;"/>
+        </a>
+        <a href="profExplore.html" class="feedIcon">
+            <img src="experts.png" style="width: 70px; height: 70px;"/>
+        </a>
+        <a href="beginnerExplore.html" class="feedIcon">
+            <img src="beginners.png" style="width: 70px; height: 70px;"/>
+        </a>
      <!--<a href="friends.html" class="feedIcon selected">👥 Friends</a>-->
     </div>
 
