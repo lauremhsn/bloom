@@ -2,10 +2,11 @@
 function loadUserProfilePicture() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
-    if (currentUser && currentUser.profilePhoto) {
+    const sidebarPfp = document.getElementsByClassName("")
+    if (currentUser && currentUser.profilepic) {
         const sidebarPfp = document.getElementById("sidebarPfp");
         if (sidebarPfp) {
-            sidebarPfp.src = currentUser.profilePhoto;
+            sidebarPfp.src = currentUser.profilepic;
         }
     }
 }
