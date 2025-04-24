@@ -204,6 +204,33 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
+app.get("/getTopPosts", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit) || 30;
+  
+      const query = `
+        SELECT 
+          Posts.id,
+          Posts.text AS content,
+          Posts.media,
+          Posts.created_at,
+          Users.username,
+          Users.displayName,
+          Users.profilePic
+        FROM Posts
+        JOIN Users ON Posts.user_id = Users.id
+        ORDER BY Posts.created_at DESC
+        LIMIT $1
+      `;
+  
+      const { rows } = await pool.query(query, [limit]);
+      res.json(rows);
+    } catch (err) {
+      console.error("Error fetching posts:", err);
+      res.status(500).json({ error: "Failed to fetch posts" });
+    }
+  });
+  
 app.get('/getposts/:userid', async (req, res) => {
     try {
         const userid = req.params.userid;
