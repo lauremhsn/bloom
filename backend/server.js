@@ -208,7 +208,7 @@ app.get('/getposts/:userid', async (req, res) => {
     try {
         const userid = req.params.userid;
         const result = await db.query(`
-            SELECT * FROM "Posts" WHERE user_id = $1 ORDER BY id DESC
+            SELECT * FROM "Posts" WHERE user_id = $1 ORDER BY created_at DESC
         `, [userid]);
 
         res.json(result.rows);
