@@ -210,6 +210,7 @@ app.get("/getTopPosts", async (req, res) => {
         SELECT p.*, u.username, u.displayName, u.profilePic
         FROM "Posts" p
         JOIN "Users" u ON p.user_id = u.id
+        WHERE u.accountType = 'beginner'
         ORDER BY p.created_at DESC
         LIMIT 20
       `);
