@@ -233,7 +233,7 @@ app.get('/users/:userId', async (req, res) => {
   
     try {
       const result = await db.query(`
-        SELECT id, username, displayName, profilePic
+        SELECT id, username, displayname, profilepic
         FROM "Users"
         WHERE id = $1
       `, [userId]);
