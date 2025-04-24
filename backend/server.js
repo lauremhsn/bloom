@@ -226,7 +226,7 @@ app.post('/login', async (req, res) => {
 //     }
 // });
 
-app.get('/users/:userId', async (req, res) => {
+
 app.get('/users/:userId', async (req, res) => {
     const { userId } = req.params;
     
@@ -1017,4 +1017,4 @@ app.post('/add-friend', async (req, res) => {
   });
 
 
-app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`));
+app.listen(PORT, () => console.log(`Server running on https://bloomm-olel.onrender.com`))
