@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const posts = await response.json();
   
       posts.forEach(post => {
+        console.log(post);
         const postElement = createPostElement(post);
         feedContainer.appendChild(postElement);
       });
@@ -32,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         </div>
       </div>
       <div class="content">
-        <p class="postText">${post.text || post.content || ''}</p>
+        <p class="postText">${post.text || ''}</p>
         ${post.media ? createMediaHTML(post.media) : ''}
       </div>
     `;
