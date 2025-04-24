@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Welcome to BLOOM</title>
+    <link rel="stylesheet" href="Explore.css" />
+    <link rel="stylesheet" href="profile.css" />
+</head>
+
+<body>
+    <div class="topBar">
+        <a href="home.html" class="bloomLogo">BLOOM</a>
+        <a href="plants-grid.html" class="icon">🪴</a>
+        <a href="businessProfile.html">
+            <div class="pfp">
+                <img src="pfp1.jpg" class="topPfp" alt="Profile" id="sidebarPfp"/>
+            </div>
+        </a>
+        <a href="friends.html" class="icon">👥</a>
+        <a href="contact.html" class="contactLink">Contact Us</a>
+    </div>
+
+    <div class="profile" style="text-align: center;">
+        <h1 style="font-size: 40px; color: #647340;">Welcome to BLOOM, <span id="userName">hi</span> 🌿</h1>
+        <p style="font-size: 18px; max-width: 700px; margin: 16px auto; color: #5C3B2E;">
+            You've just joined a green social community made for growers, creators, and changemakers. Here's how to make the most of your BLOOM journey:
+        </p>
+    </div>
+
+    <div class="profile" style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+
+        <div class="update" style="text-align: center;">
+            <h3>🌱 Grow Your Digital Plant</h3>
+            <p>Choose a plant to nurture. The more active and helpful you are, the more your plant grows!</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Unlock new plants after certain periods of time</li>
+                <li>Water, trim, and take care of your virtual plants!</li>
+                <li>Your plant visually grows with you over time 🌿</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="beginnerExplore.html" class="friendButton" style="text-decoration: none;">View Your Plant</a>
+            </div>
+        </div>
+
+        <div class="update" style="text-align: center;">
+            <h3>📢 Share Updates</h3>
+            <p>Post about your plants, share progress, or spread eco-awareness with the community.</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Upload images, videos, or write captions about your green life</li>
+                <li>Include plants, locations, or your growth goals</li>
+                <li>Share advice, aiding others in the ecosystem</li>
+                <li>Other users can follow your journey</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="businessProfile.html" class="friendButton" style="text-decoration: none;">Share Your First Update</a>
+            </div>
+        </div>
+
+        <div class="update" style="text-align: center;">
+            <h3>🤝 Follow NGOs</h3>
+            <p>Stay updated on eco-projects and initiatives happening around you by following NGOs.</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Explore NGOs working in sustainability, planting, education</li>
+                <li>Follow them to get real-time updates</li>
+                <li>Join events or support campaigns directly through BLOOM</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="ngoExplore.html" class="friendButton" style="text-decoration: none;">Browse NGOs</a>
+            </div>
+        </div>
+
+        <div class="update" style="text-align: center;">
+            <h3>🛍 Discover Green Businesses</h3>
+            <p>Explore shops that sell plants, care products, or eco-decor — and support them directly.</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Shop from local or online plant businesses</li>
+                <li>View product posts, reviews, and deals</li>
+                <li>Interact with business profiles and place orders</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="businessExplore.html" class="friendButton" style="text-decoration: none;">Explore Businesses</a>
+            </div>
+        </div>
+
+        <div class="update" style="text-align: center;">
+            <h3>👩‍🌾 Chat with Plant Pros</h3>
+            <p>Have a question? Reach out to professionals in the field and get expert guidance.</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>As a professional, post about your tips and tricks</li>
+                <li>Learn care techniques, design ideas, and more</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="profExplore.html" class="friendButton" style="text-decoration: none;">Find a Pro</a>
+            </div>
+        </div>
+
+        <div class="update" style="text-align: center;">
+            <h3>🧑‍🤝‍🧑 Connect with Others</h3>
+            <p>Make friends, form collabs, and grow your green circle!</p>
+            <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
+                <li>Send friend requests to users with similar interests</li>
+                <li>Follow others to stay inspired</li>
+                <li>Collab with users on digital plants!</li>
+            </ul>
+            <div style="margin-top: 16px;">
+                <a href="friends.html" class="friendButton" style="text-decoration: none;">Find Friends</a>
+            </div>
+        </div>
+
+        <a href="businessExplore.html" class="friendButton" style="margin-top: 20px;" style="text-decoration: none;">Jump into the Feed 🌼</a>
+    </div>
+
+    <div class="bottomFeedTypes">
+        <a href="ngoExplore.html" class="feedIcon">🌍 NGOs</a>
+        <a href="businessExplore.html" class="feedIcon">🛍 Shops</a>
+        <a href="profExplore.html" class="feedIcon">👩‍🌾 Experts</a>
+        <a href="beginnerExplore.html" class="feedIcon">👥 Users</a>
+    </div>
+
+    <script>
+        const name = localStorage.getItem("username");
+        const pfp = localStorage.getItem("profilepic") || "pfp1.jpg";
+        const pfpUrl = "https://bloom-zkk8.onrender.com/getProfilePic/" + pfp;
+        if (name){
+            document.getElementById("userName").textContent = name;
+        }
+        document.getElementById("sidebarPfp").src = pfpUrl;
+    </script>
+</body>
+</html>
