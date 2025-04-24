@@ -1,3 +1,19 @@
+
+function loadUserProfilePicture() {
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (currentUser && currentUser.profilePhoto) {
+        const sidebarPfp = document.getElementById("sidebarPfp");
+        if (sidebarPfp) {
+            sidebarPfp.src = currentUser.profilePhoto;
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    loadUserProfilePicture();
+});
+
 document.querySelectorAll('.productImage').forEach(img => {
     img.addEventListener('click', function () {
         const productName = this.dataset.productName;
